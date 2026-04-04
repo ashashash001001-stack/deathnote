@@ -1,0 +1,10 @@
+[
+  {"id":"suspense","name":"懸疑","icon":"🔍","color":"#2C3E50"},
+  {"id":"healing","name":"療癒","icon":"🌿","color":"#A3B18A"},
+  {"id":"scifi","name":"科幻","icon":"🚀","color":"#3B82F6"},
+  {"id":"romance","name":"言情","icon":"💕","color":"#E88D9E"},
+  {"id":"fantasy","name":"奇幻","icon":"✨","color":"#8B5CF6"},
+  {"id":"horror","name":"恐怖","icon":"👻","color":"#1F2937"},
+  {"id":"comedy","name":"喜劇","icon":"😂","color":"#F59E0B"},
+  {"id":"literary","name":"文學","icon":"📚","color":"#6B7280"}
+]

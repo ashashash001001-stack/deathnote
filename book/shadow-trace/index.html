@@ -169,7 +169,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
 .footer-nav-item svg{width:20px;height:20px}
 .footer-nav-item[data-nav="home"].active svg,.footer-nav-item[data-nav="search"].active svg{color:var(--text)}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"暗影追蹤","author":{"@type":"Person","name":"墨痕"},"genre":"懸疑","numberOfPages":64,"bookFormat":"EBook","datePublished":"2024-06-01","dateModified":"2025-02-14","aggregateRating":{"@type":"AggregateRating","ratingValue":"8.9","bestRating":"10","ratingCount":"1"},"description":"資深刑警方遠在追查一連串離奇失蹤案時，發現所有線索都指向一座廢棄的精神病院。隨著調查深入，他開始懷疑自己記憶中的真相是否只是別人精心編織的謊言。每一個證詞都是一個陷阱，每一個目擊者都可能是下一個受害者。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"暗影追蹤","author":{"@type":"Person","name":"墨痕"},"genre":"懸疑","numberOfPages":2,"bookFormat":"EBook","datePublished":"2024-06-01","dateModified":"2025-02-14","aggregateRating":{"@type":"AggregateRating","ratingValue":"8.9","bestRating":"10","ratingCount":"1"},"description":"資深刑警方遠在追查一連串離奇失蹤案時，發現所有線索都指向一座廢棄的精神病院。隨著調查深入，他開始懷疑自己記憶中的真相是否只是別人精心編織的謊言。每一個證詞都是一個陷阱，每一個目擊者都可能是下一個受害者。"}</script>
 </head>
 <body>
 <div class="page"><div class="cat-header"><div class="cat-header-inner">
@@ -181,7 +181,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
       <div class="detail-info"><div class="detail-title">暗影追蹤</div>
       <div class="detail-author">墨痕</div>
       <div class="detail-tags"><span class="tag" style="background:#2C3E50">懸疑</span><span class="tag" style="background:#2C3E50">推理</span></div>
-      <div class="detail-meta"><span>98,000 字</span><span>64 章</span>
+      <div class="detail-meta"><span>517 字</span><span>2 章</span>
       <span style="color:#A3B18A">已完結</span></div></div></div>
     <div class="action-row">
       <a href="book/shadow-trace/ch-1" class="btn-primary btn-press" style="background:#2C3E50">開始閱讀</a>
@@ -191,11 +191,11 @@ input[type=range]{width:100%;accent-color:var(--text)}
     <button class="synopsis-toggle btn-press" style="color:#2C3E50" onclick="toggleSynopsis()">展開全部</button></div>
     <div class="ad">Advertisement</div>
     <div class="toc"><div class="toc-title">章節目錄</div>
-    <div id="toc-list"><a href="book/shadow-trace/ch-1" class="toc-item btn-press"><span>第一章：消失的人</span><span>3,400 字</span></a><a href="book/shadow-trace/ch-2" class="toc-item btn-press"><span>第二章：病院深處</span><span>3,600 字</span></a></div></div>
+    <div id="toc-list"><a href="book/shadow-trace/ch-1" class="toc-item btn-press"><span>第一章：消失的人</span><span>250 字</span></a><a href="book/shadow-trace/ch-2" class="toc-item btn-press"><span>第二章：病院深處</span><span>267 字</span></a></div></div>
   </div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,2);var sl=[{"id":"ch-1","title":"第一章：消失的人","words":3400},{"id":"ch-2","title":"第二章：病院深處","words":3600}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/shadow-trace/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,2);var sl=[{"id":"ch-1","title":"第一章：消失的人","words":250},{"id":"ch-2","title":"第二章：病院深處","words":267}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/shadow-trace/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn)btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤'}
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('shadow-trace')>-1)btn.textContent='已加入書籤'})()
   </script>

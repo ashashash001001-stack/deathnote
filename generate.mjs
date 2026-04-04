@@ -1,13 +1,13 @@
-import { writeFileSync, mkdirSync, existsSync, rmSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, rmSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { BOOKS, CATEGORIES, CHAPTERS, HOT_KEYWORDS, SITE } from './src/data.js';
-import { readFileSync } from 'node:fs';
 
 const DIST = '.';
-const KEEP = new Set(['.git','.gitignore','.gitattributes','.opencode','.sisyphus','opencode.jsonc','node_modules','src','generate.mjs','manifest.json','sw.js','robots.txt','README.md','package.json','bun.lock','package-lock.json','CNAME']);
+const CONTENT = 'content';
+const KEEP = new Set(['.git','.gitignore','.gitattributes','.opencode','.sisyphus','opencode.jsonc','node_modules','src','generate.mjs','migrate-content.mjs','manifest.json','sw.js','robots.txt','README.md','package.json','bun.lock','package-lock.json','CNAME','content']);
 
+// Clean previous build output
 if (existsSync(DIST)) {
-  const entries = require('node:fs').readdirSync(DIST);
+  const entries = readdirSync(DIST);
   entries.forEach(e => {
     if (!KEEP.has(e)) {
       const p = join(DIST, e);
@@ -15,11 +15,85 @@ if (existsSync(DIST)) {
     }
   });
 }
-mkdirSync(DIST, { recursive: true });
 
+// ===== SHARED ASSETS =====
 const css = readFileSync('src/styles.css', 'utf-8');
+const CATEGORIES = JSON.parse(readFileSync(join(CONTENT, 'categories.json'), 'utf-8'));
 const SVG_ICON = `<svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1A1A2E"/><text x="16" y="22" text-anchor="middle" fill="white" font-family="serif" font-size="16" font-weight="bold">D</text></svg>`;
 
+const SITE = {
+  name: 'DeathNote',
+  tagline: '沉浸閱讀，從這裡開始',
+  description: 'DeathNote 是一個沉浸式的線上小說閱讀平台，提供懸疑、療癒、科幻等多種題材的優質原創小說。',
+  url: 'https://deathnote.example.com',
+  base: '/deathnote'
+};
+
+// ===== LOAD BOOKS & CHAPTERS =====
+function loadBooks() {
+  const booksDir = join(CONTENT, 'books');
+  const entries = readdirSync(booksDir);
+  const books = [];
+
+  entries.forEach(dirName => {
+    const metaPath = join(booksDir, dirName, 'meta.json');
+    if (!existsSync(metaPath)) return;
+
+    const meta = JSON.parse(readFileSync(metaPath, 'utf-8'));
+    const chaptersDir = join(booksDir, dirName, 'chapters');
+    const chapters = [];
+
+    if (existsSync(chaptersDir)) {
+      const chFiles = readdirSync(chaptersDir).filter(f => f.endsWith('.md')).sort();
+      chFiles.forEach(f => {
+        const raw = readFileSync(join(chaptersDir, f), 'utf-8');
+        const parsed = parseChapterMD(raw);
+        if (parsed) {
+          parsed.id = f.replace('.md', '');
+          chapters.push(parsed);
+        }
+      });
+    }
+
+    // Calculate word count
+    const totalWords = chapters.reduce((sum, ch) => sum + (ch.words || 0), 0) || meta.synopsis.length * 2;
+
+    books.push({
+      ...meta,
+      words: totalWords,
+      chapters: chapters.length,
+      _chapters: chapters.sort((a, b) => a.order - b.order)
+    });
+  });
+
+  return books.sort((a, b) => b.rating - a.rating);
+}
+
+function parseChapterMD(raw) {
+  const fmMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!fmMatch) return null;
+
+  const frontmatter = {};
+  fmMatch[1].split('\n').forEach(line => {
+    const m = line.match(/^(\w+):\s*"?(.*?)"?\s*$/);
+    if (m) frontmatter[m[1]] = isNaN(m[2]) ? m[2] : parseInt(m[2]);
+  });
+
+  const content = fmMatch[2].trim();
+  const words = content.replace(/\s/g, '').length;
+
+  return {
+    title: frontmatter.title || '',
+    order: frontmatter.order || 0,
+    content,
+    words
+  };
+}
+
+const BOOKS = loadBooks();
+const HOT_KEYWORDS = ['死亡筆記本','量子夢境','龍之紀元','懸疑小說','療癒系','科幻','完結推薦','新書上架'];
+
+// ===== HTML HELPERS =====
 function coverHTML(book, w, h, fs) {
   return `<div style="width:${w}px;height:${h}px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:${fs||24}px;font-weight:700;background:linear-gradient(135deg,${book.color},${book.color}dd)">${book.title.slice(0,2)}</div>`;
 }
@@ -59,10 +133,9 @@ function backHeader(title) {
 }
 function adHTML() { return '<div class="ad">Advertisement</div>'; }
 
+// ===== PAGE TEMPLATE =====
 function pageHTML(title, desc, accent, body, jsonLd, path) {
   const canonical = `${SITE.url}${path||'/'}`;
-  const ogDesc = desc||SITE.description;
-  const ogTitle = title;
   return `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -72,16 +145,16 @@ function pageHTML(title, desc, accent, body, jsonLd, path) {
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="${SITE.name}">
-<meta name="description" content="${ogDesc}">
+<meta name="description" content="${desc||SITE.description}">
 <link rel="canonical" href="${canonical}">
-<meta property="og:title" content="${ogTitle}">
-<meta property="og:description" content="${ogDesc}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc||SITE.description}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="${canonical}">
 <meta property="og:locale" content="zh_Hant">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="${ogTitle}">
-<meta name="twitter:description" content="${ogDesc}">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc||SITE.description}">
 <base href="${SITE.base}/">
 <title>${title}</title>
 <link rel="icon" href="${SITE.base}/favicon.svg">
@@ -95,17 +168,12 @@ ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script
 <body>
 ${body}
 <script>
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}
 </script>
 </body></html>`;
 }
 
-function write(path, content) {
-  const full = join(DIST, path);
-  mkdirSync(join(DIST, path.split('/').slice(0,-1).join('/')), { recursive: true });
-  writeFileSync(full, fixPaths(content));
-}
-
+// ===== PATH FIXER =====
 function fixPaths(html) {
   return html
     .replace(/href="\/book\//g, 'href="book/')
@@ -122,23 +190,34 @@ function fixPaths(html) {
     .replace(/register\('\/sw.js'\)/g, "register('sw.js')");
 }
 
-// ===== HOME =====
+// ===== WRITE =====
+function write(path, content) {
+  const full = join(DIST, path);
+  const dir = join(DIST, path.split('/').slice(0,-1).join('/'));
+  if (dir && !existsSync(dir)) mkdirSync(dir, { recursive: true });
+  writeFileSync(full, fixPaths(content));
+}
+
+// ===== HOME PAGE =====
 (function() {
   const all = [...BOOKS].sort((a,b)=>b.rating-a.rating);
   const newest = [...BOOKS].sort((a,b)=>new Date(b.date)-new Date(a.date));
   const done = BOOKS.filter(b=>b.status==='completed').sort((a,b)=>b.rating-a.rating);
+  const totalWords = BOOKS.reduce((s,b)=>s+b.words,0);
+  const totalChapters = BOOKS.reduce((s,b)=>s+b.chapters,0);
+
   const body = headerHTML() + `
   <div class="page">
     <section style="padding:24px 16px;text-align:center">
       <div class="stats">
         <div><div class="stat-val" style="color:#2C3E50">${BOOKS.length}</div><div class="stat-label">收錄作品</div></div>
-        <div><div class="stat-val" style="color:#A3B18A">${(BOOKS.reduce((s,b)=>s+b.words,0)/10000).toFixed(0)}萬</div><div class="stat-label">總字數</div></div>
-        <div><div class="stat-val" style="color:#3B82F6">${CHAPTERS.length}</div><div class="stat-label">章節總數</div></div>
+        <div><div class="stat-val" style="color:#A3B18A">${(totalWords/10000).toFixed(0)}萬</div><div class="stat-label">總字數</div></div>
+        <div><div class="stat-val" style="color:#3B82F6">${totalChapters}</div><div class="stat-label">章節總數</div></div>
       </div></section>
     <section style="padding-bottom:16px">
       <h2 class="section-title">熱門精選</h2>
       <div class="swipe-row">
-        ${BOOKS.map(b=>`<a href="/book/${b.id}" class="book-card card-hover btn-press">${coverHTML(b,144,192,32)}<h3 class="truncate">${b.title}</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:${b.color}">${b.rating}</span><span style="font-size:12px;color:var(--text3)">分</span></div></a>`).join('')}
+        ${BOOKS.map(b=>`<a href="book/${b.id}" class="book-card card-hover btn-press">${coverHTML(b,144,192,32)}<h3 class="truncate">${b.title}</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:${b.color}">${b.rating}</span><span style="font-size:12px;color:var(--text3)">分</span></div></a>`).join('')}
       </div></section>
     ${adHTML()}
     <section style="padding-bottom:16px">
@@ -148,14 +227,14 @@ function fixPaths(html) {
         <button class="rank-tab" data-tab="new" onclick="switchRank('new')">新書</button>
         <button class="rank-tab" data-tab="done" onclick="switchRank('done')">完結</button>
       </div>
-      <div id="rank-all">${all.map((b,i)=>`<a href="/book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
-      <div id="rank-new" class="hidden">${newest.map((b,i)=>`<a href="/book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
-      <div id="rank-done" class="hidden">${done.map((b,i)=>`<a href="/book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
+      <div id="rank-all">${all.map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
+      <div id="rank-new" class="hidden">${newest.map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
+      <div id="rank-done" class="hidden">${done.map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--text3);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
     </section>
     <section style="padding-bottom:80px">
       <h2 class="section-title">分類題材</h2>
       <div class="cat-grid">
-        ${CATEGORIES.map(c=>`<a href="/category/${c.id}" class="cat-item btn-press"><span class="cat-icon">${c.icon}</span><span class="cat-name">${c.name}</span></a>`).join('')}
+        ${CATEGORIES.map(c=>`<a href="category/${c.id}" class="cat-item btn-press"><span class="cat-icon">${c.icon}</span><span class="cat-name">${c.name}</span></a>`).join('')}
       </div></section>
     ${footerNav('home')}
   </div>
@@ -166,16 +245,16 @@ function fixPaths(html) {
     document.querySelectorAll('.rank-tab').forEach(function(el){el.classList.remove('active')});
     document.querySelector('.rank-tab[data-tab="'+tab+'"]').classList.add('active');
   }
-  </script>`;
+  <\/script>`;
 
   write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body, null, '/'));
 })();
 
-// ===== SEARCH =====
+// ===== SEARCH PAGE =====
 (function() {
   const body = `<div class="page">
     <div class="search-header"><div class="search-bar">
-      <button class="btn-press" onclick="window.location.href='/'">
+      <button class="btn-press" onclick="window.location.href='./'">
         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
       <div class="search-icon-wrap">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -199,19 +278,19 @@ function fixPaths(html) {
     var ql=q.toLowerCase();
     var results=booksData.filter(function(b){return b.title.toLowerCase().includes(ql)||b.author.toLowerCase().includes(ql)||b.tags.some(function(t){return t.toLowerCase().includes(ql)})});
     resDiv.innerHTML='<div class="result-count">找到 '+results.length+' 個結果</div>'+
-    results.map(function(b){return '<a href="/book/'+b.id+'" class="result-item btn-press"><div style="width:48px;height:64px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;background:linear-gradient(135deg,'+b.color+','+b.color+'dd)">'+b.title.slice(0,2)+'</div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--text3);padding:32px 0">找不到相關結果</p>';
+    results.map(function(b){return '<a href="book/'+b.id+'" class="result-item btn-press"><div style="width:48px;height:64px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;background:linear-gradient(135deg,'+b.color+','+b.color+'dd)">'+b.title.slice(0,2)+'</div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--text3);padding:32px 0">找不到相關結果</p>';
   }
   <\/script>`;
 
   write('search/index.html', pageHTML('搜尋 - '+SITE.name, '搜尋小說、作者、關鍵字', '#F8F9FA', body, null, '/search'));
 })();
 
-// ===== CATEGORIES =====
+// ===== CATEGORY PAGES =====
 CATEGORIES.forEach(cat => {
   const catBooks = BOOKS.filter(b => b.category === cat.id);
   const body = `<div class="page">${backHeader(cat.name+'小說')}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
-      `<a href="/book/${b.id}" class="cat-book card-hover btn-press">${coverHTML(b,80,112,18)}
+      `<a href="book/${b.id}" class="cat-book card-hover btn-press">${coverHTML(b,80,112,18)}
         <div class="cat-book-info"><div><div class="cat-book-title">${b.title}</div>
         <div class="cat-book-author">${b.author}</div>
         <div class="cat-book-tags">${tagHTML(b)}</div></div>
@@ -223,10 +302,10 @@ CATEGORIES.forEach(cat => {
   write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, null, `/category/${cat.id}`));
 });
 
-// ===== BOOK DETAIL =====
+// ===== BOOK DETAIL PAGES =====
 BOOKS.forEach(book => {
   const cat = CATEGORIES.find(c => c.id === book.category);
-  const bookChapters = CHAPTERS.filter(c => c.bookId === book.id).sort((a,b) => a.order - b.order);
+  const bookChapters = book._chapters || [];
 
   const jsonLd = {
     "@context":"https://schema.org","@type":"Book","name":book.title,
@@ -246,7 +325,7 @@ BOOKS.forEach(book => {
     }</select>` : '';
 
   const body = `<div class="page">${backHeader(book.title)}
-    ${breadcrumbHTML([{label:SITE.name,url:'/'},{label:cat?cat.name:'分類',url:`/category/${book.category}`},{label:book.title}])}
+    ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:cat?cat.name:'分類',url:`category/${book.category}`},{label:book.title}])}
     <div class="detail-header">${coverHTML(book,112,160,24)}
       <div class="detail-info"><div class="detail-title">${book.title}</div>
       <div class="detail-author">${book.author}</div>
@@ -254,7 +333,7 @@ BOOKS.forEach(book => {
       <div class="detail-meta"><span>${book.words.toLocaleString()} 字</span><span>${book.chapters} 章</span>
       <span style="color:${book.status==='completed'?'#A3B18A':'#3B82F6'}">${book.status==='completed'?'已完結':'連載中'}</span></div></div></div>
     <div class="action-row">
-      <a href="/book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}">開始閱讀</a>
+      <a href="book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}">開始閱讀</a>
       <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('${book.id}')">加入書籤</button></div>
     <div class="synopsis"><h2 style="font-size:16px;font-weight:700;margin-bottom:8px">簡介</h2>
     <p class="synopsis-text" id="synopsis-text">${book.synopsis}</p>
@@ -262,22 +341,19 @@ BOOKS.forEach(book => {
     ${adHTML()}
     <div class="toc"><div class="toc-title">章節目錄</div>${tocHTML}
     <div id="toc-list">${bookChapters.map(ch =>
-      `<a href="/book/${book.id}/${ch.id}" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
+      `<a href="book/${book.id}/${ch.id}" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
     ).join('')}</div></div>
   </div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="/book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn)btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤'}
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('${book.id}')>-1)btn.textContent='已加入書籤'})()
   <\/script>`;
 
   write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`));
-});
 
-// ===== CHAPTER READER =====
-BOOKS.forEach(book => {
-  const bookChapters = CHAPTERS.filter(c => c.bookId === book.id).sort((a,b) => a.order - b.order);
+  // ===== CHAPTER PAGES =====
   bookChapters.forEach((ch, idx) => {
     const prev = idx > 0 ? bookChapters[idx-1] : null;
     const next = idx < bookChapters.length-1 ? bookChapters[idx+1] : null;
@@ -288,9 +364,9 @@ BOOKS.forEach(book => {
     };
 
     const body = `<div class="reader-page"><div class="reader-immersive" id="reader-el">
-      ${breadcrumbHTML([{label:SITE.name,url:'/'},{label:book.title,url:`/book/${book.id}`},{label:ch.title}])}
+      ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:book.title,url:`../${book.id}`},{label:ch.title}])}
       <header class="reader-topbar" id="reader-topbar"><div class="reader-topbar-inner">
-        <a href="/book/${book.id}" class="btn-press" style="display:flex;align-items:center;gap:8px">
+        <a href="../${book.id}" class="btn-press" style="display:flex;align-items:center;gap:8px">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           <span class="truncate" style="max-width:200px;font-size:14px">${book.title}</span></a></div></header>
       <article class="reader-content" id="reader-content">
@@ -299,15 +375,15 @@ BOOKS.forEach(book => {
       </article>
       ${adHTML()}
       <footer class="reader-bottombar" id="reader-bottombar"><div class="reader-bottombar-inner">
-        ${prev ? `<a href="/book/${book.id}/${prev.id}" class="nav-btn btn-press"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</a>` : '<span class="nav-btn disabled"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>'}
+        ${prev ? `<a href="${prev.id}" class="nav-btn btn-press"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</a>` : '<span class="nav-btn disabled"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>'}
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
         <button class="tool-btn btn-press" onclick="openSheet('settings-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg><span>設定</span></button>
         <button class="tool-btn btn-press" onclick="openSheet('tts-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 12h.01"/><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg><span>朗讀</span></button>
-        ${next ? `<a href="/book/${book.id}/${next.id}" class="nav-btn btn-press">下一章<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>` : '<span class="nav-btn disabled">下一章<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>'}
+        ${next ? `<a href="${next.id}" class="nav-btn btn-press">下一章<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>` : '<span class="nav-btn disabled">下一章<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>'}
       </div></footer>
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="sheet-body">${bookChapters.map(c=>`<a href="/book/${book.id}/${c.id}" class="toc-item btn-press"><span>${c.title}</span><span>${c.words.toLocaleString()} 字</span></a>`).join('')}</div>
+        <div class="sheet-body">${bookChapters.map(c=>`<a href="${c.id}" class="toc-item btn-press"><span>${c.title}</span><span>${c.words.toLocaleString()} 字</span></a>`).join('')}</div>
       </div></div>
       <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-header"><h3>閱讀設定</h3><button class="btn-press" onclick="closeSheet('settings-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
@@ -387,7 +463,7 @@ write('404.html', pageHTML('404 - 頁面不存在', '找不到您要的頁面', 
   <p style="font-size:64px;margin-bottom:16px">📭</p>
   <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">404 - 頁面不存在</h1>
   <p style="color:var(--text2);margin-bottom:24px">您尋找的頁面可能已被移除或不存在</p>
-  <a href="/" class="btn-primary btn-press" style="display:inline-block;width:auto;padding:12px 32px;background:var(--text)">返回首頁</a>
+  <a href="./" class="btn-primary btn-press" style="display:inline-block;width:auto;padding:12px 32px;background:var(--text)">返回首頁</a>
 </div>${footerNav('home')}</div>`, null, '/404'));
 
 // ===== SITEMAP =====
@@ -401,8 +477,7 @@ write('404.html', pageHTML('404 - 頁面不存在', '找不到您要的頁面', 
   CATEGORIES.forEach(c=>urls.push({loc:`/category/${c.id}`,lastmod:new Date().toISOString().split('T')[0],priority:'0.7'}));
   BOOKS.forEach(b=>{
     urls.push({loc:`/book/${b.id}`,lastmod:b.updated,priority:'0.9'});
-    const chs=CHAPTERS.filter(c=>c.bookId===b.id);
-    chs.forEach(ch=>urls.push({loc:`/book/${b.id}/${ch.id}`,lastmod:b.updated,priority:'0.6'}));
+    (b._chapters||[]).forEach(ch=>urls.push({loc:`/book/${b.id}/${ch.id}`,lastmod:b.updated,priority:'0.6'}));
   });
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -412,20 +487,18 @@ ${urls.map(u=>`<url><loc>${SITE.url}${u.loc}</loc><lastmod>${u.lastmod}</lastmod
 })();
 
 // ===== COPY PUBLIC ASSETS =====
-import { copyFileSync } from 'node:fs';
 ['manifest.json','sw.js','robots.txt'].forEach(f => {
-  if (existsSync(f)) copyFileSync(f, join(DIST, f));
+  if (existsSync(f)) writeFileSync(join(DIST, f), readFileSync(f, 'utf-8'));
 });
 
-// Count pages
+// Count
 let count = 0;
 function countFiles(dir) {
-  const entries = require('node:fs').readdirSync(dir);
-  entries.forEach(e => {
+  readdirSync(dir).forEach(e => {
     const p = join(dir, e);
-    if (require('node:fs').statSync(p).isDirectory()) countFiles(p);
+    if (statSync(p).isDirectory()) countFiles(p);
     else if (e.endsWith('.html')) count++;
   });
 }
 countFiles(DIST);
-console.log(`✅ Generated ${count} static pages in dist/`);
+console.log(`✅ Generated ${count} static pages from content/`);

@@ -169,7 +169,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
 .footer-nav-item svg{width:20px;height:20px}
 .footer-nav-item[data-nav="home"].active svg,.footer-nav-item[data-nav="search"].active svg{color:var(--text)}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"櫻花樹下的約定","author":{"@type":"Person","name":"花見小路"},"genre":"言情","numberOfPages":55,"bookFormat":"EBook","datePublished":"2024-02-14","dateModified":"2024-12-25","aggregateRating":{"@type":"AggregateRating","ratingValue":"8.5","bestRating":"10","ratingCount":"1"},"description":"京都的櫻花季，兩個素未謀面的年輕人在同一棵千年櫻花樹下許下了各自的願望。命運的牽引讓他們在大學相遇，卻不知彼此就是那個人。一段關於等待、錯過與重逢的溫柔故事，在櫻花年年盛開的季節裡緩緩展開。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"櫻花樹下的約定","author":{"@type":"Person","name":"花見小路"},"genre":"言情","numberOfPages":1,"bookFormat":"EBook","datePublished":"2024-02-14","dateModified":"2024-12-25","aggregateRating":{"@type":"AggregateRating","ratingValue":"8.5","bestRating":"10","ratingCount":"1"},"description":"京都的櫻花季，兩個素未謀面的年輕人在同一棵千年櫻花樹下許下了各自的願望。命運的牽引讓他們在大學相遇，卻不知彼此就是那個人。一段關於等待、錯過與重逢的溫柔故事，在櫻花年年盛開的季節裡緩緩展開。"}</script>
 </head>
 <body>
 <div class="page"><div class="cat-header"><div class="cat-header-inner">
@@ -181,7 +181,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
       <div class="detail-info"><div class="detail-title">櫻花樹下的約定</div>
       <div class="detail-author">花見小路</div>
       <div class="detail-tags"><span class="tag" style="background:#E88D9E">言情</span><span class="tag" style="background:#E88D9E">青春</span></div>
-      <div class="detail-meta"><span>95,000 字</span><span>55 章</span>
+      <div class="detail-meta"><span>301 字</span><span>1 章</span>
       <span style="color:#A3B18A">已完結</span></div></div></div>
     <div class="action-row">
       <a href="book/cherry-blossom/ch-1" class="btn-primary btn-press" style="background:#E88D9E">開始閱讀</a>
@@ -191,11 +191,11 @@ input[type=range]{width:100%;accent-color:var(--text)}
     <button class="synopsis-toggle btn-press" style="color:#E88D9E" onclick="toggleSynopsis()">展開全部</button></div>
     <div class="ad">Advertisement</div>
     <div class="toc"><div class="toc-title">章節目錄</div>
-    <div id="toc-list"><a href="book/cherry-blossom/ch-1" class="toc-item btn-press"><span>第一章：櫻花樹下的願望</span><span>3,200 字</span></a></div></div>
+    <div id="toc-list"><a href="book/cherry-blossom/ch-1" class="toc-item btn-press"><span>第一章：櫻花樹下的願望</span><span>301 字</span></a></div></div>
   </div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：櫻花樹下的願望","words":3200}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/cherry-blossom/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：櫻花樹下的願望","words":301}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/cherry-blossom/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn)btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤'}
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('cherry-blossom')>-1)btn.textContent='已加入書籤'})()
   </script>

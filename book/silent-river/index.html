@@ -169,7 +169,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
 .footer-nav-item svg{width:20px;height:20px}
 .footer-nav-item[data-nav="home"].active svg,.footer-nav-item[data-nav="search"].active svg{color:var(--text)}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"沉默的河流","author":{"@type":"Person","name":"江遠"},"genre":"文學","numberOfPages":48,"bookFormat":"EBook","datePublished":"2023-11-01","dateModified":"2024-09-30","aggregateRating":{"@type":"AggregateRating","ratingValue":"9","bestRating":"10","ratingCount":"1"},"description":"一條河流經三個世代，見證了一個家族的興衰。從日治時代的繁榮、戰後的動盪，到現代的沒落，河水始終沉默地流淌。透過三代人的視角，書寫土地與記憶的牽絆，以及那些被時代洪流淹沒的微小聲音。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"沉默的河流","author":{"@type":"Person","name":"江遠"},"genre":"文學","numberOfPages":1,"bookFormat":"EBook","datePublished":"2023-11-01","dateModified":"2024-09-30","aggregateRating":{"@type":"AggregateRating","ratingValue":"9","bestRating":"10","ratingCount":"1"},"description":"一條河流經三個世代，見證了一個家族的興衰。從日治時代的繁榮、戰後的動盪，到現代的沒落，河水始終沉默地流淌。透過三代人的視角，書寫土地與記憶的牽絆，以及那些被時代洪流淹沒的微小聲音。"}</script>
 </head>
 <body>
 <div class="page"><div class="cat-header"><div class="cat-header-inner">
@@ -181,7 +181,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
       <div class="detail-info"><div class="detail-title">沉默的河流</div>
       <div class="detail-author">江遠</div>
       <div class="detail-tags"><span class="tag" style="background:#6B7280">文學</span><span class="tag" style="background:#6B7280">鄉土</span></div>
-      <div class="detail-meta"><span>142,000 字</span><span>48 章</span>
+      <div class="detail-meta"><span>298 字</span><span>1 章</span>
       <span style="color:#A3B18A">已完結</span></div></div></div>
     <div class="action-row">
       <a href="book/silent-river/ch-1" class="btn-primary btn-press" style="background:#6B7280">開始閱讀</a>
@@ -191,11 +191,11 @@ input[type=range]{width:100%;accent-color:var(--text)}
     <button class="synopsis-toggle btn-press" style="color:#6B7280" onclick="toggleSynopsis()">展開全部</button></div>
     <div class="ad">Advertisement</div>
     <div class="toc"><div class="toc-title">章節目錄</div>
-    <div id="toc-list"><a href="book/silent-river/ch-1" class="toc-item btn-press"><span>第一章：河之源</span><span>3,400 字</span></a></div></div>
+    <div id="toc-list"><a href="book/silent-river/ch-1" class="toc-item btn-press"><span>第一章：河之源</span><span>298 字</span></a></div></div>
   </div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：河之源","words":3400}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/silent-river/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：河之源","words":298}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/silent-river/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn)btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤'}
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('silent-river')>-1)btn.textContent='已加入書籤'})()
   </script>

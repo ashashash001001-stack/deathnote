@@ -185,9 +185,9 @@ input[type=range]{width:100%;accent-color:var(--text)}
 </head>
 <body>
 <div class="reader-page"><div class="reader-immersive" id="reader-el">
-      <nav style="padding:8px 16px;font-size:12px;color:var(--text3)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--text3)">DeathNote</a></span><span style=""> › <a href="book/death-note" style="color:var(--text3)">死亡筆記本</a></span><span style="color:var(--text);font-weight:500"> › 第三章：Kira</span></nav>
+      <nav style="padding:8px 16px;font-size:12px;color:var(--text3)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--text3)">DeathNote</a></span><span style=""> › <a href="../death-note" style="color:var(--text3)">死亡筆記本</a></span><span style="color:var(--text);font-weight:500"> › 第三章：Kira</span></nav>
       <header class="reader-topbar" id="reader-topbar"><div class="reader-topbar-inner">
-        <a href="book/death-note" class="btn-press" style="display:flex;align-items:center;gap:8px">
+        <a href="../death-note" class="btn-press" style="display:flex;align-items:center;gap:8px">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           <span class="truncate" style="max-width:200px;font-size:14px">死亡筆記本</span></a></div></header>
       <article class="reader-content" id="reader-content">
@@ -196,7 +196,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
       </article>
       <div class="ad">Advertisement</div>
       <footer class="reader-bottombar" id="reader-bottombar"><div class="reader-bottombar-inner">
-        <a href="book/death-note/ch-2" class="nav-btn btn-press"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</a>
+        <a href="ch-2" class="nav-btn btn-press"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</a>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
         <button class="tool-btn btn-press" onclick="openSheet('settings-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg><span>設定</span></button>
         <button class="tool-btn btn-press" onclick="openSheet('tts-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 12h.01"/><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg><span>朗讀</span></button>
@@ -204,7 +204,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
       </div></footer>
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="sheet-body"><a href="book/death-note/ch-1" class="toc-item btn-press"><span>第一章：降臨</span><span>3,200 字</span></a><a href="book/death-note/ch-2" class="toc-item btn-press"><span>第二章：試探</span><span>3,500 字</span></a><a href="book/death-note/ch-3" class="toc-item btn-press"><span>第三章：Kira</span><span>3,800 字</span></a></div>
+        <div class="sheet-body"><a href="ch-1" class="toc-item btn-press"><span>第一章：降臨</span><span>394 字</span></a><a href="ch-2" class="toc-item btn-press"><span>第二章：試探</span><span>289 字</span></a><a href="ch-3" class="toc-item btn-press"><span>第三章：Kira</span><span>390 字</span></a></div>
       </div></div>
       <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-header"><h3>閱讀設定</h3><button class="btn-press" onclick="closeSheet('settings-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
