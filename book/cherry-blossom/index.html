@@ -17,9 +17,10 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="櫻花樹下的約定 - DeathNote">
 <meta name="twitter:description" content="京都的櫻花季，兩個素未謀面的年輕人在同一棵千年櫻花樹下許下了各自的願望。命運的牽引讓他們在大學相遇，卻不知彼此就是那個人。一段關於等待、錯過與重逢的溫柔故事，在櫻花年年盛開的季節裡緩緩展開。">
+<base href="/deathnote/">
 <title>櫻花樹下的約定 - DeathNote</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%228%22%20fill%3D%22%231A1A2E%22%2F%3E%3Ctext%20x%3D%2216%22%20y%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22serif%22%20font-size%3D%2216%22%20font-weight%3D%22bold%22%3ED%3C%2Ftext%3E%3C%2Fsvg%3E">
-<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/deathnote/favicon.svg">
+<link rel="manifest" href="/deathnote/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -175,7 +176,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
     <button class="btn-press" onclick="history.back()">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
     <h1>櫻花樹下的約定</h1></div></div>
-    <nav style="padding:8px 16px;font-size:12px;color:var(--text3)" aria-label="breadcrumb"><span style=""><a href="/" style="color:var(--text3)">DeathNote</a></span><span style=""> › <a href="/category/romance" style="color:var(--text3)">言情</a></span><span style="color:var(--text);font-weight:500"> › 櫻花樹下的約定</span></nav>
+    <nav style="padding:8px 16px;font-size:12px;color:var(--text3)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--text3)">DeathNote</a></span><span style=""> › <a href="category/romance" style="color:var(--text3)">言情</a></span><span style="color:var(--text);font-weight:500"> › 櫻花樹下的約定</span></nav>
     <div class="detail-header"><div style="width:112px;height:160px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700;background:linear-gradient(135deg,#E88D9E,#E88D9Edd)">櫻花</div>
       <div class="detail-info"><div class="detail-title">櫻花樹下的約定</div>
       <div class="detail-author">花見小路</div>
@@ -183,22 +184,22 @@ input[type=range]{width:100%;accent-color:var(--text)}
       <div class="detail-meta"><span>95,000 字</span><span>55 章</span>
       <span style="color:#A3B18A">已完結</span></div></div></div>
     <div class="action-row">
-      <a href="/book/cherry-blossom/ch-1" class="btn-primary btn-press" style="background:#E88D9E">開始閱讀</a>
+      <a href="book/cherry-blossom/ch-1" class="btn-primary btn-press" style="background:#E88D9E">開始閱讀</a>
       <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('cherry-blossom')">加入書籤</button></div>
     <div class="synopsis"><h2 style="font-size:16px;font-weight:700;margin-bottom:8px">簡介</h2>
     <p class="synopsis-text" id="synopsis-text">京都的櫻花季，兩個素未謀面的年輕人在同一棵千年櫻花樹下許下了各自的願望。命運的牽引讓他們在大學相遇，卻不知彼此就是那個人。一段關於等待、錯過與重逢的溫柔故事，在櫻花年年盛開的季節裡緩緩展開。</p>
     <button class="synopsis-toggle btn-press" style="color:#E88D9E" onclick="toggleSynopsis()">展開全部</button></div>
     <div class="ad">Advertisement</div>
     <div class="toc"><div class="toc-title">章節目錄</div>
-    <div id="toc-list"><a href="/book/cherry-blossom/ch-1" class="toc-item btn-press"><span>第一章：櫻花樹下的願望</span><span>3,200 字</span></a></div></div>
+    <div id="toc-list"><a href="book/cherry-blossom/ch-1" class="toc-item btn-press"><span>第一章：櫻花樹下的願望</span><span>3,200 字</span></a></div></div>
   </div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：櫻花樹下的願望","words":3200}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="/book/cherry-blossom/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：櫻花樹下的願望","words":3200}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/cherry-blossom/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn)btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤'}
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('cherry-blossom')>-1)btn.textContent='已加入書籤'})()
   </script>
 <script>
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}
 </script>
 </body></html>

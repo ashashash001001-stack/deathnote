@@ -35,9 +35,10 @@
 「三、二、一、著陸。」
 
 一陣劇烈的震動後，「希望號」登陸艙穩穩地落在了火">
+<base href="/deathnote/">
 <title>第一章：紅色星球 - 火星紀事 - DeathNote</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%228%22%20fill%3D%22%231A1A2E%22%2F%3E%3Ctext%20x%3D%2216%22%20y%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22serif%22%20font-size%3D%2216%22%20font-weight%3D%22bold%22%3ED%3C%2Ftext%3E%3C%2Fsvg%3E">
-<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/deathnote/favicon.svg">
+<link rel="manifest" href="/deathnote/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -190,9 +191,9 @@ input[type=range]{width:100%;accent-color:var(--text)}
 </head>
 <body>
 <div class="reader-page"><div class="reader-immersive" id="reader-el">
-      <nav style="padding:8px 16px;font-size:12px;color:var(--text3)" aria-label="breadcrumb"><span style=""><a href="/" style="color:var(--text3)">DeathNote</a></span><span style=""> › <a href="/book/mars-chronicle" style="color:var(--text3)">火星紀事</a></span><span style="color:var(--text);font-weight:500"> › 第一章：紅色星球</span></nav>
+      <nav style="padding:8px 16px;font-size:12px;color:var(--text3)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--text3)">DeathNote</a></span><span style=""> › <a href="book/mars-chronicle" style="color:var(--text3)">火星紀事</a></span><span style="color:var(--text);font-weight:500"> › 第一章：紅色星球</span></nav>
       <header class="reader-topbar" id="reader-topbar"><div class="reader-topbar-inner">
-        <a href="/book/mars-chronicle" class="btn-press" style="display:flex;align-items:center;gap:8px">
+        <a href="book/mars-chronicle" class="btn-press" style="display:flex;align-items:center;gap:8px">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           <span class="truncate" style="max-width:200px;font-size:14px">火星紀事</span></a></div></header>
       <article class="reader-content" id="reader-content">
@@ -209,7 +210,7 @@ input[type=range]{width:100%;accent-color:var(--text)}
       </div></footer>
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="sheet-body"><a href="/book/mars-chronicle/ch-1" class="toc-item btn-press"><span>第一章：紅色星球</span><span>3,600 字</span></a></div>
+        <div class="sheet-body"><a href="book/mars-chronicle/ch-1" class="toc-item btn-press"><span>第一章：紅色星球</span><span>3,600 字</span></a></div>
       </div></div>
       <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-header"><h3>閱讀設定</h3><button class="btn-press" onclick="closeSheet('settings-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
@@ -257,6 +258,6 @@ input[type=range]{width:100%;accent-color:var(--text)}
     var _st=null;window.addEventListener('scroll',function(){if(_st)clearTimeout(_st);_st=setTimeout(function(){try{var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');d['mars-chronicle']={chapter:'ch-1',scroll:window.scrollY,time:Date.now()};localStorage.setItem('dn_progress',JSON.stringify(d))}catch(e){}},500)});
     </script>
 <script>
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}
 </script>
 </body></html>

@@ -31,20 +31,20 @@ function rankBadge(i) {
 }
 function footerNav(active) {
   return `<nav class="footer-nav">
-    <a href="/" class="footer-nav-item${active==='home'?' active':''}" data-nav="home">
+    <a href="./" class="footer-nav-item${active==='home'?' active':''}" data-nav="home">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>首頁</a>
-    <a href="/search" class="footer-nav-item${active==='search'?' active':''}" data-nav="search">
+    <a href="search" class="footer-nav-item${active==='search'?' active':''}" data-nav="search">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>搜尋</a>
-    <a href="/legal/privacy" class="footer-nav-item${active==='privacy'?' active':''}" data-nav="privacy">
+    <a href="legal/privacy" class="footer-nav-item${active==='privacy'?' active':''}" data-nav="privacy">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>隱私</a>
-    <a href="/legal/terms" class="footer-nav-item${active==='terms'?' active':''}" data-nav="terms">
+    <a href="legal/terms" class="footer-nav-item${active==='terms'?' active':''}" data-nav="terms">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>條款</a>
   </nav>`;
 }
 function headerHTML() {
   return `<header class="header"><div class="header-inner">
-    <a href="/" class="logo">${SVG_ICON}<span class="logo-text">${SITE.name}</span></a>
-    <button class="btn-press" onclick="window.location.href='/search'">
+    <a href="./" class="logo">${SVG_ICON}<span class="logo-text">${SITE.name}</span></a>
+    <button class="btn-press" onclick="window.location.href='search'">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
     </button></div></header>`;
 }
@@ -82,9 +82,10 @@ function pageHTML(title, desc, accent, body, jsonLd, path) {
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${ogTitle}">
 <meta name="twitter:description" content="${ogDesc}">
+<base href="${SITE.base}/">
 <title>${title}</title>
-<link rel="icon" href="data:image/svg+xml,${encodeURIComponent(SVG_ICON)}">
-<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="${SITE.base}/favicon.svg">
+<link rel="manifest" href="${SITE.base}/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -102,7 +103,23 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
 function write(path, content) {
   const full = join(DIST, path);
   mkdirSync(join(DIST, path.split('/').slice(0,-1).join('/')), { recursive: true });
-  writeFileSync(full, content);
+  writeFileSync(full, fixPaths(content));
+}
+
+function fixPaths(html) {
+  return html
+    .replace(/href="\/book\//g, 'href="book/')
+    .replace(/href="\/category\//g, 'href="category/')
+    .replace(/href="\/search"/g, 'href="search"')
+    .replace(/href="\/legal\//g, 'href="legal/')
+    .replace(/href="\/manifest.json"/g, 'href="manifest.json"')
+    .replace(/href="\/sw.js"/g, 'href="sw.js"')
+    .replace(/href="\/sitemap.xml"/g, 'href="sitemap.xml"')
+    .replace(/href="\/robots.txt"/g, 'href="robots.txt"')
+    .replace(/href="\/"/g, 'href="./"')
+    .replace(/location\.href='\/search'/g, "location.href='search'")
+    .replace(/location\.href='\/'/g, "location.href='./'")
+    .replace(/register\('\/sw.js'\)/g, "register('sw.js')");
 }
 
 // ===== HOME =====

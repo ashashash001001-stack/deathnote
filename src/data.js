@@ -56,5 +56,6 @@ export const SITE = {
   name: 'DeathNote',
   tagline: '沉浸閱讀，從這裡開始',
   description: 'DeathNote 是一個沉浸式的線上小說閱讀平台，提供懸疑、療癒、科幻等多種題材的優質原創小說。',
-  url: 'https://deathnote.example.com'
+  url: 'https://deathnote.example.com',
+  base: '/deathnote'
 };
