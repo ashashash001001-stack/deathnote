@@ -3,8 +3,18 @@ import { join } from 'node:path';
 import { BOOKS, CATEGORIES, CHAPTERS, HOT_KEYWORDS, SITE } from './src/data.js';
 import { readFileSync } from 'node:fs';
 
-const DIST = 'dist';
-if (existsSync(DIST)) rmSync(DIST, { recursive: true });
+const DIST = '.';
+const KEEP = new Set(['.git','.gitignore','.gitattributes','.opencode','.sisyphus','opencode.jsonc','node_modules','src','generate.mjs','manifest.json','sw.js','robots.txt','README.md','package.json','bun.lock','package-lock.json','CNAME']);
+
+if (existsSync(DIST)) {
+  const entries = require('node:fs').readdirSync(DIST);
+  entries.forEach(e => {
+    if (!KEEP.has(e)) {
+      const p = join(DIST, e);
+      rmSync(p, { recursive: true, force: true });
+    }
+  });
+}
 mkdirSync(DIST, { recursive: true });
 
 const css = readFileSync('src/styles.css', 'utf-8');
