@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#6B7280">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DeathNote">
+<meta name="description" content="那條河沒有名字。
+
+至少在江阿公的記憶裡，沒有人給它取過名字。它就那樣靜靜地流過村子，從有記憶的時候就在流，流過了日治時代的甘蔗園、流過了戰後的荒亂歲月、流到了現在——村裡的年輕人都去了城市，只剩下老">
+<title>第一章：河之源 - 沉默的河流 - DeathNote</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%228%22%20fill%3D%22%231A1A2E%22%2F%3E%3Ctext%20x%3D%2216%22%20y%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22serif%22%20font-size%3D%2216%22%20font-weight%3D%22bold%22%3ED%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>:root{--bg:#F8F9FA;--surface:#FFF;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--border:#E5E7EB;--border-l:#F3F4F6;--r-sm:8px;--r-md:12px;--r-lg:16px;--r-full:9999px;--shadow-card:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--shadow-sheet:0 -4px 24px rgba(0,0,0,.12);--shadow-sticky:0 1px 8px rgba(0,0,0,.06);--t-fast:150ms cubic-bezier(.4,0,.2,1);--t-normal:250ms cubic-bezier(.4,0,.2,1);--t-slow:350ms cubic-bezier(.4,0,.2,1);--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans TC","Noto Sans SC",sans-serif;--serif:"Noto Serif TC","Noto Serif SC","Source Han Serif TC","Source Han Serif SC",Georgia,serif}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+html{font-size:16px;scroll-behavior:smooth;overscroll-behavior-y:contain}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{border:none;background:none;cursor:pointer;font-family:inherit}
+input,select{font-family:inherit}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:var(--r-full)}
+.hidden{display:none!important}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-press{transition:transform var(--t-fast)}
+.btn-press:active{transform:scale(.98)}
+.card-hover{transition:transform var(--t-normal),box-shadow var(--t-normal)}
+.card-hover:hover{transform:translateY(-2px);box-shadow:var(--shadow-card)}
+.scroll-snap{scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.scroll-snap>*{scroll-snap-align:start}
+.header{position:fixed;top:0;left:0;right:0;z-index:30;background:var(--surface);box-shadow:var(--shadow-sticky);padding-top:env(safe-area-inset-top)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:48px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo svg{width:28px;height:28px}
+.logo-text{font-size:16px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:480px;margin:0 auto;text-align:center}
+.stat-val{font-size:20px;font-weight:700}
+.stat-label{font-size:12px;color:var(--text2);margin-top:4px}
+.swipe-row{display:flex;gap:12px;overflow-x:auto;padding:0 16px 8px;scrollbar-width:none}
+.swipe-row::-webkit-scrollbar{display:none}
+.book-card{flex-shrink:0;width:144px}
+.book-card h3{font-size:14px;font-weight:500}
+.book-rating{font-size:12px;font-weight:700}
+.rank-tabs{display:flex;gap:24px;padding:0 16px;margin-bottom:12px;font-size:14px;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)}
+.rank-tab{padding-bottom:8px;position:relative}
+.rank-tab.active{color:var(--text)}
+.rank-tab.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:24px;height:3px;border-radius:var(--r-full);background:currentColor}
+.rank-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border-l)}
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r-sm);font-weight:700;font-size:14px;flex-shrink:0}
+.rank-1{background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff}
+.rank-2{background:linear-gradient(135deg,#C0C0C0,#A0A0A0);color:#fff}
+.rank-3{background:linear-gradient(135deg,#CD7F32,#A0522D);color:#fff}
+.rank-other{background:var(--border-l);color:var(--text3)}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 16px}
+.cat-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;border-radius:var(--r-sm);background:var(--surface);box-shadow:var(--shadow-card)}
+.cat-icon{font-size:24px}
+.cat-name{font-size:12px;color:var(--text2)}
+.ad{background:linear-gradient(135deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 2s infinite;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;letter-spacing:.05em;text-transform:uppercase;border:1px dashed var(--border);margin:16px;height:96px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.section-title{font-size:18px;font-weight:700;padding:0 16px;margin-bottom:12px}
+.page{padding-top:48px;min-height:100dvh}
+.detail-header{display:flex;gap:16px;padding:24px 16px 16px}
+.detail-info{flex:1;min-width:0}
+.detail-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.detail-author{font-size:14px;color:var(--text2);margin-bottom:4px}
+.detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag{font-size:11px;padding:2px 8px;border-radius:var(--r-full);color:#fff}
+.detail-meta{display:flex;gap:16px;font-size:12px;color:var(--text3)}
+.action-row{display:flex;gap:12px;padding:0 16px;margin-bottom:24px}
+.btn-primary{flex:1;padding:12px;border-radius:var(--r-sm);color:#fff;text-align:center;font-weight:500}
+.btn-secondary{padding:12px 24px;border-radius:var(--r-sm);border:1px solid var(--border);color:var(--text2);background:var(--surface)}
+.synopsis{padding:0 16px;margin-bottom:24px}
+.synopsis-text{font-size:14px;color:var(--text2);line-height:1.7;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.synopsis-text.expanded{-webkit-line-clamp:unset;overflow:visible}
+.synopsis-toggle{font-size:14px;margin-top:4px}
+.toc{padding:0 16px 32px}
+.toc-title{font-size:16px;font-weight:700;margin-bottom:12px}
+.toc-select{width:100%;padding:8px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface);font-size:14px;margin-bottom:12px}
+.toc-item{display:flex;justify-content:space-between;align-items:center;padding:12px 8px;border-bottom:1px solid var(--border-l)}
+.toc-item span:first-child{font-size:14px}
+.toc-item span:last-child{font-size:12px;color:var(--text3)}
+.reader-page{min-height:100dvh}
+.reader-immersive{min-height:100dvh;background:var(--reader-bg,#FFF);color:var(--reader-text,#1A1A2E);transition:background var(--t-normal),color var(--t-normal)}
+.reader-topbar{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--surface);box-shadow:var(--shadow-sticky);transform:translateY(-100%);transition:transform var(--t-slow);padding-top:env(safe-area-inset-top)}
+.reader-topbar.show{transform:translateY(0)}
+.reader-topbar-inner{display:flex;align-items:center;padding:0 16px;height:48px}
+.reader-bottombar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--surface);border-top:1px solid var(--border);transform:translateY(100%);transition:transform var(--t-slow);padding-bottom:env(safe-area-inset-bottom)}
+.reader-bottombar.show{transform:translateY(0)}
+.reader-bottombar-inner{display:flex;align-items:center;justify-content:space-around;padding:0 16px;height:56px}
+.reader-content{padding:24px 20px 100px;font-size:18px;line-height:1.8}
+.reader-content p{margin-bottom:1.5em;text-indent:2em}
+.reader-content p:first-child{text-indent:0}
+.reader-content h1{font-size:20px;font-weight:700;margin-bottom:24px;text-align:center;text-indent:0}
+.reader-ad{margin:16px;height:64px}
+.nav-btn{display:flex;align-items:center;gap:4px;font-size:14px}
+.nav-btn.disabled{color:var(--text3);pointer-events:none;opacity:.5}
+.tool-btn{display:flex;flex-direction:column;align-items:center;color:var(--text2)}
+.tool-btn svg{width:20px;height:20px}
+.tool-btn span{font-size:10px;margin-top:2px}
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:opacity var(--t-normal),visibility var(--t-normal);z-index:50}
+.sheet-overlay.active{opacity:1;visibility:visible}
+.sheet-content{position:fixed;left:0;right:0;bottom:0;max-height:70vh;background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0;transform:translateY(100%);transition:transform var(--t-slow);z-index:51;overflow-y:auto;overscroll-behavior:contain}
+.sheet-overlay.active .sheet-content{transform:translateY(0)}
+.sheet-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.sheet-header h3{font-size:16px;font-weight:700}
+.sheet-body{padding:16px}
+.setting-group{margin-bottom:24px}
+.setting-label{font-size:14px;font-weight:500;margin-bottom:8px}
+.setting-row{display:flex;gap:12px}
+.setting-btn{flex:1;padding:8px;border-radius:var(--r-sm);border:2px solid var(--border);font-size:14px;text-align:center}
+input[type=range]{width:100%;accent-color:var(--text)}
+.search-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:10;padding-top:env(safe-area-inset-top)}
+.search-bar{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.search-input{flex:1;padding:10px 16px 10px 40px;border-radius:var(--r-full);background:var(--bg);font-size:14px;border:1px solid var(--border);outline:none}
+.search-input:focus{border-color:#3B82F6}
+.search-icon-wrap{position:relative;flex:1}
+.search-icon-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text3)}
+.hot-section{padding:24px 16px}
+.hot-title{font-size:14px;font-weight:700;color:var(--text2);margin-bottom:12px}
+.hot-tags{display:flex;flex-wrap:wrap;gap:8px}
+.hot-tag{padding:6px 12px;border-radius:var(--r-full);background:var(--bg);font-size:14px;color:var(--text2)}
+.results-section{padding:16px}
+.result-count{font-size:14px;color:var(--text2);margin-bottom:12px}
+.result-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--r-sm);background:var(--bg);margin-bottom:12px}
+.result-info{flex:1;min-width:0}
+.result-title{font-size:14px;font-weight:500}
+.result-author{font-size:12px;color:var(--text3);margin-top:2px}
+.result-tags{font-size:12px;color:var(--text3);margin-top:2px}
+.cat-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:10;padding-top:env(safe-area-inset-top)}
+.cat-header-inner{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.cat-header h1{font-size:18px;font-weight:700}
+.cat-header span{font-size:14px;color:var(--text3)}
+.cat-list{padding:16px}
+.cat-book{display:flex;gap:12px;padding:12px;border-radius:var(--r-md);background:var(--surface);box-shadow:var(--shadow-card);margin-bottom:16px}
+.cat-book-info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.cat-book-title{font-size:14px;font-weight:700}
+.cat-book-author{font-size:12px;color:var(--text2);margin-top:2px}
+.cat-book-tags{display:flex;gap:4px;margin-top:6px}
+.cat-book-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-top:4px}
+.legal-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:10;padding-top:env(safe-area-inset-top)}
+.legal-header-inner{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.legal-header h1{font-size:18px;font-weight:700}
+.legal-body{padding:24px 16px}
+.legal-body h2{font-size:16px;font-weight:700;margin:24px 0 8px}
+.legal-body p,.legal-body li{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:8px}
+.legal-body ul{padding-left:20px}
+.legal-body a{color:#3B82F6;text-decoration:underline}
+.legal-date{font-size:14px;color:var(--text2)}
+.tts-play-btn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;margin:0 auto}
+.tts-control{margin-top:16px}
+.tts-label{font-size:14px;color:var(--text2);display:flex;justify-content:space-between}
+.footer-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0;padding-bottom:env(safe-area-inset-bottom)}
+.footer-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:var(--text2);padding:4px 12px}
+.footer-nav-item.active{color:var(--text)}
+.footer-nav-item svg{width:20px;height:20px}
+.footer-nav-item[data-nav="home"].active svg,.footer-nav-item[data-nav="search"].active svg{color:var(--text)}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Chapter","name":"第一章：河之源","position":1,"isPartOf":{"@type":"Book","name":"沉默的河流"}}</script>
+</head>
+<body>
+<div class="reader-page"><div class="reader-immersive" id="reader-el">
+      <header class="reader-topbar" id="reader-topbar"><div class="reader-topbar-inner">
+        <a href="/book/silent-river" class="btn-press" style="display:flex;align-items:center;gap:8px">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <span class="truncate" style="max-width:200px;font-size:14px">沉默的河流</span></a></div></header>
+      <article class="reader-content" id="reader-content">
+        <h1>第一章：河之源</h1>
+        <p>那條河沒有名字。</p><p>至少在江阿公的記憶裡，沒有人給它取過名字。它就那樣靜靜地流過村子，從有記憶的時候就在流，流過了日治時代的甘蔗園、流過了戰後的荒亂歲月、流到了現在——村裡的年輕人都去了城市，只剩下老人和那條河。</p><p>江阿公坐在河邊的老榕樹下，看著渾濁的河水緩緩流過。他的腳邊放著一把舊藤椅，藤椅上搭著一件洗得發白的藍色工作服。</p><p>「阿公，這條河以前真的有那麼大嗎？」孫子江遠蹲在他身邊，手裡拿著一台相機。</p><p>「大？」江阿公笑了，露出僅存的幾顆牙齒，「以前啊，這河寬得對岸的人都看不清。夏天的時候，整條河都是金色的——不是水，是稻穗。兩岸的稻田一直延伸到山腳下。」</p><p>他停頓了一下，目光望向遠方。</p><p>「後來，一切都變了。」</p>
+      </article>
+      <div class="ad">Advertisement</div>
+      <footer class="reader-bottombar" id="reader-bottombar"><div class="reader-bottombar-inner">
+        <span class="nav-btn disabled"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
+        <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
+        <button class="tool-btn btn-press" onclick="openSheet('settings-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg><span>設定</span></button>
+        <button class="tool-btn btn-press" onclick="openSheet('tts-sheet')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 12h.01"/><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg><span>朗讀</span></button>
+        <span class="nav-btn disabled">下一章<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
+      </div></footer>
+      <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
+        <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+        <div class="sheet-body"><a href="/book/silent-river/ch-1" class="toc-item btn-press"><span>第一章：河之源</span><span>3,400 字</span></a></div>
+      </div></div>
+      <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
+        <div class="sheet-header"><h3>閱讀設定</h3><button class="btn-press" onclick="closeSheet('settings-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+        <div class="sheet-body">
+          <div class="setting-group"><div class="setting-label">外觀模式</div><div class="setting-row">
+            <button class="setting-btn" style="background:#fff;color:#1A1A2E" onclick="setTheme('light')">白底</button>
+            <button class="setting-btn" style="background:#1A1A2E;color:#D1D5DB" onclick="setTheme('night')">夜間</button>
+            <button class="setting-btn" style="background:#FDF6E3;color:#5C4B37" onclick="setTheme('sepia')">護眼</button>
+          </div></div>
+          <div class="setting-group"><div class="setting-label">字體大小 <span id="font-size-val">18px</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;color:var(--text3)">A</span>
+            <input type="range" min="14" max="28" value="18" id="font-size-range" oninput="setFontSize(this.value)"><span style="font-size:24px;color:var(--text3)">A</span></div></div>
+          <div class="setting-group"><div class="setting-label">字體</div><div class="setting-row">
+            <button class="setting-btn" style="font-family:var(--sans)" onclick="setFont('sans')">無襯線</button>
+            <button class="setting-btn" style="font-family:var(--serif)" onclick="setFont('serif')">襯線</button>
+          </div></div>
+        </div></div></div>
+      <div class="sheet-overlay" id="tts-sheet" onclick="closeSheet('tts-sheet')"><div class="sheet-content" onclick="event.stopPropagation()">
+        <div class="sheet-header"><h3>發聲朗讀</h3><button class="btn-press" onclick="closeSheet('tts-sheet')"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+        <div class="sheet-body" style="text-align:center">
+          <button class="tts-play-btn" id="tts-play-btn" style="background:#6B7280" onclick="toggleTTS()">
+            <svg id="tts-play-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="tts-pause-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="hidden"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="tts-control" style="text-align:left">
+            <div class="tts-label"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
+            <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-rate" oninput="setTTSRate(this.value)" style="margin:8px 0 16px">
+            <div class="tts-label"><span>音高</span><span id="tts-pitch-val">1.0</span></div>
+            <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0">
+          </div></div></div></div>
+    </div></div>
+    <script>
+    var uiVisible=false;var ttsPlaying=false;var ttsUtterance=null;
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible)});
+    function openSheet(id){document.getElementById(id).classList.add('active')}
+    function closeSheet(id){document.getElementById(id).classList.remove('active')}
+    function setTheme(t){var el=document.getElementById('reader-el');var c=document.getElementById('reader-content');if(t==='night'){el.style.background='#1A1A2E';el.style.color='#D1D5DB';c.style.background='#1A1A2E';c.style.color='#D1D5DB'}else if(t==='sepia'){el.style.background='#FDF6E3';el.style.color='#5C4B37';c.style.background='#FDF6E3';c.style.color='#5C4B37'}else{el.style.background='#FFF';el.style.color='#1A1A2E';c.style.background='#FFF';c.style.color='#1A1A2E'}}
+    function setFontSize(v){document.getElementById('reader-content').style.fontSize=v+'px';document.getElementById('font-size-val').textContent=v+'px'}
+    function setFont(t){document.getElementById('reader-content').style.fontFamily=t==='serif'?"'Noto Serif TC','Noto Serif SC',Georgia,serif":"-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"}
+    function toggleTTS(){if(ttsPlaying){speechSynthesis.cancel();ttsPlaying=false}else{var text=document.getElementById('reader-content').textContent;if(!text)return;ttsUtterance=new SpeechSynthesisUtterance(text);ttsUtterance.lang='zh-TW';var r=document.getElementById('tts-rate');var p=document.getElementById('tts-pitch');if(r)ttsUtterance.rate=parseFloat(r.value);if(p)ttsUtterance.pitch=parseFloat(p.value);ttsUtterance.onend=function(){ttsPlaying=false;updateTTSIcon()};speechSynthesis.speak(ttsUtterance);ttsPlaying=true}updateTTSIcon()}
+    function updateTTSIcon(){var pi=document.getElementById('tts-play-icon');var pa=document.getElementById('tts-pause-icon');if(pi)pi.classList.toggle('hidden',ttsPlaying);if(pa)pa.classList.toggle('hidden',!ttsPlaying)}
+    function setTTSRate(v){document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';if(ttsUtterance){ttsUtterance.rate=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
+    function setTTSPitch(v){document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);if(ttsUtterance){ttsUtterance.pitch=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
+    </script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}
+</script>
+</body></html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#F8F9FA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DeathNote">
+<meta name="description" content="搜尋小說、作者、關鍵字">
+<title>搜尋 - DeathNote</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%228%22%20fill%3D%22%231A1A2E%22%2F%3E%3Ctext%20x%3D%2216%22%20y%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22white%22%20font-family%3D%22serif%22%20font-size%3D%2216%22%20font-weight%3D%22bold%22%3ED%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>:root{--bg:#F8F9FA;--surface:#FFF;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--border:#E5E7EB;--border-l:#F3F4F6;--r-sm:8px;--r-md:12px;--r-lg:16px;--r-full:9999px;--shadow-card:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--shadow-sheet:0 -4px 24px rgba(0,0,0,.12);--shadow-sticky:0 1px 8px rgba(0,0,0,.06);--t-fast:150ms cubic-bezier(.4,0,.2,1);--t-normal:250ms cubic-bezier(.4,0,.2,1);--t-slow:350ms cubic-bezier(.4,0,.2,1);--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans TC","Noto Sans SC",sans-serif;--serif:"Noto Serif TC","Noto Serif SC","Source Han Serif TC","Source Han Serif SC",Georgia,serif}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+html{font-size:16px;scroll-behavior:smooth;overscroll-behavior-y:contain}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{border:none;background:none;cursor:pointer;font-family:inherit}
+input,select{font-family:inherit}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:var(--r-full)}
+.hidden{display:none!important}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-press{transition:transform var(--t-fast)}
+.btn-press:active{transform:scale(.98)}
+.card-hover{transition:transform var(--t-normal),box-shadow var(--t-normal)}
+.card-hover:hover{transform:translateY(-2px);box-shadow:var(--shadow-card)}
+.scroll-snap{scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.scroll-snap>*{scroll-snap-align:start}
+.header{position:fixed;top:0;left:0;right:0;z-index:30;background:var(--surface);box-shadow:var(--shadow-sticky);padding-top:env(safe-area-inset-top)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:48px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo svg{width:28px;height:28px}
+.logo-text{font-size:16px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:480px;margin:0 auto;text-align:center}
+.stat-val{font-size:20px;font-weight:700}
+.stat-label{font-size:12px;color:var(--text2);margin-top:4px}
+.swipe-row{display:flex;gap:12px;overflow-x:auto;padding:0 16px 8px;scrollbar-width:none}
+.swipe-row::-webkit-scrollbar{display:none}
+.book-card{flex-shrink:0;width:144px}
+.book-card h3{font-size:14px;font-weight:500}
+.book-rating{font-size:12px;font-weight:700}
+.rank-tabs{display:flex;gap:24px;padding:0 16px;margin-bottom:12px;font-size:14px;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)}
+.rank-tab{padding-bottom:8px;position:relative}
+.rank-tab.active{color:var(--text)}
+.rank-tab.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:24px;height:3px;border-radius:var(--r-full);background:currentColor}
+.rank-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border-l)}
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r-sm);font-weight:700;font-size:14px;flex-shrink:0}
+.rank-1{background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff}
+.rank-2{background:linear-gradient(135deg,#C0C0C0,#A0A0A0);color:#fff}
+.rank-3{background:linear-gradient(135deg,#CD7F32,#A0522D);color:#fff}
+.rank-other{background:var(--border-l);color:var(--text3)}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 16px}
+.cat-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;border-radius:var(--r-sm);background:var(--surface);box-shadow:var(--shadow-card)}
+.cat-icon{font-size:24px}
+.cat-name{font-size:12px;color:var(--text2)}
+.ad{background:linear-gradient(135deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 2s infinite;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;letter-spacing:.05em;text-transform:uppercase;border:1px dashed var(--border);margin:16px;height:96px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.section-title{font-size:18px;font-weight:700;padding:0 16px;margin-bottom:12px}
+.page{padding-top:48px;min-height:100dvh}
+.detail-header{display:flex;gap:16px;padding:24px 16px 16px}
+.detail-info{flex:1;min-width:0}
+.detail-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.detail-author{font-size:14px;color:var(--text2);margin-bottom:4px}
+.detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag{font-size:11px;padding:2px 8px;border-radius:var(--r-full);color:#fff}
+.detail-meta{display:flex;gap:16px;font-size:12px;color:var(--text3)}
+.action-row{display:flex;gap:12px;padding:0 16px;margin-bottom:24px}
+.btn-primary{flex:1;padding:12px;border-radius:var(--r-sm);color:#fff;text-align:center;font-weight:500}
+.btn-secondary{padding:12px 24px;border-radius:var(--r-sm);border:1px solid var(--border);color:var(--text2);background:var(--surface)}
+.synopsis{padding:0 16px;margin-bottom:24px}
+.synopsis-text{font-size:14px;color:var(--text2);line-height:1.7;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.synopsis-text.expanded{-webkit-line-clamp:unset;overflow:visible}
+.synopsis-toggle{font-size:14px;margin-top:4px}
+.toc{padding:0 16px 32px}
+.toc-title{font-size:16px;font-weight:700;margin-bottom:12px}
+.toc-select{width:100%;padding:8px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface);font-size:14px;margin-bottom:12px}
+.toc-item{display:flex;justify-content:space-between;align-items:center;padding:12px 8px;border-bottom:1px solid var(--border-l)}
+.toc-item span:first-child{font-size:14px}
+.toc-item span:last-child{font-size:12px;color:var(--text3)}
+.reader-page{min-height:100dvh}
+.reader-immersive{min-height:100dvh;background:var(--reader-bg,#FFF);color:var(--reader-text,#1A1A2E);transition:background var(--t-normal),color var(--t-normal)}
+.reader-topbar{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--surface);box-shadow:var(--shadow-sticky);transform:translateY(-100%);transition:transform var(--t-slow);padding-top:env(safe-area-inset-top)}
+.reader-topbar.show{transform:translateY(0)}
+.reader-topbar-inner{display:flex;align-items:center;padding:0 16px;height:48px}
+.reader-bottombar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--surface);border-top:1px solid var(--border);transform:translateY(100%);transition:transform var(--t-slow);padding-bottom:env(safe-area-inset-bottom)}
+.reader-bottombar.show{transform:translateY(0)}
+.reader-bottombar-inner{display:flex;align-items:center;justify-content:space-around;padding:0 16px;height:56px}
+.reader-content{padding:24px 20px 100px;font-size:18px;line-height:1.8}
+.reader-content p{margin-bottom:1.5em;text-indent:2em}
+.reader-content p:first-child{text-indent:0}
+.reader-content h1{font-size:20px;font-weight:700;margin-bottom:24px;text-align:center;text-indent:0}
+.reader-ad{margin:16px;height:64px}
+.nav-btn{display:flex;align-items:center;gap:4px;font-size:14px}
+.nav-btn.disabled{color:var(--text3);pointer-events:none;opacity:.5}
+.tool-btn{display:flex;flex-direction:column;align-items:center;color:var(--text2)}
+.tool-btn svg{width:20px;height:20px}
+.tool-btn span{font-size:10px;margin-top:2px}
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:opacity var(--t-normal),visibility var(--t-normal);z-index:50}
+.sheet-overlay.active{opacity:1;visibility:visible}
+.sheet-content{position:fixed;left:0;right:0;bottom:0;max-height:70vh;background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0;transform:translateY(100%);transition:transform var(--t-slow);z-index:51;overflow-y:auto;overscroll-behavior:contain}
+.sheet-overlay.active .sheet-content{transform:translateY(0)}
+.sheet-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.sheet-header h3{font-size:16px;font-weight:700}
+.sheet-body{padding:16px}
+.setting-group{margin-bottom:24px}
+.setting-label{font-size:14px;font-weight:500;margin-bottom:8px}
+.setting-row{display:flex;gap:12px}
+.setting-btn{flex:1;padding:8px;border-radius:var(--r-sm);border:2px solid var(--border);font-size:14px;text-align:center}
+input[type=range]{width:100%;accent-color:var(--text)}
+.search-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:10;padding-top:env(safe-area-inset-top)}
+.search-bar{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.search-input{flex:1;padding:10px 16px 10px 40px;border-radius:var(--r-full);background:var(--bg);font-size:14px;border:1px solid var(--border);outline:none}
+.search-input:focus{border-color:#3B82F6}
+.search-icon-wrap{position:relative;flex:1}
+.search-icon-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text3)}
+.hot-section{padding:24px 16px}
+.hot-title{font-size:14px;font-weight:700;color:var(--text2);margin-bottom:12px}
+.hot-tags{display:flex;flex-wrap:wrap;gap:8px}
+.hot-tag{padding:6px 12px;border-radius:var(--r-full);background:var(--bg);font-size:14px;color:var(--text2)}
+.results-section{padding:16px}
+.result-count{font-size:14px;color:var(--text2);margin-bottom:12px}
+.result-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--r-sm);background:var(--bg);margin-bottom:12px}
+.result-info{flex:1;min-width:0}
+.result-title{font-size:14px;font-weight:500}
+.result-author{font-size:12px;color:var(--text3);margin-top:2px}
+.result-tags{font-size:12px;color:var(--text3);margin-top:2px}
+.cat-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:10;padding-top:env(safe-area-inset-top)}
+.cat-header-inner{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.cat-header h1{font-size:18px;font-weight:700}
+.cat-header span{font-size:14px;color:var(--text3)}
+.cat-list{padding:16px}
+.cat-book{display:flex;gap:12px;padding:12px;border-radius:var(--r-md);background:var(--surface);box-shadow:var(--shadow-card);margin-bottom:16px}
+.cat-book-info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.cat-book-title{font-size:14px;font-weight:700}
+.cat-book-author{font-size:12px;color:var(--text2);margin-top:2px}
+.cat-book-tags{display:flex;gap:4px;margin-top:6px}
+.cat-book-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-top:4px}
+.legal-header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:10;padding-top:env(safe-area-inset-top)}
+.legal-header-inner{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.legal-header h1{font-size:18px;font-weight:700}
+.legal-body{padding:24px 16px}
+.legal-body h2{font-size:16px;font-weight:700;margin:24px 0 8px}
+.legal-body p,.legal-body li{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:8px}
+.legal-body ul{padding-left:20px}
+.legal-body a{color:#3B82F6;text-decoration:underline}
+.legal-date{font-size:14px;color:var(--text2)}
+.tts-play-btn{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;margin:0 auto}
+.tts-control{margin-top:16px}
+.tts-label{font-size:14px;color:var(--text2);display:flex;justify-content:space-between}
+.footer-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0;padding-bottom:env(safe-area-inset-bottom)}
+.footer-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:var(--text2);padding:4px 12px}
+.footer-nav-item.active{color:var(--text)}
+.footer-nav-item svg{width:20px;height:20px}
+.footer-nav-item[data-nav="home"].active svg,.footer-nav-item[data-nav="search"].active svg{color:var(--text)}
+</style>
+
+</head>
+<body>
+<div class="page">
+    <div class="search-header"><div class="search-bar">
+      <button class="btn-press" onclick="window.location.href='/'">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+      <div class="search-icon-wrap">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input class="search-input" type="search" placeholder="搜尋小說、作者、關鍵字..." id="search-input" oninput="doSearch(this.value)">
+      </div></div></div>
+    <div id="hot-keywords" class="hot-section">
+      <div class="hot-title">熱門搜尋</div>
+      <div class="hot-tags"><button class="hot-tag btn-press" onclick="searchKW('死亡筆記本')">死亡筆記本</button><button class="hot-tag btn-press" onclick="searchKW('量子夢境')">量子夢境</button><button class="hot-tag btn-press" onclick="searchKW('龍之紀元')">龍之紀元</button><button class="hot-tag btn-press" onclick="searchKW('懸疑小說')">懸疑小說</button><button class="hot-tag btn-press" onclick="searchKW('療癒系')">療癒系</button><button class="hot-tag btn-press" onclick="searchKW('科幻')">科幻</button><button class="hot-tag btn-press" onclick="searchKW('完結推薦')">完結推薦</button><button class="hot-tag btn-press" onclick="searchKW('新書上架')">新書上架</button></div>
+    </div>
+    <div id="search-results" class="results-section hidden"></div>
+    <nav class="footer-nav">
+    <a href="/" class="footer-nav-item" data-nav="home">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>首頁</a>
+    <a href="/search" class="footer-nav-item active" data-nav="search">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>搜尋</a>
+    <a href="/legal/privacy" class="footer-nav-item" data-nav="privacy">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>隱私</a>
+    <a href="/legal/terms" class="footer-nav-item" data-nav="terms">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>條款</a>
+  </nav>
+  </div>
+  <script>
+  var booksData=[{"id":"death-note","title":"死亡筆記本","author":"夜神月","tags":["懸疑","心理","犯罪"],"color":"#2C3E50","rating":9.2},{"id":"shadow-trace","title":"暗影追蹤","author":"墨痕","tags":["懸疑","推理","驚悚"],"color":"#2C3E50","rating":8.9},{"id":"midnight-library","title":"午夜圖書館","author":"林深夜","tags":["療癒","奇幻","人生"],"color":"#A3B18A","rating":8.8},{"id":"slow-days","title":"慢時光咖啡館","author":"溫小禾","tags":["療癒","日常","美食"],"color":"#A3B18A","rating":8.6},{"id":"quantum-dream","title":"量子夢境","author":"陳星河","tags":["科幻","量子","意識"],"color":"#3B82F6","rating":9},{"id":"mars-chronicle","title":"火星紀事","author":"陸星航","tags":["科幻","太空","殖民"],"color":"#3B82F6","rating":8.7},{"id":"cherry-blossom","title":"櫻花樹下的約定","author":"花見小路","tags":["言情","青春","校園"],"color":"#E88D9E","rating":8.5},{"id":"rainy-season","title":"雨季不再來","author":"蘇雨晴","tags":["言情","都市","治癒"],"color":"#E88D9E","rating":8.4},{"id":"dragon-chronicles","title":"龍之紀元","author":"蒼龍子","tags":["奇幻","冒險","史詩"],"color":"#8B5CF6","rating":9.4},{"id":"spirit-blade","title":"靈劍山莊","author":"劍無名","tags":["奇幻","武俠","修仙"],"color":"#8B5CF6","rating":9.1},{"id":"whispering-house","title":"低語之屋","author":"幽冥散人","tags":["恐怖","靈異","解謎"],"color":"#1F2937","rating":8.3},{"id":"midnight-bus","title":"末班公車","author":"鬼谷子","tags":["恐怖","都市傳說","驚悚"],"color":"#1F2937","rating":8.1},{"id":"office-survival","title":"社畜求生記","author":"加班王","tags":["喜劇","職場","搞笑"],"color":"#F59E0B","rating":8.7},{"id":"roommate-chaos","title":"室友是奇葩","author":"笑看人生","tags":["喜劇","生活","合租"],"color":"#F59E0B","rating":8.3},{"id":"silent-river","title":"沉默的河流","author":"江遠","tags":["文學","鄉土","家族"],"color":"#6B7280","rating":9},{"id":"city-lights","title":"城市微光","author":"陳以文","tags":["文學","都市","人性"],"color":"#6B7280","rating":8.8}];
+  function searchKW(kw){document.getElementById('search-input').value=kw;doSearch(kw)}
+  function doSearch(q){
+    var hotDiv=document.getElementById('hot-keywords');
+    var resDiv=document.getElementById('search-results');
+    if(!q.trim()){hotDiv.classList.remove('hidden');resDiv.classList.add('hidden');return}
+    hotDiv.classList.add('hidden');resDiv.classList.remove('hidden');
+    var ql=q.toLowerCase();
+    var results=booksData.filter(function(b){return b.title.toLowerCase().includes(ql)||b.author.toLowerCase().includes(ql)||b.tags.some(function(t){return t.toLowerCase().includes(ql)})});
+    resDiv.innerHTML='<div class="result-count">找到 '+results.length+' 個結果</div>'+
+    results.map(function(b){return '<a href="/book/'+b.id+'" class="result-item btn-press"><div style="width:48px;height:64px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;background:linear-gradient(135deg,'+b.color+','+b.color+'dd)">'+b.title.slice(0,2)+'</div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--text3);padding:32px 0">找不到相關結果</p>';
+  }
+  </script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}
+</script>
+</body></html>
