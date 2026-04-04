@@ -38,6 +38,9 @@ function headerHTML() {
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
     </button></div></header>`;
 }
+function breadcrumbHTML(items) {
+  return `<nav style="padding:8px 16px;font-size:12px;color:var(--text3)" aria-label="breadcrumb">${items.map((item,i)=>`<span style="${i===items.length-1?'color:var(--text);font-weight:500':''}">${i>0?' › ':''}${item.url?`<a href="${item.url}" style="color:var(--text3)">${item.label}</a>`:item.label}</span>`).join('')}</nav>`;
+}
 function backHeader(title) {
   return `<div class="cat-header"><div class="cat-header-inner">
     <button class="btn-press" onclick="history.back()">
@@ -46,7 +49,10 @@ function backHeader(title) {
 }
 function adHTML() { return '<div class="ad">Advertisement</div>'; }
 
-function pageHTML(title, desc, accent, body, jsonLd) {
+function pageHTML(title, desc, accent, body, jsonLd, path) {
+  const canonical = `${SITE.url}${path||'/'}`;
+  const ogDesc = desc||SITE.description;
+  const ogTitle = title;
   return `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -56,7 +62,16 @@ function pageHTML(title, desc, accent, body, jsonLd) {
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="${SITE.name}">
-<meta name="description" content="${desc||SITE.description}">
+<meta name="description" content="${ogDesc}">
+<link rel="canonical" href="${canonical}">
+<meta property="og:title" content="${ogTitle}">
+<meta property="og:description" content="${ogDesc}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="${canonical}">
+<meta property="og:locale" content="zh_Hant">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${ogTitle}">
+<meta name="twitter:description" content="${ogDesc}">
 <title>${title}</title>
 <link rel="icon" href="data:image/svg+xml,${encodeURIComponent(SVG_ICON)}">
 <link rel="manifest" href="/manifest.json">
@@ -126,7 +141,7 @@ function write(path, content) {
   }
   </script>`;
 
-  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body));
+  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body, null, '/'));
 })();
 
 // ===== SEARCH =====
@@ -161,7 +176,7 @@ function write(path, content) {
   }
   <\/script>`;
 
-  write('search/index.html', pageHTML('搜尋 - '+SITE.name, '搜尋小說、作者、關鍵字', '#F8F9FA', body));
+  write('search/index.html', pageHTML('搜尋 - '+SITE.name, '搜尋小說、作者、關鍵字', '#F8F9FA', body, null, '/search'));
 })();
 
 // ===== CATEGORIES =====
@@ -178,7 +193,7 @@ CATEGORIES.forEach(cat => {
     ).join('') + adHTML() : '<div style="text-align:center;padding:64px 0;color:var(--text3)"><p style="font-size:32px;margin-bottom:8px">📭</p><p>此分類暫無作品</p></div>'}</div>
   </div>`;
 
-  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body));
+  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, null, `/category/${cat.id}`));
 });
 
 // ===== BOOK DETAIL =====
@@ -190,6 +205,7 @@ BOOKS.forEach(book => {
     "@context":"https://schema.org","@type":"Book","name":book.title,
     "author":{"@type":"Person","name":book.author},"genre":cat?cat.name:book.category,
     "numberOfPages":book.chapters,"bookFormat":"EBook",
+    "datePublished":book.date,"dateModified":book.updated,
     "aggregateRating":{"@type":"AggregateRating","ratingValue":book.rating.toString(),"bestRating":"10","ratingCount":"1"},
     "description":book.synopsis
   };
@@ -203,6 +219,7 @@ BOOKS.forEach(book => {
     }</select>` : '';
 
   const body = `<div class="page">${backHeader(book.title)}
+    ${breadcrumbHTML([{label:SITE.name,url:'/'},{label:cat?cat.name:'分類',url:`/category/${book.category}`},{label:book.title}])}
     <div class="detail-header">${coverHTML(book,112,160,24)}
       <div class="detail-info"><div class="detail-title">${book.title}</div>
       <div class="detail-author">${book.author}</div>
@@ -228,7 +245,7 @@ BOOKS.forEach(book => {
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('${book.id}')>-1)btn.textContent='已加入書籤'})()
   <\/script>`;
 
-  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd));
+  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`));
 });
 
 // ===== CHAPTER READER =====
@@ -244,6 +261,7 @@ BOOKS.forEach(book => {
     };
 
     const body = `<div class="reader-page"><div class="reader-immersive" id="reader-el">
+      ${breadcrumbHTML([{label:SITE.name,url:'/'},{label:book.title,url:`/book/${book.id}`},{label:ch.title}])}
       <header class="reader-topbar" id="reader-topbar"><div class="reader-topbar-inner">
         <a href="/book/${book.id}" class="btn-press" style="display:flex;align-items:center;gap:8px">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -306,9 +324,11 @@ BOOKS.forEach(book => {
     function updateTTSIcon(){var pi=document.getElementById('tts-play-icon');var pa=document.getElementById('tts-pause-icon');if(pi)pi.classList.toggle('hidden',ttsPlaying);if(pa)pa.classList.toggle('hidden',!ttsPlaying)}
     function setTTSRate(v){document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';if(ttsUtterance){ttsUtterance.rate=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
     function setTTSPitch(v){document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);if(ttsUtterance){ttsUtterance.pitch=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
+    (function(){try{var p=JSON.parse(localStorage.getItem('dn_progress')||'{}');var k='${book.id}';if(p[k]&&p[k].chapter==='${ch.id}'&&p[k].scroll){setTimeout(function(){window.scrollTo(0,p[k].scroll)},100)}}catch(e){}})();
+    var _st=null;window.addEventListener('scroll',function(){if(_st)clearTimeout(_st);_st=setTimeout(function(){try{var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');d['${book.id}']={chapter:'${ch.id}',scroll:window.scrollY,time:Date.now()};localStorage.setItem('dn_progress',JSON.stringify(d))}catch(e){}},500)});
     <\/script>`;
 
-    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd));
+    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`));
   });
 });
 
@@ -322,7 +342,7 @@ write('legal/privacy/index.html', pageHTML('隱私權政策 - '+SITE.name, '本�
     <h2>4. 第三方廣告服務</h2><p>本網站使用 Google AdSense 等第三方廣告服務。</p>
     <h2>5. 資料安全</h2><p>我們採取合理措施保護您的個人資訊。</p>
     <h2>6. 聯絡我們</h2><p>如有疑問，請透過本網站的聯絡方式與我們取得聯繫。</p>
-  </div>${footerNav('privacy')}</div>`));
+  </div>${footerNav('privacy')}</div>`, null, '/legal/privacy'));
 
 write('legal/terms/index.html', pageHTML('使用條款 - '+SITE.name, '本網站的使用條款', '#F8F9FA', `<div class="page">${backHeader('使用條款')}
   <div class="legal-body">
@@ -333,7 +353,36 @@ write('legal/terms/index.html', pageHTML('使用條款 - '+SITE.name, '本網站
     <h2>4. 使用者行為規範</h2><p>您同意不會利用本網站從事違法行為或干擾網站運作。</p>
     <h2>5. 免責聲明</h2><p>本網站以「現況」提供服務，不保證服務不中斷或無錯誤。</p>
     <h2>6. 條款修改</h2><p>本網站保留隨時修改本條款的權利。</p>
-  </div>${footerNav('terms')}</div>`));
+  </div>${footerNav('terms')}</div>`, null, '/legal/terms'));
+
+// ===== 404 PAGE =====
+write('404.html', pageHTML('404 - 頁面不存在', '找不到您要的頁面', '#F8F9FA', `<div class="page"><div style="text-align:center;padding:80px 16px">
+  <p style="font-size:64px;margin-bottom:16px">📭</p>
+  <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">404 - 頁面不存在</h1>
+  <p style="color:var(--text2);margin-bottom:24px">您尋找的頁面可能已被移除或不存在</p>
+  <a href="/" class="btn-primary btn-press" style="display:inline-block;width:auto;padding:12px 32px;background:var(--text)">返回首頁</a>
+</div>${footerNav('home')}</div>`, null, '/404'));
+
+// ===== SITEMAP =====
+(function(){
+  let urls = [
+    {loc:'/',lastmod:new Date().toISOString().split('T')[0],priority:'1.0'},
+    {loc:'/search',lastmod:new Date().toISOString().split('T')[0],priority:'0.8'},
+    {loc:'/legal/privacy',lastmod:'2026-04-04',priority:'0.3'},
+    {loc:'/legal/terms',lastmod:'2026-04-04',priority:'0.3'}
+  ];
+  CATEGORIES.forEach(c=>urls.push({loc:`/category/${c.id}`,lastmod:new Date().toISOString().split('T')[0],priority:'0.7'}));
+  BOOKS.forEach(b=>{
+    urls.push({loc:`/book/${b.id}`,lastmod:b.updated,priority:'0.9'});
+    const chs=CHAPTERS.filter(c=>c.bookId===b.id);
+    chs.forEach(ch=>urls.push({loc:`/book/${b.id}/${ch.id}`,lastmod:b.updated,priority:'0.6'}));
+  });
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(u=>`<url><loc>${SITE.url}${u.loc}</loc><lastmod>${u.lastmod}</lastmod><priority>${u.priority}</priority></url>`).join('\n')}
+</urlset>`;
+  write('sitemap.xml', xml);
+})();
 
 // ===== COPY PUBLIC ASSETS =====
 import { copyFileSync } from 'node:fs';
