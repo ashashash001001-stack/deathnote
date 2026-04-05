@@ -129,7 +129,7 @@ function headerHTML() {
 }
 
 function breadcrumbHTML(items) {
-  return `<nav style="padding:8px 16px;font-size:12px;color:var(--color-text-tertiary)" aria-label="breadcrumb">${items.map((item,i)=>`<span style="${i===items.length-1?'color:var(--color-text-primary);font-weight:500':''}">${i>0?' › ':''}${item.url?`<a href="${item.url}" style="color:var(--color-text-tertiary)">${item.label}</a>`:item.label}</span>`).join('')}</nav>`;
+  return `<nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">${items.map((item,i)=>`<span style="${i===items.length-1?'color:var(--color-text-primary);font-weight:500':''}">${i>0?' › ':''}${item.url?`<a href="${item.url}" style="color:var(--color-text-secondary)">${item.label}</a>`:item.label}</span>`).join('')}</nav>`;
 }
 
 function backHeader(title) {
@@ -147,7 +147,7 @@ function pageHTML(title, desc, accent, body, jsonLd, path) {
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="${accent||'#F8F9FA'}">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -222,8 +222,8 @@ function write(path, content) {
       <div class="section-header">
         <h2 class="section-title">🔥 熱門精選</h2>
       </div>
-      <div class="featured-scroll" role="list">
-        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="featured-card btn-press" role="listitem">
+      <div class="featured-scroll">
+        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="featured-card btn-press">
           ${coverHTML(b,160,240,14,true)}
           <div class="featured-info">
             <div class="featured-title">${b.title}</div>
@@ -386,10 +386,10 @@ BOOKS.forEach(book => {
       <div class="detail-hero-content">
         ${coverHTML(book,112,160,18)}
         <div class="detail-info"><h2 class="detail-title">${book.title}</h2>
-        <div class="detail-author">${book.author}</div>
+        <div class="detail-author" style="color:rgba(255,255,255,.85)">${book.author}</div>
         <div class="detail-tags">${tagHTML(book)}</div>
-        <div class="detail-meta"><span>${book.words.toLocaleString()} 字</span><span>${book.chapters} 章</span>
-        <span style="color:${book.status==='completed'?'var(--accent-healing)':'var(--accent-scifi)'}">${book.status==='completed'?'已完結':'連載中'}</span></div></div>
+        <div class="detail-meta" style="color:rgba(255,255,255,.75)"><span>${book.words.toLocaleString()} 字</span><span>${book.chapters} 章</span>
+        <span style="color:${book.status==='completed'?'#A3B18A':'#7DB8F0'}">${book.status==='completed'?'已完結':'連載中'}</span></div></div>
       </div>
     </div>
     <section class="synopsis" aria-label="小說簡介"><h2 style="font-size:16px;font-weight:700;margin-bottom:8px">簡介</h2>
@@ -424,7 +424,7 @@ BOOKS.forEach(book => {
       "isPartOf":{"@type":"Book","name":book.title}
     };
 
-    const body = `<div class="reader-page"><div class="reader-immersive" id="reader-el">
+    const body = `<div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:${book.color}"></div></div>
       ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:book.title,url:`../${book.id}`},{label:ch.title}])}
       <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
@@ -482,9 +482,7 @@ BOOKS.forEach(book => {
             <div class="tts-label"><span>音高</span><span id="tts-pitch-val">1.0</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
-    </div></div>
-    <script>
-    var uiVisible=false;var ttsPlaying=false;var ttsUtterance=null;
+    </div></main></div>
     document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}

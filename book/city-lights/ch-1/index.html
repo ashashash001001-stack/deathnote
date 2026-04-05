@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#6B7280">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -383,8 +383,8 @@ button, a.btn-press, [role="button"] {
   font-size: 12px;
   font-weight: 700;
   flex-shrink: 0;
-  background: var(--color-border-light);
-  color: var(--color-text-tertiary);
+  background: var(--color-border);
+  color: var(--color-text-secondary);
 }
 .rank-num.rank-top {
   background: linear-gradient(135deg, #FF6B35, #FF8F65);
@@ -403,7 +403,7 @@ button, a.btn-press, [role="button"] {
 }
 .rank-sub {
   font-size: 11px;
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
   margin-top: 2px;
 }
 .rank-score {
@@ -732,13 +732,14 @@ button, a.btn-press, [role="button"] {
   position: relative;
   overflow: hidden;
   padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-xl);
+  background: var(--color-bg);
 }
 .detail-hero-bg {
   position: absolute;
   inset: 0;
   filter: blur(40px) saturate(1.5);
   transform: scale(1.2);
-  opacity: 0.3;
+  opacity: 0.15;
   z-index: 0;
 }
 .detail-hero-content {
@@ -752,9 +753,10 @@ button, a.btn-press, [role="button"] {
   margin: 0;
 }
 .detail-info { flex:1; min-width:0; }
-.detail-title { font-size:var(--font-size-2xl); font-weight:700; margin-bottom:var(--spacing-sm); }
-.detail-author { font-size:var(--font-size-base); color:var(--color-text-secondary); margin-bottom:var(--spacing-xs); }
+.detail-title { font-size:var(--font-size-2xl); font-weight:700; margin-bottom:var(--spacing-sm); color:var(--color-text-primary); }
+.detail-author { font-size:var(--font-size-base); margin-bottom:var(--spacing-xs); }
 .detail-tags { display:flex; flex-wrap:wrap; gap:var(--spacing-xs); margin-bottom:var(--spacing-sm); }
+.detail-meta { display:flex; gap:var(--spacing-lg); font-size:var(--font-size-sm); }
 
 /* Pill-shaped Tags */
 .tag {
@@ -1183,9 +1185,9 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Chapter","name":"第一章：深夜便利店","position":1,"isPartOf":{"@type":"Book","name":"城市微光"}}</script>
 </head>
 <body>
-<div class="reader-page"><div class="reader-immersive" id="reader-el">
+<div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#6B7280"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-tertiary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-tertiary)">DeathNote</a></span><span style=""> › <a href="../city-lights" style="color:var(--color-text-tertiary)">城市微光</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：深夜便利店</span></nav>
+      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../city-lights" style="color:var(--color-text-secondary)">城市微光</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：深夜便利店</span></nav>
       <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
         <a href="../city-lights" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 城市微光 詳情">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -1241,9 +1243,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <div class="tts-label"><span>音高</span><span id="tts-pitch-val">1.0</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
-    </div></div>
-    <script>
-    var uiVisible=false;var ttsPlaying=false;var ttsUtterance=null;
+    </div></main></div>
     document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
