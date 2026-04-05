@@ -431,6 +431,8 @@ button, a.btn-press, [role="button"] {
   box-shadow: var(--shadow-card);
   transition: transform var(--t-normal), box-shadow var(--t-normal);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .featured-card:active {
   transform: scale(0.97);
@@ -451,6 +453,13 @@ button, a.btn-press, [role="button"] {
 
 .book-cover-wrapper .css-book-cover {
   display: block;
+}
+
+.book-cover-wrapper .cover-content {
+  height: auto;
+  min-height: 0;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .book-cover-wrapper .css-book-cover::before {
