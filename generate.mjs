@@ -55,6 +55,16 @@ function loadBooks() {
 const BOOKS = loadBooks();
 const HOT_KEYWORDS = ['死亡筆記本','量子夢境','龍之紀元','懸疑小說','療癒系','科幻','完結推薦','新書上架'];
 
+const CATEGORY_KEYWORDS = {
+  suspense: 'mystery,detective,shadow',
+  healing: 'nature,peaceful,garden',
+  scifi: 'space,galaxy,technology',
+  romance: 'love,couple,sunset',
+  fantasy: 'dragon,magic,castle',
+  horror: 'dark,haunted,night',
+  comedy: 'funny,happy,colorful',
+  literary: 'books,library,writing'
+};
 function bookCoverSeed(book) {
   let hash = 0;
   const str = book.id + book.title;
@@ -62,14 +72,15 @@ function bookCoverSeed(book) {
     hash = ((hash << 5) - hash) + str.charCodeAt(i);
     hash |= 0;
   }
-  return Math.abs(hash) % 1084 + 1;
+  return Math.abs(hash) % 1000;
 }
 function coverHTML(book, w, h, fs, showTag) {
   const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
+  const keywords = CATEGORY_KEYWORDS[book.category] || 'book,reading';
   const tag = showTag ? `<span class="cover-tag">${book.tags[0]||''}</span>` : '';
-  return `<div class="css-book-cover" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;font-size:${fs||16}px;background-image:url('https://picsum.photos/seed/${seed}/400/600')">
+  return `<div class="css-book-cover" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;font-size:${fs||16}px;background-image:url('https://loremflickr.com/400/600/${keywords}?lock=${seed}')">
     <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(${hue},75%,65%,.55),hsla(${hue2},65%,35%,.65))"></div>
     <div class="cover-content">
       ${tag}
@@ -82,7 +93,8 @@ function coverMini(book, w, h) {
   const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
-  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;background-image:url('https://picsum.photos/seed/${seed}/400/600')">
+  const keywords = CATEGORY_KEYWORDS[book.category] || 'book,reading';
+  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;background-image:url('https://loremflickr.com/400/600/${keywords}?lock=${seed}')">
     <div class="cover-bg-overlay" style="background:linear-gradient(135deg,hsla(${hue},75%,65%,.5),hsla(${hue2},65%,35%,.55))"></div>
     <div class="cover-content"><h2 class="cover-title" style="font-size:14px">${book.title.slice(0,2)}</h2></div>
   </div>`;
