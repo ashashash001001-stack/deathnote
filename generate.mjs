@@ -91,7 +91,7 @@ function coverHTML(book, w, h, fs, showTag, showTitle = true, showSynopsis = fal
     <p class="cover-author">${book.author}</p>
   ` : '';
   const synopsisBlock = showSynopsis && book.synopsis ? `
-    <p class="cover-synopsis">${book.synopsis.length > 50 ? book.synopsis.slice(0,50) + '...' : book.synopsis}</p>
+    <p class="cover-synopsis">${book.synopsis.length > 80 ? book.synopsis.slice(0,80) + '...' : book.synopsis}</p>
   ` : '';
   return `<div class="css-book-cover" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;font-size:${fs||16}px;background:linear-gradient(160deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%))">
     <div class="cover-decorations" style="background-image:${decorations};background-repeat:no-repeat"></div>
