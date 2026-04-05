@@ -940,7 +940,6 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){
-      document.documentElement.setAttribute('data-theme',t==='light'?'':t);
       if(t==='light')document.documentElement.removeAttribute('data-theme');
       else document.documentElement.setAttribute('data-theme',t);
       try{localStorage.setItem('dn_theme',t)}catch(e){}

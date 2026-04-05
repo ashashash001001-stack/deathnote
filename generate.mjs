@@ -177,11 +177,6 @@ function write(path, content) {
         ${BOOKS.map(b=>`<a href="book/${b.id}" class="book-card card-hover btn-press" role="listitem">${coverHTML(b,144,192,32)}<h3 class="truncate">${b.title}</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:${b.color}">${b.rating}</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a>`).join('')}
       </div>
     </section>
-    <section style="padding:var(--spacing-lg)" aria-label="載入中" class="skeleton-card">
-      <div class="skeleton skeleton-cover"></div>
-      <div class="skeleton skeleton-text w-75"></div>
-      <div class="skeleton skeleton-text w-50"></div>
-    </section>
     ${adHTML()}
     <section style="padding-bottom:var(--spacing-md)" aria-label="排行榜">
       <h2 class="section-title">排行榜</h2>
@@ -400,7 +395,6 @@ BOOKS.forEach(book => {
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){
-      document.documentElement.setAttribute('data-theme',t==='light'?'':t);
       if(t==='light')document.documentElement.removeAttribute('data-theme');
       else document.documentElement.setAttribute('data-theme',t);
       try{localStorage.setItem('dn_theme',t)}catch(e){}
