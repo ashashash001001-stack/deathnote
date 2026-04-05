@@ -254,19 +254,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -892,7 +897,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第一章：深夜便利店</h1>
         <p>凌晨三點的7-11，是這座城市最安靜的角落。</p><p>陳默是這家店的大夜班店員。他喜歡這個時段——沒有白天的喧囂，沒有擁擠的客人，只有冰櫃低沉的嗡嗡聲和偶爾進來的幾個夜歸人。</p><p>今晚的第一個客人是一個計程車司機。他買了一包菸和一瓶咖啡，站在門口抽菸的時候，跟陳默聊起了他今晚載到的一個奇怪客人——一個穿著睡衣、抱著一盆仙人掌的女人，要在凌晨三點去陽明山看星星。</p><p>第二個客人是一個失眠的作家。她每天凌晨三點準時出現，買同一款茶包，坐在靠窗的位置寫東西。陳默從來沒看過她寫什麼，但她的表情總是忽喜忽悲，像是活在另一個世界裡。</p><p>第三個客人是一個剛出院的獨居老人。他走得很慢，買了一個飯糰和一瓶茶。結帳的時候，他看著陳默說：「年輕人，你一個人在這裡不會寂寞嗎？」</p><p>陳默想了想，回答：「不會。因為每個來這裡的人，都帶著一個故事。」</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">

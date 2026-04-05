@@ -260,19 +260,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -898,7 +903,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第一章：午夜的鐘聲</h1>
         <p>林晚從來不相信命運這種東西。</p><p>直到那個下著大雨的深夜，她失魂落魄地走在回家的路上，看見了那盞燈。</p><p>那是一間她從未見過的書店，就開在她每天經過的巷口。木製的招牌上寫著三個字——「午夜圖書館」。</p><p>她推開門，門鈴叮噹作響。</p><p>「歡迎光臨。」櫃檯後的老太太抬起頭，笑容溫和得像是在等一個老朋友，「你來了。」</p><p>「我們……見過嗎？」林晚有些疑惑。</p><p>「沒有。但我一直在等你。」老太太站起身，從書架上抽出一本深藍色封面的書，遞給她，「這本書，寫的是你的人生。」</p><p>林晚接過書，翻開第一頁。上面寫著她的名字、出生日期，以及一行小字：</p><p>「如果你當時沒有放棄畫畫，現在的你會是什麼樣子？」</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">

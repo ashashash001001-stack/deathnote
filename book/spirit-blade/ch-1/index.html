@@ -254,19 +254,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -892,7 +897,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第一章：廢墟中的少年</h1>
         <p>靈劍山莊的廢墟已經長滿了雜草。</p><p>十年前那場大火燒毀了一切——藏經閣、練武場、弟子房舍，還有三百多條人命。江湖上沒有人知道火災的原因，只知道那一夜之後，靈劍山莊從武林版圖上徹底消失了。</p><p>少年楚雲站在廢墟前，手裡握著一把生鏽的鐵劍。</p><p>「就是這裡了。」他低聲自語。</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">

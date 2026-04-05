@@ -98,7 +98,7 @@ function backHeader(title) {
     <h1>${title}</h1></div></div>`;
 }
 
-function adHTML() { return '<div class="ad" role="complementary" aria-label="廣告">Advertisement</div>'; }
+function adHTML() { return ''; }
 
 function pageHTML(title, desc, accent, body, jsonLd, path) {
   const canonical = `${SITE.url}${path||'/'}`;

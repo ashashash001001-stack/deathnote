@@ -248,19 +248,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -886,7 +891,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第一章：河之源</h1>
         <p>那條河沒有名字。</p><p>至少在江阿公的記憶裡，沒有人給它取過名字。它就那樣靜靜地流過村子，從有記憶的時候就在流，流過了日治時代的甘蔗園、流過了戰後的荒亂歲月、流到了現在——村裡的年輕人都去了城市，只剩下老人和那條河。</p><p>江阿公坐在河邊的老榕樹下，看著渾濁的河水緩緩流過。他的腳邊放著一把舊藤椅，藤椅上搭著一件洗得發白的藍色工作服。</p><p>「阿公，這條河以前真的有那麼大嗎？」孫子江遠蹲在他身邊，手裡拿著一台相機。</p><p>「大？」江阿公笑了，露出僅存的幾顆牙齒，「以前啊，這河寬得對岸的人都看不清。夏天的時候，整條河都是金色的——不是水，是稻穗。兩岸的稻田一直延伸到山腳下。」</p><p>他停頓了一下，目光望向遠方。</p><p>「後來，一切都變了。」</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">

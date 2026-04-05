@@ -254,19 +254,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -892,7 +897,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第二章：病院深處</h1>
         <p>手電筒的光束在黑暗中搖晃。</p><p>方遠踏進病院大廳的那一刻，一股潮濕的霉味撲面而來。牆壁上佈滿了剝落的油漆和不明污漬，地上散落著生鏽的輪椅和破碎的藥瓶。</p><p>他沿著走廊緩慢前進，腳下的積水發出啪嗒啪嗒的聲響。</p><p>三樓。失蹤者最後被監視器拍到的位置。</p><p>樓梯間的感應燈居然還亮著——這棟已經斷電十年的建築裡，有一盞燈亮著。</p><p>方遠的手按在腰間的槍套上，一步一步走上三樓。</p><p>走廊盡頭，307號病房的門虛掩著。門縫裡，透出一絲微弱的光。</p><p>他推開門。</p><p>房間裡空無一人。只有一張桌子，桌上放著一本翻開的日記。日記的字跡潦草，反复寫著同一句話：</p><p>「它在牆裡。它在牆裡。它在牆裡。」</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <a href="ch-1" class="nav-btn btn-press" aria-label="上一章：第一章：消失的人"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</a>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">

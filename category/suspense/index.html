@@ -242,19 +242,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -883,7 +888,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <div class="cat-book-author">墨痕</div>
         <div class="cat-book-tags"><span class="tag" style="background:color-mix(in srgb,#2C3E50 12%,transparent);color:#2C3E50">懸疑</span><span class="tag" style="background:color-mix(in srgb,#2C3E50 12%,transparent);color:#2C3E50">推理</span></div></div>
         <div class="cat-book-meta"><span>517 字</span>
-        <span style="color:#2C3E50;font-weight:700">8.9 分</span></div></div></a><div class="ad" role="complementary" aria-label="廣告">Advertisement</div></div>
+        <span style="color:#2C3E50;font-weight:700">8.9 分</span></div></div></a></div>
   </main>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}

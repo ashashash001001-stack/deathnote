@@ -242,19 +242,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -888,7 +893,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <section class="synopsis" aria-label="小說簡介"><h2 style="font-size:16px;font-weight:700;margin-bottom:8px">簡介</h2>
     <p class="synopsis-text" id="synopsis-text">靈劍山莊曾是天下武林的聖地，直到一場大火將一切化為灰燼。十年後，一個少年帶著一把生鏽的鐵劍回到這片廢墟。他不知道的是，那把劍裡沉眠著一個等待了百年的靈魂。</p>
     <button class="synopsis-toggle btn-press" style="color:#8B5CF6" onclick="toggleSynopsis()" aria-label="展開或收合簡介">展開全部</button></section>
-    <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+    
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>
     <div class="toc-list-wrap"><div id="toc-list"><a href="book/spirit-blade/ch-1" class="toc-item btn-press"><span>第一章：廢墟中的少年</span><span>126 字</span></a></div></div></section>
     <div style="height:80px" aria-hidden="true"></div>

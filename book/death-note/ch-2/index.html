@@ -254,19 +254,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -892,7 +897,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第二章：試探</h1>
         <p>月坐在自己的房間裡，桌上攤開著那本黑色筆記本。</p><p>三天了。自從撿到這本筆記本以來，他每天都在思考同一個問題——這到底是什麼？</p><p>「如果真的像上面寫的那樣……」月的目光落在電視新聞上。一則關於綁架孩童的新聞正在播放，畫面上是嫌犯的照片和姓名。</p><p>月拿起筆，手微微顫抖。</p><p>他在筆記本上寫下了那個名字。</p><p>四十分鐘後，新聞快訊插播：綁架嫌犯在逃亡途中突然倒地身亡，初步判定為心臟麻痺。</p><p>月手中的筆掉落在地。</p><p>「是真的……」他的聲音幾乎聽不見，「這本筆記本……是真的的。」</p><p>窗外的夜色深沉如墨，月的房間裡只有一盞檯燈亮著。在那微弱的光線下，他的臉龐被陰影切割成明暗兩半。</p><p>一個改變世界的計畫，在這個夜晚悄然萌芽。</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <a href="ch-1" class="nav-btn btn-press" aria-label="上一章：第一章：降臨"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</a>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">

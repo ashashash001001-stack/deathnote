@@ -254,19 +254,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -892,7 +897,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第一章：最後的龍騎士</h1>
         <p>艾瑟蘭大陸的北方邊境，暴風雪已經持續了三天。</p><p>少年凱爾裹著破舊的斗篷，艱難地在雪地中前行。他的身後，是一座剛剛被黑暗生物摧毀的村莊。火焰在風雪中苟延殘喘，像極了這個時代的最後一絲希望。</p><p>「快到了。」他低聲對自己說。</p><p>在他的懷裡，貼身藏著一枚龍鱗——這是他父親留給他的唯一遺物。據說，這枚鱗片屬於最後一條遠古巨龍「蒼翼」，而持有鱗片的人，將有資格繼承龍騎士的力量。</p><p>凱爾的父親曾是龍騎士團的副團長。十年前，黑暗勢力甦醒，龍騎士團全軍覆沒。父親在戰死前將龍鱗交給了年僅七歲的凱爾，並告訴他：</p><p>「當暴風雪連續三天不停的時候，帶著鱗片去北境之巔。那裡的冰窟中，沉眠著蒼翼最後的血脈。」</p><p>今天，是暴風雪的第三天。</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">

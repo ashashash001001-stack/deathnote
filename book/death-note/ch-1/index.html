@@ -260,19 +260,24 @@ button, a.btn-press, [role="button"] {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  padding: 0 var(--spacing-lg) var(--spacing-sm);
-  padding-right: calc(var(--spacing-lg) + 40px);
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
 }
 .swipe-row::-webkit-scrollbar { display:none; }
 .book-card {
   flex-shrink: 0;
-  width: 144px;
+  width: 130px;
 }
 .book-card h3 {
-  font-size: var(--font-size-base);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   margin-top: var(--spacing-sm);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .book-rating { font-size:var(--font-size-sm); font-weight:700; }
 
@@ -898,7 +903,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
         <h1>第一章：降臨</h1>
         <p>放學後的校園格外安靜。</p><p>夜神月獨自走在空無一人的走廊上，皮鞋踩在磨石子地板上發出清脆的聲響。夕陽的餘暉從窗戶斜斜地灑進來，將整條走廊染成橘紅色。</p><p>「真是無聊透頂的世界。」他低聲自語。</p><p>作為全國模擬考連續三年的榜首，月對這一切早已感到厭倦。老師的讚賞、同學的羨慕、父母的期待——所有這些在他看來都不過是這個腐朽世界的縮影。犯罪新聞、貪汙腐敗、道德淪喪，每天打開電視看到的都是這些令人作嘔的消息。</p><p>就在他準備離開校舍的時候，一樣不尋常的東西從天而降。</p><p>那是一本黑色的筆記本，封面上用白色字體寫著——</p><p>「DEATH NOTE」</p><p>月彎下腰，撿起了那本筆記本。翻開第一頁，上面寫著一段令人不寒而慄的使用說明：</p><p>「The human whose name is written in this note shall die.」</p><p>（名字被寫在這本筆記本上的人將會死亡。）</p><p>月冷笑了一聲。「惡作劇嗎？真是幼稚。」</p><p>然而，他還是將筆記本放進了書包裡。</p>
       </article>
-      <div class="ad" role="complementary" aria-label="廣告">Advertisement</div>
+      
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
         <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
         <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">
