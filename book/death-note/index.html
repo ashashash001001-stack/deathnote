@@ -736,22 +736,30 @@ button, a.btn-press, [role="button"] {
 }
 .book-cover-wrapper .cover-content {
   justify-content: flex-start;
-  padding-top: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   box-sizing: border-box;
+  height: 100%;
+}
+
+.book-cover-wrapper .cover-tag {
+  margin-bottom: 4px;
 }
 
 .book-cover-wrapper .cover-synopsis {
-  font-size: 10px;
-  line-height: 1.35;
-  opacity: .85;
-  margin-top: 8px;
-  padding: 0 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: auto;
+  padding: 8px 10px;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-shadow: 0 1px 2px rgba(0,0,0,.15);
-  color: rgba(255,255,255,.9);
+  color: rgba(255,255,255,.95);
+  background: rgba(0,0,0,.15);
+  border-radius: 4px;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 .cover-author {
