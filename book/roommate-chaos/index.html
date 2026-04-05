@@ -424,6 +424,50 @@ button, a.btn-press, [role="button"] {
     box-shadow: var(--shadow-hover);
   }
 }
+
+.book-cover-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.book-cover-wrapper .css-book-cover {
+  display: block;
+}
+
+.book-cover-wrapper .css-book-cover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.status-badge {
+  position: absolute;
+  top: 8px;
+  right: -4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 2;
+  transform: rotate(2deg);
+}
+
+.status-badge.status-ongoing {
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+}
+
+.status-badge.status-done {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
 .css-book-cover {
   margin-bottom: 0;
   border-radius: 0;
@@ -1343,8 +1387,10 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.2) 0%,transparent 70%) 34% 17% / 17% 17%,linear-gradient(281deg,rgba(255,255,255,0.17),transparent) 15% 56% / 28% 28%,radial-gradient(circle,rgba(0,0,0,0.19) 0%,transparent 70%) 81% 70% / 50% 50%,linear-gradient(188deg,rgba(255,255,255,0.2),transparent) 50% 67% / 41% 41%,radial-gradient(circle,rgba(255,255,255,0.14) 0%,transparent 70%) 24% 85% / 31% 31%,radial-gradient(circle,rgba(0,0,0,0.07) 0%,transparent 70%) 19% 54% / 20% 20%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
-      <h2 class="cover-title">室友是奇葩</h2>
-      <p class="cover-author">笑看人生</p>
+      
+    <h2 class="cover-title">室友是奇葩</h2>
+    <p class="cover-author">笑看人生</p>
+  
     </div>
   </div>
         <div class="detail-info"><h2 class="detail-title">室友是奇葩</h2>

@@ -424,6 +424,50 @@ button, a.btn-press, [role="button"] {
     box-shadow: var(--shadow-hover);
   }
 }
+
+.book-cover-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.book-cover-wrapper .css-book-cover {
+  display: block;
+}
+
+.book-cover-wrapper .css-book-cover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.status-badge {
+  position: absolute;
+  top: 8px;
+  right: -4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 2;
+  transform: rotate(2deg);
+}
+
+.status-badge.status-ongoing {
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+}
+
+.status-badge.status-done {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
 .css-book-cover {
   margin-bottom: 0;
   border-radius: 0;
@@ -1343,8 +1387,10 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.09) 0%,transparent 70%) 61% 80% / 52% 52%,radial-gradient(circle,rgba(255,255,255,0.22) 0%,transparent 70%) 52% 27% / 35% 35%,radial-gradient(circle,rgba(255,255,255,0.19) 0%,transparent 70%) 47% 26% / 22% 22%,radial-gradient(circle,rgba(0,0,0,0.06) 0%,transparent 70%) 22% 13% / 45% 45%,radial-gradient(circle,rgba(0,0,0,0.05) 0%,transparent 70%) 17% 80% / 16% 16%,linear-gradient(274deg,rgba(255,255,255,0.06),transparent) 24% 37% / 31% 31%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
-      <h2 class="cover-title">城市微光</h2>
-      <p class="cover-author">陳以文</p>
+      
+    <h2 class="cover-title">城市微光</h2>
+    <p class="cover-author">陳以文</p>
+  
     </div>
   </div>
         <div class="detail-info"><h2 class="detail-title">城市微光</h2>
