@@ -57,18 +57,20 @@ const HOT_KEYWORDS = ['死亡筆記本','量子夢境','龍之紀元','懸疑小
 
 function bookCoverSeed(book) {
   let hash = 0;
-  const str = book.id + book.title;
+  const str = book.id + book.title + book.author;
   for (let i = 0; i < str.length; i++) {
     hash = ((hash << 5) - hash) + str.charCodeAt(i);
     hash |= 0;
   }
-  return Math.abs(hash) % 1000;
+  return Math.abs(hash);
 }
 function coverHTML(book, w, h, fs, showTag) {
   const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
-  const keywords = book.imageKeywords || 'book,reading';
+  const baseKeywords = book.imageKeywords || 'book,reading';
+  const titleWords = book.title.replace(/[^\w\u4e00-\u9fff]/g, '').slice(0, 6);
+  const keywords = `${baseKeywords},${titleWords || book.id}`;
   const tag = showTag ? `<span class="cover-tag">${book.tags[0]||''}</span>` : '';
   return `<div class="css-book-cover" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;font-size:${fs||16}px;background-image:url('https://loremflickr.com/400/600/${keywords}?lock=${seed}')">
     <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(${hue},75%,65%,.55),hsla(${hue2},65%,35%,.65))"></div>
@@ -83,7 +85,9 @@ function coverMini(book, w, h) {
   const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
-  const keywords = book.imageKeywords || 'book,reading';
+  const baseKeywords = book.imageKeywords || 'book,reading';
+  const titleWords = book.title.replace(/[^\w\u4e00-\u9fff]/g, '').slice(0, 6);
+  const keywords = `${baseKeywords},${titleWords || book.id}`;
   return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;background-image:url('https://loremflickr.com/400/600/${keywords}?lock=${seed}')">
     <div class="cover-bg-overlay" style="background:linear-gradient(135deg,hsla(${hue},75%,65%,.5),hsla(${hue2},65%,35%,.55))"></div>
     <div class="cover-content"><h2 class="cover-title" style="font-size:14px">${book.title.slice(0,2)}</h2></div>
