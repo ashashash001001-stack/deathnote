@@ -91,7 +91,7 @@ function coverHTML(book, w, h, fs, showTag, showTitle = true, showSynopsis = fal
     <p class="cover-author">${book.author}</p>
   ` : '';
   const synopsisBlock = showSynopsis && book.synopsis ? `
-    <p class="cover-synopsis">${book.synopsis.length > 60 ? book.synopsis.slice(0,60) + '...' : book.synopsis}</p>
+    <p class="cover-synopsis">${book.synopsis.length > 50 ? book.synopsis.slice(0,50) + '...' : book.synopsis}</p>
   ` : '';
   return `<div class="css-book-cover" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;font-size:${fs||16}px;background:linear-gradient(160deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%))">
     <div class="cover-decorations" style="background-image:${decorations};background-repeat:no-repeat"></div>
@@ -244,13 +244,14 @@ function write(path, content) {
       <div class="featured-scroll">
         ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="featured-card btn-press">
           <div class="book-cover-wrapper">
-            ${coverHTML(b,160,240,14,false,false,true)}
+            ${coverHTML(b,160,240,14,false,true,true)}
             <span class="status-badge ${b.status==='completed'?'status-done':'status-ongoing'}">${b.status==='completed'?'完結':'連載'}</span>
           </div>
           <div class="featured-info">
             <div class="featured-title">${b.title}</div>
             <div class="featured-meta">
               <span class="featured-rating" style="color:${b.color}">★ ${b.rating}</span>
+              <span class="featured-stat">${b.chapters}章</span>
             </div>
           </div>
         </a>`).join('')}
