@@ -183,7 +183,7 @@ function write(path, content) {
     <section style="padding:16px 0 8px" aria-label="熱門精選">
       <h2 class="section-title">熱門精選</h2>
       <div class="swipe-row" role="list">
-        ${BOOKS.slice(0,8).map(b=>`<a href="book/${b.id}" class="book-card card-hover btn-press" role="listitem" style="margin:0 4px">${coverHTML(b,144,192,32)}<h3 class="truncate" style="padding:0 2px">${b.title}</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px;padding:0 2px"><span class="book-rating" style="color:${b.color}">${b.rating}</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a>`).join('')}
+        ${BOOKS.slice(0,8).map(b=>`<a href="book/${b.id}" class="book-card card-hover btn-press" role="listitem">${coverHTML(b,130,173,28)}<h3 class="truncate">${b.title}</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:${b.color}">${b.rating}</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a>`).join('')}
       </div>
     </section>
     ${adHTML()}
