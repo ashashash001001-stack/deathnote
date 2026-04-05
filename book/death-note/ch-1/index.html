@@ -47,7 +47,7 @@
   /* Colors - Light Mode */
   --color-bg: #F8F9FA;
   --color-surface: #FFFFFF;
-  --color-surface-glass: rgba(255,255,255,.82);
+  --color-surface-glass: rgba(255,255,255,.72);
   --color-text-primary: #1A1A2E;
   --color-text-secondary: #6B7280;
   --color-text-tertiary: #9CA3AF;
@@ -67,6 +67,9 @@
   --accent-horror: #1F2937;
   --accent-comedy: #F59E0B;
   --accent-literary: #6B7280;
+
+  /* RGB values for shadow tints */
+  --accent-rgb: 139,92,246;
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -91,6 +94,7 @@
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+  --radius-2xl: 32px;
   --radius-full: 9999px;
 
   /* Shadows - Multi-layer */
@@ -99,11 +103,18 @@
   --shadow-sheet: 0 -4px 16px rgba(0,0,0,.08),0 -8px 32px rgba(0,0,0,.06);
   --shadow-sticky: 0 1px 4px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);
   --shadow-float: 0 4px 12px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+  --shadow-deep: 0 2px 4px rgba(0,0,0,.04),0 8px 16px rgba(0,0,0,.06),0 16px 32px rgba(0,0,0,.04);
+  --shadow-hover: 0 4px 8px rgba(0,0,0,.06),0 12px 24px rgba(0,0,0,.08),0 20px 40px rgba(var(--accent-rgb),.1);
+
+  /* Glass */
+  --glass-bg: rgba(255,255,255,.72);
+  --glass-border: rgba(255,255,255,.18);
 
   /* Transitions */
   --t-fast: 150ms cubic-bezier(.4,0,.2,1);
   --t-normal: 200ms cubic-bezier(.4,0,.2,1);
   --t-slow: 350ms cubic-bezier(.4,0,.2,1);
+  --t-bounce: 400ms cubic-bezier(.34,1.56,.64,1);
 
   /* Typography - System Fonts Only */
   --font-sans: system-ui,-apple-system,"PingFang TC","Microsoft JhengHei","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -154,6 +165,18 @@ body {
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   overflow-x: hidden;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
 a { text-decoration:none; color:inherit; }
 button { border:none; background:none; cursor:pointer; font-family:inherit; }
@@ -321,13 +344,32 @@ button, a.btn-press, [role="button"] {
   padding: 0;
 }
 
+/* Section Divider */
+.section-divider {
+  height: 1px;
+  margin: 0 var(--spacing-lg);
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+}
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+@supports not (backdrop-filter: blur(16px)) {
+  .glass-card { background: var(--color-surface); }
+}
+
 /* Featured Cards - Horizontal Scroll */
 .featured-scroll {
   display: flex;
   gap: 14px;
   overflow-x: auto;
   padding: 0 var(--spacing-lg) var(--spacing-md);
-  padding-right: calc(var(--spacing-lg) + 50px);
+  padding-right: calc(var(--spacing-lg) + 60px);
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
 }
@@ -336,15 +378,33 @@ button, a.btn-press, [role="button"] {
   flex-shrink: 0;
   width: 160px;
   scroll-snap-align: start;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--t-normal), box-shadow var(--t-normal);
+  overflow: hidden;
+}
+.featured-card:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-card);
+}
+@media (hover: hover) {
+  .featured-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
 }
 .css-book-cover {
-  margin-bottom: 8px;
+  margin-bottom: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
-.featured-info { padding: 8px 2px 0; }
+.featured-info { padding: 10px 10px 12px; }
 .featured-title {
   font-size: 13px;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -355,17 +415,19 @@ button, a.btn-press, [role="button"] {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 .featured-rating {
   font-size: 12px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 .featured-status {
   font-size: 10px;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: var(--radius-full);
   font-weight: 500;
+  letter-spacing: .02em;
 }
 .status-done { background:rgba(163,177,138,.2); color:var(--accent-healing); }
 .status-ongoing { background:rgba(59,130,246,.15); color:var(--accent-scifi); }
@@ -378,6 +440,11 @@ button, a.btn-press, [role="button"] {
   gap: 12px;
   padding: 10px var(--spacing-lg);
   border-bottom: 1px solid var(--color-border-light);
+  transition: background var(--t-fast);
+}
+.rank-item:active { background: var(--color-border-light); }
+@media (hover: hover) {
+  .rank-item:hover { background: var(--color-border-light); }
 }
 .rank-num {
   display: flex;
@@ -391,6 +458,7 @@ button, a.btn-press, [role="button"] {
   flex-shrink: 0;
   background: var(--color-border);
   color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
 }
 .rank-num.rank-top {
   background: linear-gradient(135deg, #FF6B35, #FF8F65);
@@ -453,6 +521,19 @@ button, a.btn-press, [role="button"] {
   transform: scale(0.95);
   box-shadow: var(--shadow-card-hover);
 }
+@media (hover: hover) {
+  .bento-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+  .bento-item:hover .bento-icon {
+    transform: scale(1.15);
+  }
+}
+.bento-icon {
+  font-size: 22px;
+  transition: transform var(--t-bounce);
+}
 .bento-lg {
   grid-column: span 2;
   grid-row: span 2;
@@ -462,8 +543,25 @@ button, a.btn-press, [role="button"] {
 .bento-md {
   grid-column: span 2;
 }
-.bento-icon { font-size: 22px; }
 .bento-name { font-size: 11px; color: var(--color-text-secondary); }
+
+/* Scroll Reveal Animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--t-slow), transform var(--t-slow);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 
 /* ============================================
    CSS DYNAMIC BOOK COVERS

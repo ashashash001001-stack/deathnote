@@ -216,11 +216,11 @@ function write(path, content) {
       <div class="hero-content">
         <div class="hero-badge">📖 沉浸閱讀，從這裡開始</div>
         <div class="hero-stats">
-          <div class="hero-stat"><span class="hero-stat-num">${BOOKS.length}</span><span class="hero-stat-label">作品</span></div>
+          <div class="hero-stat glass-card"><span class="hero-stat-num" style="font-variant-numeric:tabular-nums">${BOOKS.length}</span><span class="hero-stat-label">作品</span></div>
           <div class="hero-stat-divider"></div>
-          <div class="hero-stat"><span class="hero-stat-num">${(totalWords/10000).toFixed(0)}萬</span><span class="hero-stat-label">字數</span></div>
+          <div class="hero-stat glass-card"><span class="hero-stat-num" style="font-variant-numeric:tabular-nums">${(totalWords/10000).toFixed(0)}萬</span><span class="hero-stat-label">字數</span></div>
           <div class="hero-stat-divider"></div>
-          <div class="hero-stat"><span class="hero-stat-num">${totalChapters}</span><span class="hero-stat-label">章節</span></div>
+          <div class="hero-stat glass-card"><span class="hero-stat-num" style="font-variant-numeric:tabular-nums">${totalChapters}</span><span class="hero-stat-label">章節</span></div>
         </div>
       </div>
     </section>
@@ -241,6 +241,7 @@ function write(path, content) {
         </a>`).join('')}
       </div>
     </section>
+    <div class="section-divider"></div>
     <section class="home-section" aria-label="排行榜">
       <div class="section-header">
         <h2 class="section-title">🏆 排行榜</h2>
@@ -284,6 +285,7 @@ function write(path, content) {
         </a>`).join('')}
       </div>
     </section>
+    <div class="section-divider"></div>
     <section class="home-section home-section-last" aria-label="分類題材">
       <div class="section-header">
         <h2 class="section-title">📚 分類題材</h2>
@@ -304,6 +306,12 @@ function write(path, content) {
     document.querySelectorAll('.rank-tab').forEach(function(el){el.classList.remove('active');el.setAttribute('aria-selected','false')});
     var btn=document.querySelector('.rank-tab[data-tab="'+tab+'"]');
     if(btn){btn.classList.add('active');btn.setAttribute('aria-selected','true')}
+  }
+  if('IntersectionObserver' in window){
+    var observer=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
   }
   <\/script>`;
 
