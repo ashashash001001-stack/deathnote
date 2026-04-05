@@ -424,6 +424,50 @@ button, a.btn-press, [role="button"] {
     box-shadow: var(--shadow-hover);
   }
 }
+
+.book-cover-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.book-cover-wrapper .css-book-cover {
+  display: block;
+}
+
+.book-cover-wrapper .css-book-cover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.status-badge {
+  position: absolute;
+  top: 8px;
+  right: -4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 2;
+  transform: rotate(2deg);
+}
+
+.status-badge.status-ongoing {
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+}
+
+.status-badge.status-done {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
 .css-book-cover {
   margin-bottom: 0;
   border-radius: 0;
@@ -1366,99 +1410,123 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
       </div>
       <div class="featured-scroll">
         <a href="book/dragon-chronicles" class="featured-card btn-press">
-          <div class="css-book-cover" style="--hue:102;--hue2:142;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(102,75%,60%),hsl(142,65%,35%))">
+          <div class="book-cover-wrapper">
+            <div class="css-book-cover" style="--hue:102;--hue2:142;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(102,75%,60%),hsl(142,65%,35%))">
     <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.18) 0%,transparent 70%) 24% 51% / 19% 19%,linear-gradient(17deg,rgba(255,255,255,0.15),transparent) 71% 50% / 32% 32%,linear-gradient(247deg,rgba(255,255,255,0.09),transparent) 53% 24% / 20% 20%,linear-gradient(101deg,rgba(255,255,255,0.15),transparent) 17% 22% / 28% 28%,radial-gradient(circle,rgba(255,255,255,0.09) 0%,transparent 70%) 81% 32% / 24% 24%,linear-gradient(126deg,rgba(255,255,255,0.1),transparent) 40% 15% / 39% 39%;background-repeat:no-repeat"></div>
     <div class="cover-content">
-      <span class="cover-tag">奇幻</span>
-      <h2 class="cover-title">龍之紀元</h2>
-      <p class="cover-author">蒼龍子</p>
+      
+      
+    <h2 class="cover-title">龍之紀元</h2>
+    <p class="cover-author">蒼龍子</p>
+  
     </div>
   </div>
+            <span class="status-badge status-ongoing">連載</span>
+          </div>
           <div class="featured-info">
             <div class="featured-title">龍之紀元</div>
             <div class="featured-meta">
               <span class="featured-rating" style="color:#8B5CF6">★ 9.4</span>
-              <span class="featured-status status-ongoing">連載</span>
             </div>
           </div>
         </a><a href="book/death-note" class="featured-card btn-press">
-          <div class="css-book-cover" style="--hue:96;--hue2:136;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(96,75%,60%),hsl(136,65%,35%))">
+          <div class="book-cover-wrapper">
+            <div class="css-book-cover" style="--hue:96;--hue2:136;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(96,75%,60%),hsl(136,65%,35%))">
     <div class="cover-decorations" style="background-image:linear-gradient(283deg,rgba(255,255,255,0.21),transparent) 81% 84% / 24% 24%,radial-gradient(circle,rgba(0,0,0,0.23) 0%,transparent 70%) 21% 74% / 22% 22%,linear-gradient(216deg,rgba(255,255,255,0.22),transparent) 38% 13% / 41% 41%,radial-gradient(circle,rgba(255,255,255,0.18) 0%,transparent 70%) 64% 89% / 51% 51%,radial-gradient(circle,rgba(0,0,0,0.15) 0%,transparent 70%) 53% 42% / 22% 22%,radial-gradient(circle,rgba(0,0,0,0.06) 0%,transparent 70%) 14% 23% / 29% 29%;background-repeat:no-repeat"></div>
     <div class="cover-content">
-      <span class="cover-tag">懸疑</span>
-      <h2 class="cover-title">死亡筆記本</h2>
-      <p class="cover-author">夜神月</p>
+      
+      
+    <h2 class="cover-title">死亡筆記本</h2>
+    <p class="cover-author">夜神月</p>
+  
     </div>
   </div>
+            <span class="status-badge status-done">完結</span>
+          </div>
           <div class="featured-info">
             <div class="featured-title">死亡筆記本</div>
             <div class="featured-meta">
               <span class="featured-rating" style="color:#2C3E50">★ 9.2</span>
-              <span class="featured-status status-done">完結</span>
             </div>
           </div>
         </a><a href="book/spirit-blade" class="featured-card btn-press">
-          <div class="css-book-cover" style="--hue:102;--hue2:142;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(102,75%,60%),hsl(142,65%,35%))">
+          <div class="book-cover-wrapper">
+            <div class="css-book-cover" style="--hue:102;--hue2:142;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(102,75%,60%),hsl(142,65%,35%))">
     <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.07) 0%,transparent 70%) 81% 54% / 20% 20%,radial-gradient(circle,rgba(0,0,0,0.18) 0%,transparent 70%) 82% 65% / 53% 53%,radial-gradient(circle,rgba(255,255,255,0.21) 0%,transparent 70%) 37% 60% / 42% 42%,linear-gradient(130deg,rgba(255,255,255,0.18),transparent) 12% 19% / 51% 51%,radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%) 82% 33% / 25% 25%,radial-gradient(circle,rgba(0,0,0,0.17) 0%,transparent 70%) 15% 44% / 52% 52%;background-repeat:no-repeat"></div>
     <div class="cover-content">
-      <span class="cover-tag">奇幻</span>
-      <h2 class="cover-title">靈劍山莊</h2>
-      <p class="cover-author">劍無名</p>
+      
+      
+    <h2 class="cover-title">靈劍山莊</h2>
+    <p class="cover-author">劍無名</p>
+  
     </div>
   </div>
+            <span class="status-badge status-ongoing">連載</span>
+          </div>
           <div class="featured-info">
             <div class="featured-title">靈劍山莊</div>
             <div class="featured-meta">
               <span class="featured-rating" style="color:#8B5CF6">★ 9.1</span>
-              <span class="featured-status status-ongoing">連載</span>
             </div>
           </div>
         </a><a href="book/quantum-dream" class="featured-card btn-press">
-          <div class="css-book-cover" style="--hue:270;--hue2:310;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(270,75%,60%),hsl(310,65%,35%))">
+          <div class="book-cover-wrapper">
+            <div class="css-book-cover" style="--hue:270;--hue2:310;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(270,75%,60%),hsl(310,65%,35%))">
     <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(255,255,255,0.24) 0%,transparent 70%) 40% 47% / 15% 15%,linear-gradient(221deg,rgba(255,255,255,0.15),transparent) 83% 62% / 44% 44%,radial-gradient(circle,rgba(0,0,0,0.13) 0%,transparent 70%) 19% 36% / 24% 24%,linear-gradient(34deg,rgba(255,255,255,0.22),transparent) 44% 21% / 23% 23%,radial-gradient(circle,rgba(0,0,0,0.08) 0%,transparent 70%) 62% 77% / 25% 25%,linear-gradient(227deg,rgba(255,255,255,0.13),transparent) 35% 16% / 16% 16%;background-repeat:no-repeat"></div>
     <div class="cover-content">
-      <span class="cover-tag">科幻</span>
-      <h2 class="cover-title">量子夢境</h2>
-      <p class="cover-author">陳星河</p>
+      
+      
+    <h2 class="cover-title">量子夢境</h2>
+    <p class="cover-author">陳星河</p>
+  
     </div>
   </div>
+            <span class="status-badge status-ongoing">連載</span>
+          </div>
           <div class="featured-info">
             <div class="featured-title">量子夢境</div>
             <div class="featured-meta">
               <span class="featured-rating" style="color:#3B82F6">★ 9</span>
-              <span class="featured-status status-ongoing">連載</span>
             </div>
           </div>
         </a><a href="book/silent-river" class="featured-card btn-press">
-          <div class="css-book-cover" style="--hue:64;--hue2:104;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(64,75%,60%),hsl(104,65%,35%))">
+          <div class="book-cover-wrapper">
+            <div class="css-book-cover" style="--hue:64;--hue2:104;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(64,75%,60%),hsl(104,65%,35%))">
     <div class="cover-decorations" style="background-image:linear-gradient(298deg,rgba(255,255,255,0.06),transparent) 60% 67% / 19% 19%,radial-gradient(circle,rgba(0,0,0,0.1) 0%,transparent 70%) 18% 17% / 29% 29%,linear-gradient(119deg,rgba(255,255,255,0.09),transparent) 31% 88% / 18% 18%,radial-gradient(circle,rgba(0,0,0,0.07) 0%,transparent 70%) 83% 22% / 42% 42%,linear-gradient(140deg,rgba(255,255,255,0.06),transparent) 66% 81% / 45% 45%,radial-gradient(circle,rgba(0,0,0,0.24) 0%,transparent 70%) 12% 21% / 47% 47%;background-repeat:no-repeat"></div>
     <div class="cover-content">
-      <span class="cover-tag">文學</span>
-      <h2 class="cover-title">沉默的河流</h2>
-      <p class="cover-author">江遠</p>
+      
+      
+    <h2 class="cover-title">沉默的河流</h2>
+    <p class="cover-author">江遠</p>
+  
     </div>
   </div>
+            <span class="status-badge status-done">完結</span>
+          </div>
           <div class="featured-info">
             <div class="featured-title">沉默的河流</div>
             <div class="featured-meta">
               <span class="featured-rating" style="color:#6B7280">★ 9</span>
-              <span class="featured-status status-done">完結</span>
             </div>
           </div>
         </a><a href="book/shadow-trace" class="featured-card btn-press">
-          <div class="css-book-cover" style="--hue:96;--hue2:136;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(96,75%,60%),hsl(136,65%,35%))">
+          <div class="book-cover-wrapper">
+            <div class="css-book-cover" style="--hue:96;--hue2:136;width:160px;height:240px;font-size:14px;background:linear-gradient(160deg,hsl(96,75%,60%),hsl(136,65%,35%))">
     <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.18) 0%,transparent 70%) 62% 37% / 37% 37%,radial-gradient(circle,rgba(0,0,0,0.21) 0%,transparent 70%) 27% 40% / 38% 38%,linear-gradient(122deg,rgba(255,255,255,0.24),transparent) 20% 71% / 31% 31%,radial-gradient(circle,rgba(255,255,255,0.14) 0%,transparent 70%) 38% 21% / 37% 37%,radial-gradient(circle,rgba(255,255,255,0.21) 0%,transparent 70%) 57% 44% / 38% 38%,radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%) 20% 55% / 47% 47%;background-repeat:no-repeat"></div>
     <div class="cover-content">
-      <span class="cover-tag">懸疑</span>
-      <h2 class="cover-title">暗影追蹤</h2>
-      <p class="cover-author">墨痕</p>
+      
+      
+    <h2 class="cover-title">暗影追蹤</h2>
+    <p class="cover-author">墨痕</p>
+  
     </div>
   </div>
+            <span class="status-badge status-done">完結</span>
+          </div>
           <div class="featured-info">
             <div class="featured-title">暗影追蹤</div>
             <div class="featured-meta">
               <span class="featured-rating" style="color:#2C3E50">★ 8.9</span>
-              <span class="featured-status status-done">完結</span>
             </div>
           </div>
         </a>
