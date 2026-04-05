@@ -213,6 +213,12 @@ function write(path, content) {
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="${SITE.name}">${SITE.name} - ${SITE.tagline}</h1>
     <section class="home-hero">
       <div class="hero-bg"></div>
+      <div class="hero-particles">
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+      </div>
       <div class="hero-content">
         <div class="hero-badge">📖 沉浸閱讀，從這裡開始</div>
         <div class="hero-stats">
@@ -283,6 +289,25 @@ function write(path, content) {
           </div>
           <div class="rank-score" style="color:${b.color}">${b.rating}</div>
         </a>`).join('')}
+      </div>
+    </section>
+    <div class="section-divider"></div>
+    <section class="home-section" aria-label="最新更新">
+      <div class="section-header">
+        <h2 class="section-title">✨ 最新更新</h2>
+      </div>
+      <div style="padding:0 var(--spacing-lg)">
+        ${BOOKS.filter(b=>b.status==='ongoing').slice(0,4).map(b=>{
+          const ch = b._chapters ? b._chapters[b._chapters.length-1] : null;
+          return `<a href="book/${b.id}/${ch?ch.id:''}" class="update-item btn-press" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border-light)">
+            <div style="width:40px;height:40px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;background:linear-gradient(135deg,${b.color},${b.color}cc)">${b.title.slice(0,1)}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600" class="truncate">${b.title}</div>
+              <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">${ch?ch.title:'新章節'} · ${b.updated}</div>
+            </div>
+            <span style="font-size:10px;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--accent-scifi);font-weight:600;flex-shrink:0">連載中</span>
+          </a>`;
+        }).join('')}
       </div>
     </section>
     <div class="section-divider"></div>

@@ -160,6 +160,10 @@ body::before {
   mix-blend-mode: overlay;
   pointer-events: none;
 }
+[data-theme="night"] body::before {
+  opacity: .015;
+  mix-blend-mode: soft-light;
+}
 a { text-decoration:none; color:inherit; }
 button { border:none; background:none; cursor:pointer; font-family:inherit; }
 input,select { font-family:inherit; }
@@ -271,6 +275,41 @@ button, a.btn-press, [role="button"] {
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-bg { animation: none; }
+}
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,.08);
+  border-radius: 50%;
+  animation: particle-float linear infinite;
+}
+.hero-particle:nth-child(1) { left:10%; top:20%; animation-duration:12s; animation-delay:0s; width:3px; height:3px; }
+.hero-particle:nth-child(2) { left:25%; top:60%; animation-duration:15s; animation-delay:2s; width:5px; height:5px; }
+.hero-particle:nth-child(3) { left:45%; top:30%; animation-duration:10s; animation-delay:4s; }
+.hero-particle:nth-child(4) { left:65%; top:70%; animation-duration:14s; animation-delay:1s; width:3px; height:3px; }
+.hero-particle:nth-child(5) { left:80%; top:40%; animation-duration:11s; animation-delay:3s; width:6px; height:6px; }
+.hero-particle:nth-child(6) { left:90%; top:15%; animation-duration:13s; animation-delay:5s; }
+.hero-particle:nth-child(7) { left:50%; top:85%; animation-duration:16s; animation-delay:2s; width:3px; height:3px; }
+.hero-particle:nth-child(8) { left:35%; top:45%; animation-duration:9s; animation-delay:6s; width:5px; height:5px; }
+@keyframes particle-float {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: .6; }
+  90% { opacity: .6; }
+  100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-particles, .hero-particle { display: none; }
+}
+@media (max-width: 768px) {
+  .hero-particles { display: none; }
 }
 .hero-content { position:relative; z-index:1; }
 .hero-badge {
@@ -1304,6 +1343,12 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="DeathNote">DeathNote - 沉浸閱讀，從這裡開始</h1>
     <section class="home-hero">
       <div class="hero-bg"></div>
+      <div class="hero-particles">
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+        <div class="hero-particle"></div><div class="hero-particle"></div>
+      </div>
       <div class="hero-content">
         <div class="hero-badge">📖 沉浸閱讀，從這裡開始</div>
         <div class="hero-stats">
@@ -1756,6 +1801,43 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
           </div>
           <div class="rank-score" style="color:#1F2937">8.1</div>
         </a>
+      </div>
+    </section>
+    <div class="section-divider"></div>
+    <section class="home-section" aria-label="最新更新">
+      <div class="section-header">
+        <h2 class="section-title">✨ 最新更新</h2>
+      </div>
+      <div style="padding:0 var(--spacing-lg)">
+        <a href="book/dragon-chronicles/ch-1" class="update-item btn-press" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border-light)">
+            <div style="width:40px;height:40px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;background:linear-gradient(135deg,#8B5CF6,#8B5CF6cc)">龍</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600" class="truncate">龍之紀元</div>
+              <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">第一章：最後的龍騎士 · 2026-03-28</div>
+            </div>
+            <span style="font-size:10px;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--accent-scifi);font-weight:600;flex-shrink:0">連載中</span>
+          </a><a href="book/spirit-blade/ch-1" class="update-item btn-press" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border-light)">
+            <div style="width:40px;height:40px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;background:linear-gradient(135deg,#8B5CF6,#8B5CF6cc)">靈</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600" class="truncate">靈劍山莊</div>
+              <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">第一章：廢墟中的少年 · 2026-04-02</div>
+            </div>
+            <span style="font-size:10px;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--accent-scifi);font-weight:600;flex-shrink:0">連載中</span>
+          </a><a href="book/quantum-dream/ch-1" class="update-item btn-press" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border-light)">
+            <div style="width:40px;height:40px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;background:linear-gradient(135deg,#3B82F6,#3B82F6cc)">量</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600" class="truncate">量子夢境</div>
+              <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">第一章：深夢計畫 · 2026-04-01</div>
+            </div>
+            <span style="font-size:10px;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--accent-scifi);font-weight:600;flex-shrink:0">連載中</span>
+          </a><a href="book/mars-chronicle/ch-1" class="update-item btn-press" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border-light)">
+            <div style="width:40px;height:40px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;background:linear-gradient(135deg,#3B82F6,#3B82F6cc)">火</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600" class="truncate">火星紀事</div>
+              <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">第一章：紅色星球 · 2026-03-30</div>
+            </div>
+            <span style="font-size:10px;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--accent-scifi);font-weight:600;flex-shrink:0">連載中</span>
+          </a>
       </div>
     </section>
     <div class="section-divider"></div>
