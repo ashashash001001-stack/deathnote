@@ -454,9 +454,6 @@ button, a.btn-press, [role="button"] {
 .css-book-cover {
   aspect-ratio: 2/3;
   border-radius: var(--radius-md);
-  background-color: hsl(var(--hue), 75%, 65%);
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
@@ -470,7 +467,7 @@ button, a.btn-press, [role="button"] {
   overflow: hidden;
   flex-shrink: 0;
 }
-.cover-bg-overlay {
+.cover-decorations {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1181,8 +1178,8 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#2C3E50" aria-hidden="true"></div>
       <div class="detail-hero-content">
-        <div class="css-book-cover" style="--hue:96;--hue2:136;width:112px;height:160px;font-size:18px;background-image:url('https://loremflickr.com/400/600/detective,rain,crime,investigation,暗影追蹤?lock=629068410')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(96,75%,65%,.55),hsla(136,65%,35%,.65))"></div>
+        <div class="css-book-cover" style="--hue:96;--hue2:136;width:112px;height:160px;font-size:18px;background:linear-gradient(160deg,hsl(96,75%,60%),hsl(136,65%,35%))">
+    <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.18) 0%,transparent 70%) 62% 37% / 37% 37%,radial-gradient(circle,rgba(0,0,0,0.21) 0%,transparent 70%) 27% 40% / 38% 38%,linear-gradient(122deg,rgba(255,255,255,0.24),transparent) 20% 71% / 31% 31%,radial-gradient(circle,rgba(255,255,255,0.14) 0%,transparent 70%) 38% 21% / 37% 37%,radial-gradient(circle,rgba(255,255,255,0.21) 0%,transparent 70%) 57% 44% / 38% 38%,radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%) 20% 55% / 47% 47%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
       <h2 class="cover-title">暗影追蹤</h2>

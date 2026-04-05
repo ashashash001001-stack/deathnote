@@ -454,9 +454,6 @@ button, a.btn-press, [role="button"] {
 .css-book-cover {
   aspect-ratio: 2/3;
   border-radius: var(--radius-md);
-  background-color: hsl(var(--hue), 75%, 65%);
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
@@ -470,7 +467,7 @@ button, a.btn-press, [role="button"] {
   overflow: hidden;
   flex-shrink: 0;
 }
-.cover-bg-overlay {
+.cover-decorations {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1181,8 +1178,8 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#3B82F6" aria-hidden="true"></div>
       <div class="detail-hero-content">
-        <div class="css-book-cover" style="--hue:270;--hue2:310;width:112px;height:160px;font-size:18px;background-image:url('https://loremflickr.com/400/600/mars,space,planet,red,火星紀事?lock=1893842461')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(270,75%,65%,.55),hsla(310,65%,35%,.65))"></div>
+        <div class="css-book-cover" style="--hue:270;--hue2:310;width:112px;height:160px;font-size:18px;background:linear-gradient(160deg,hsl(270,75%,60%),hsl(310,65%,35%))">
+    <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.05) 0%,transparent 70%) 65% 84% / 24% 24%,radial-gradient(circle,rgba(255,255,255,0.22) 0%,transparent 70%) 72% 47% / 47% 47%,linear-gradient(197deg,rgba(255,255,255,0.15),transparent) 49% 30% / 44% 44%,radial-gradient(circle,rgba(255,255,255,0.09) 0%,transparent 70%) 51% 80% / 22% 22%,radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%) 88% 15% / 39% 39%,radial-gradient(circle,rgba(255,255,255,0.15) 0%,transparent 70%) 49% 70% / 44% 44%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
       <h2 class="cover-title">火星紀事</h2>

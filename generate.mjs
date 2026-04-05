@@ -64,16 +64,30 @@ function bookCoverSeed(book) {
   }
   return Math.abs(hash);
 }
+function coverDecorations(seed) {
+  const shapes = [];
+  let s = seed;
+  const next = () => { s = (s * 1664525 + 1013904223) | 0; return Math.abs(s); };
+  for (let i = 0; i < 6; i++) {
+    const type = next() % 3;
+    const x = next() % 80 + 10;
+    const y = next() % 80 + 10;
+    const size = next() % 40 + 15;
+    const opacity = ((next() % 20) + 5) / 100;
+    if (type === 0) shapes.push(`radial-gradient(circle,rgba(255,255,255,${opacity}) 0%,transparent 70%) ${x}% ${y}% / ${size}% ${size}%`);
+    else if (type === 1) shapes.push(`linear-gradient(${next()%360}deg,rgba(255,255,255,${opacity}),transparent) ${x}% ${y}% / ${size}% ${size}%`);
+    else shapes.push(`radial-gradient(circle,rgba(0,0,0,${opacity}) 0%,transparent 70%) ${x}% ${y}% / ${size}% ${size}%`);
+  }
+  return shapes.join(',');
+}
 function coverHTML(book, w, h, fs, showTag) {
   const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
-  const baseKeywords = book.imageKeywords || 'book,reading';
-  const titleWords = book.title.replace(/[^\w\u4e00-\u9fff]/g, '').slice(0, 6);
-  const keywords = `${baseKeywords},${titleWords || book.id}`;
+  const decorations = coverDecorations(seed);
   const tag = showTag ? `<span class="cover-tag">${book.tags[0]||''}</span>` : '';
-  return `<div class="css-book-cover" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;font-size:${fs||16}px;background-image:url('https://loremflickr.com/400/600/${keywords}?lock=${seed}')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(${hue},75%,65%,.55),hsla(${hue2},65%,35%,.65))"></div>
+  return `<div class="css-book-cover" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;font-size:${fs||16}px;background:linear-gradient(160deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%))">
+    <div class="cover-decorations" style="background-image:${decorations};background-repeat:no-repeat"></div>
     <div class="cover-content">
       ${tag}
       <h2 class="cover-title">${book.title}</h2>
@@ -85,11 +99,9 @@ function coverMini(book, w, h) {
   const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
-  const baseKeywords = book.imageKeywords || 'book,reading';
-  const titleWords = book.title.replace(/[^\w\u4e00-\u9fff]/g, '').slice(0, 6);
-  const keywords = `${baseKeywords},${titleWords || book.id}`;
-  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;background-image:url('https://loremflickr.com/400/600/${keywords}?lock=${seed}')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(135deg,hsla(${hue},75%,65%,.5),hsla(${hue2},65%,35%,.55))"></div>
+  const decorations = coverDecorations(seed);
+  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;background:linear-gradient(135deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%))">
+    <div class="cover-decorations" style="background-image:${decorations};background-repeat:no-repeat"></div>
     <div class="cover-content"><h2 class="cover-title" style="font-size:14px">${book.title.slice(0,2)}</h2></div>
   </div>`;
 }

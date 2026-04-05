@@ -454,9 +454,6 @@ button, a.btn-press, [role="button"] {
 .css-book-cover {
   aspect-ratio: 2/3;
   border-radius: var(--radius-md);
-  background-color: hsl(var(--hue), 75%, 65%);
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
@@ -470,7 +467,7 @@ button, a.btn-press, [role="button"] {
   overflow: hidden;
   flex-shrink: 0;
 }
-.cover-bg-overlay {
+.cover-decorations {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1181,8 +1178,8 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#E88D9E" aria-hidden="true"></div>
       <div class="detail-hero-content">
-        <div class="css-book-cover" style="--hue:6;--hue2:46;width:112px;height:160px;font-size:18px;background-image:url('https://loremflickr.com/400/600/rain,umbrella,city,lonely,雨季不再來?lock=123953869')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(6,75%,65%,.55),hsla(46,65%,35%,.65))"></div>
+        <div class="css-book-cover" style="--hue:6;--hue2:46;width:112px;height:160px;font-size:18px;background:linear-gradient(160deg,hsl(6,75%,60%),hsl(46,65%,35%))">
+    <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(255,255,255,0.21) 0%,transparent 70%) 51% 20% / 16% 16%,radial-gradient(circle,rgba(0,0,0,0.06) 0%,transparent 70%) 24% 21% / 23% 23%,linear-gradient(3deg,rgba(255,255,255,0.19),transparent) 33% 38% / 44% 44%,linear-gradient(123deg,rgba(255,255,255,0.17),transparent) 35% 16% / 38% 38%,radial-gradient(circle,rgba(0,0,0,0.11) 0%,transparent 70%) 53% 10% / 24% 24%,radial-gradient(circle,rgba(0,0,0,0.16) 0%,transparent 70%) 62% 71% / 21% 21%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
       <h2 class="cover-title">雨季不再來</h2>

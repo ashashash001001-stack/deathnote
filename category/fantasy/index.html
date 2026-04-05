@@ -454,9 +454,6 @@ button, a.btn-press, [role="button"] {
 .css-book-cover {
   aspect-ratio: 2/3;
   border-radius: var(--radius-md);
-  background-color: hsl(var(--hue), 75%, 65%);
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
@@ -470,7 +467,7 @@ button, a.btn-press, [role="button"] {
   overflow: hidden;
   flex-shrink: 0;
 }
-.cover-bg-overlay {
+.cover-decorations {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1177,16 +1174,16 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <button class="btn-press" onclick="history.back()" aria-label="返回上一頁">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
     <h1>奇幻小說</h1></div></div>
-    <div class="cat-list"><a href="book/dragon-chronicles" class="cat-book card-hover btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:102;--hue2:142;width:80px;height:112px;background-image:url('https://loremflickr.com/400/600/dragon,fantasy,sword,fire,龍之紀元?lock=578305104')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(135deg,hsla(102,75%,65%,.5),hsla(142,65%,35%,.55))"></div>
+    <div class="cat-list"><a href="book/dragon-chronicles" class="cat-book card-hover btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:102;--hue2:142;width:80px;height:112px;background:linear-gradient(135deg,hsl(102,75%,60%),hsl(142,65%,35%))">
+    <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.18) 0%,transparent 70%) 24% 51% / 19% 19%,linear-gradient(17deg,rgba(255,255,255,0.15),transparent) 71% 50% / 32% 32%,linear-gradient(247deg,rgba(255,255,255,0.09),transparent) 53% 24% / 20% 20%,linear-gradient(101deg,rgba(255,255,255,0.15),transparent) 17% 22% / 28% 28%,radial-gradient(circle,rgba(255,255,255,0.09) 0%,transparent 70%) 81% 32% / 24% 24%,linear-gradient(126deg,rgba(255,255,255,0.1),transparent) 40% 15% / 39% 39%;background-repeat:no-repeat"></div>
     <div class="cover-content"><h2 class="cover-title" style="font-size:14px">龍之</h2></div>
   </div>
         <div class="cat-book-info"><div><div class="cat-book-title">龍之紀元</div>
         <div class="cat-book-author">蒼龍子</div>
         <div class="cat-book-tags"><span class="tag" style="background:color-mix(in srgb,#8B5CF6 12%,transparent);color:#8B5CF6">奇幻</span><span class="tag" style="background:color-mix(in srgb,#8B5CF6 12%,transparent);color:#8B5CF6">冒險</span></div></div>
         <div class="cat-book-meta"><span>295 字</span>
-        <span style="color:#8B5CF6;font-weight:700">9.4 分</span></div></div></a><a href="book/spirit-blade" class="cat-book card-hover btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:102;--hue2:142;width:80px;height:112px;background-image:url('https://loremflickr.com/400/600/sword,martial,temple,ancient,靈劍山莊?lock=617786015')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(135deg,hsla(102,75%,65%,.5),hsla(142,65%,35%,.55))"></div>
+        <span style="color:#8B5CF6;font-weight:700">9.4 分</span></div></div></a><a href="book/spirit-blade" class="cat-book card-hover btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:102;--hue2:142;width:80px;height:112px;background:linear-gradient(135deg,hsl(102,75%,60%),hsl(142,65%,35%))">
+    <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(0,0,0,0.07) 0%,transparent 70%) 81% 54% / 20% 20%,radial-gradient(circle,rgba(0,0,0,0.18) 0%,transparent 70%) 82% 65% / 53% 53%,radial-gradient(circle,rgba(255,255,255,0.21) 0%,transparent 70%) 37% 60% / 42% 42%,linear-gradient(130deg,rgba(255,255,255,0.18),transparent) 12% 19% / 51% 51%,radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%) 82% 33% / 25% 25%,radial-gradient(circle,rgba(0,0,0,0.17) 0%,transparent 70%) 15% 44% / 52% 52%;background-repeat:no-repeat"></div>
     <div class="cover-content"><h2 class="cover-title" style="font-size:14px">靈劍</h2></div>
   </div>
         <div class="cat-book-info"><div><div class="cat-book-title">靈劍山莊</div>

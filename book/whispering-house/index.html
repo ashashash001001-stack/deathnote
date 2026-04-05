@@ -454,9 +454,6 @@ button, a.btn-press, [role="button"] {
 .css-book-cover {
   aspect-ratio: 2/3;
   border-radius: var(--radius-md);
-  background-color: hsl(var(--hue), 75%, 65%);
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
@@ -470,7 +467,7 @@ button, a.btn-press, [role="button"] {
   overflow: hidden;
   flex-shrink: 0;
 }
-.cover-bg-overlay {
+.cover-decorations {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1181,8 +1178,8 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#1F2937" aria-hidden="true"></div>
       <div class="detail-hero-content">
-        <div class="css-book-cover" style="--hue:247;--hue2:287;width:112px;height:160px;font-size:18px;background-image:url('https://loremflickr.com/400/600/old,house,whisper,mountain,低語之屋?lock=1141821474')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(247,75%,65%,.55),hsla(287,65%,35%,.65))"></div>
+        <div class="css-book-cover" style="--hue:247;--hue2:287;width:112px;height:160px;font-size:18px;background:linear-gradient(160deg,hsl(247,75%,60%),hsl(287,65%,35%))">
+    <div class="cover-decorations" style="background-image:radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%) 30% 55% / 21% 21%,radial-gradient(circle,rgba(0,0,0,0.09) 0%,transparent 70%) 83% 32% / 22% 22%,radial-gradient(circle,rgba(255,255,255,0.22) 0%,transparent 70%) 76% 79% / 23% 23%,radial-gradient(circle,rgba(0,0,0,0.07) 0%,transparent 70%) 51% 46% / 42% 42%,radial-gradient(circle,rgba(255,255,255,0.18) 0%,transparent 70%) 82% 83% / 21% 21%,radial-gradient(circle,rgba(0,0,0,0.05) 0%,transparent 70%) 21% 72% / 34% 34%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
       <h2 class="cover-title">低語之屋</h2>

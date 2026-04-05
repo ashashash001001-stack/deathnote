@@ -454,9 +454,6 @@ button, a.btn-press, [role="button"] {
 .css-book-cover {
   aspect-ratio: 2/3;
   border-radius: var(--radius-md);
-  background-color: hsl(var(--hue), 75%, 65%);
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
@@ -470,7 +467,7 @@ button, a.btn-press, [role="button"] {
   overflow: hidden;
   flex-shrink: 0;
 }
-.cover-bg-overlay {
+.cover-decorations {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1181,8 +1178,8 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#E88D9E" aria-hidden="true"></div>
       <div class="detail-hero-content">
-        <div class="css-book-cover" style="--hue:6;--hue2:46;width:112px;height:160px;font-size:18px;background-image:url('https://loremflickr.com/400/600/cherry,blossom,sakura,japan,櫻花樹下的約?lock=715812355')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(6,75%,65%,.55),hsla(46,65%,35%,.65))"></div>
+        <div class="css-book-cover" style="--hue:6;--hue2:46;width:112px;height:160px;font-size:18px;background:linear-gradient(160deg,hsl(6,75%,60%),hsl(46,65%,35%))">
+    <div class="cover-decorations" style="background-image:linear-gradient(265deg,rgba(255,255,255,0.15),transparent) 71% 50% / 24% 24%,linear-gradient(129deg,rgba(255,255,255,0.09),transparent) 47% 40% / 52% 52%,radial-gradient(circle,rgba(0,0,0,0.15) 0%,transparent 70%) 65% 62% / 52% 52%,linear-gradient(204deg,rgba(255,255,255,0.12),transparent) 82% 67% / 33% 33%,radial-gradient(circle,rgba(0,0,0,0.22) 0%,transparent 70%) 56% 21% / 31% 31%,radial-gradient(circle,rgba(0,0,0,0.07) 0%,transparent 70%) 49% 46% / 18% 18%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
       <h2 class="cover-title">櫻花樹下的約定</h2>

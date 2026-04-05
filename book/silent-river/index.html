@@ -454,9 +454,6 @@ button, a.btn-press, [role="button"] {
 .css-book-cover {
   aspect-ratio: 2/3;
   border-radius: var(--radius-md);
-  background-color: hsl(var(--hue), 75%, 65%);
-  background-size: cover;
-  background-position: center;
   box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.12);
   display: flex;
   flex-direction: column;
@@ -470,7 +467,7 @@ button, a.btn-press, [role="button"] {
   overflow: hidden;
   flex-shrink: 0;
 }
-.cover-bg-overlay {
+.cover-decorations {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1181,8 +1178,8 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#6B7280" aria-hidden="true"></div>
       <div class="detail-hero-content">
-        <div class="css-book-cover" style="--hue:64;--hue2:104;width:112px;height:160px;font-size:18px;background-image:url('https://loremflickr.com/400/600/river,village,countryside,nature,沉默的河流?lock=48839504')">
-    <div class="cover-bg-overlay" style="background:linear-gradient(160deg,hsla(64,75%,65%,.55),hsla(104,65%,35%,.65))"></div>
+        <div class="css-book-cover" style="--hue:64;--hue2:104;width:112px;height:160px;font-size:18px;background:linear-gradient(160deg,hsl(64,75%,60%),hsl(104,65%,35%))">
+    <div class="cover-decorations" style="background-image:linear-gradient(298deg,rgba(255,255,255,0.06),transparent) 60% 67% / 19% 19%,radial-gradient(circle,rgba(0,0,0,0.1) 0%,transparent 70%) 18% 17% / 29% 29%,linear-gradient(119deg,rgba(255,255,255,0.09),transparent) 31% 88% / 18% 18%,radial-gradient(circle,rgba(0,0,0,0.07) 0%,transparent 70%) 83% 22% / 42% 42%,linear-gradient(140deg,rgba(255,255,255,0.06),transparent) 66% 81% / 45% 45%,radial-gradient(circle,rgba(0,0,0,0.24) 0%,transparent 70%) 12% 21% / 47% 47%;background-repeat:no-repeat"></div>
     <div class="cover-content">
       
       <h2 class="cover-title">沉默的河流</h2>
