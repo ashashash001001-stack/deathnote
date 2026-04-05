@@ -55,8 +55,22 @@ function loadBooks() {
 const BOOKS = loadBooks();
 const HOT_KEYWORDS = ['死亡筆記本','量子夢境','龍之紀元','懸疑小說','療癒系','科幻','完結推薦','新書上架'];
 
-function coverHTML(book, w, h, fs) {
-  return `<div style="width:${w}px;height:${h}px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:${fs||24}px;font-weight:700;background:linear-gradient(135deg,${book.color},${book.color}dd);aspect-ratio:3/4" role="img" aria-label="${book.title} 封面">${book.title.slice(0,2)}</div>`;
+function coverHTML(book, w, h, fs, showTag) {
+  const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
+  const tag = showTag ? `<span class="cover-tag">${book.tags[0]||''}</span>` : '';
+  return `<div class="css-book-cover" style="--hue:${hue};--hue2:${(hue+40)%360};width:${w}px;height:${h}px;font-size:${fs||16}px">
+    <div class="cover-content">
+      ${tag}
+      <h2 class="cover-title">${book.title}</h2>
+      <p class="cover-author">${book.author}</p>
+    </div>
+  </div>`;
+}
+function coverMini(book, w, h) {
+  const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
+  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${(hue+40)%360};width:${w}px;height:${h}px">
+    <div class="cover-content"><h2 class="cover-title" style="font-size:14px">${book.title.slice(0,2)}</h2></div>
+  </div>`;
 }
 function tagHTML(book) {
   return book.tags.slice(0,2).map(t => `<span class="tag" style="background:color-mix(in srgb,${book.color} 12%,transparent);color:${book.color}">${t}</span>`).join('');
@@ -183,10 +197,7 @@ function write(path, content) {
       </div>
       <div class="featured-scroll" role="list">
         ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="featured-card btn-press" role="listitem">
-          <div class="featured-cover" style="background:linear-gradient(160deg,${b.color},${b.color}cc)">
-            <div class="featured-cover-text">${b.title.slice(0,2)}</div>
-            <div class="featured-cover-overlay"></div>
-          </div>
+          ${coverHTML(b,160,240,14,true)}
           <div class="featured-info">
             <div class="featured-title">${b.title}</div>
             <div class="featured-meta">
@@ -209,7 +220,7 @@ function write(path, content) {
       <div id="rank-all" role="tabpanel" class="rank-list">
         ${all.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
           <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
-          <div class="rank-cover" style="background:linear-gradient(135deg,${b.color},${b.color}aa)">${b.title.slice(0,1)}</div>
+          ${coverMini(b,36,36)}
           <div class="rank-info">
             <div class="rank-title">${b.title}</div>
             <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
@@ -220,7 +231,7 @@ function write(path, content) {
       <div id="rank-new" class="hidden rank-list" role="tabpanel">
         ${newest.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
           <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
-          <div class="rank-cover" style="background:linear-gradient(135deg,${b.color},${b.color}aa)">${b.title.slice(0,1)}</div>
+          ${coverMini(b,36,36)}
           <div class="rank-info">
             <div class="rank-title">${b.title}</div>
             <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
@@ -231,7 +242,7 @@ function write(path, content) {
       <div id="rank-done" class="hidden rank-list" role="tabpanel">
         ${done.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
           <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
-          <div class="rank-cover" style="background:linear-gradient(135deg,${b.color},${b.color}aa)">${b.title.slice(0,1)}</div>
+          ${coverMini(b,36,36)}
           <div class="rank-info">
             <div class="rank-title">${b.title}</div>
             <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
@@ -295,7 +306,7 @@ function write(path, content) {
     var ql=q.toLowerCase();
     var results=booksData.filter(function(b){return b.title.toLowerCase().includes(ql)||b.author.toLowerCase().includes(ql)||b.tags.some(function(t){return t.toLowerCase().includes(ql)})});
     resDiv.innerHTML='<div class="result-count">找到 '+results.length+' 個結果</div>'+
-    results.map(function(b){return '<a href="book/'+b.id+'" class="result-item btn-press"><div style="width:48px;height:64px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;background:linear-gradient(135deg,'+b.color+','+b.color+'dd);aspect-ratio:3/4" role="img" aria-label="'+b.title+'封面">'+b.title.slice(0,2)+'</div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--color-text-tertiary);padding:32px 0">找不到相關結果</p>';
+    results.map(function(b){return '<a href="book/'+b.id+'" class="result-item btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:'+(b.color?parseInt(b.color.slice(1),16)%360:210)+';--hue2:'+(b.color?(parseInt(b.color.slice(1),16)%360+40)%360:250)+';width:48px;height:64px"><div class="cover-content"><h2 class="cover-title" style="font-size:12px">'+b.title.slice(0,2)+'</h2></div></div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--color-text-tertiary);padding:32px 0">找不到相關結果</p>';
   }
   <\/script>`;
 
@@ -307,7 +318,7 @@ CATEGORIES.forEach(cat => {
   const catBooks = BOOKS.filter(b => b.category === cat.id);
   const body = `<main class="page">${backHeader(cat.name+'小說')}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
-      `<a href="book/${b.id}" class="cat-book card-hover btn-press">${coverHTML(b,80,112,18)}
+      `<a href="book/${b.id}" class="cat-book card-hover btn-press">${coverMini(b,80,112)}
         <div class="cat-book-info"><div><div class="cat-book-title">${b.title}</div>
         <div class="cat-book-author">${b.author}</div>
         <div class="cat-book-tags">${tagHTML(b)}</div></div>
@@ -346,7 +357,7 @@ BOOKS.forEach(book => {
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:${book.color}" aria-hidden="true"></div>
       <div class="detail-hero-content">
-        ${coverHTML(book,112,160,24)}
+        ${coverHTML(book,112,160,18)}
         <div class="detail-info"><h2 class="detail-title">${book.title}</h2>
         <div class="detail-author">${book.author}</div>
         <div class="detail-tags">${tagHTML(book)}</div>
