@@ -437,13 +437,6 @@ button, a.btn-press, [role="button"] {
   display: block;
 }
 
-.book-cover-wrapper .cover-content {
-  height: auto;
-  min-height: 0;
-  padding: 8px;
-  box-sizing: border-box;
-}
-
 .book-cover-wrapper .css-book-cover::before {
   content: '';
   position: absolute;
@@ -741,6 +734,26 @@ button, a.btn-press, [role="button"] {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.book-cover-wrapper .cover-content {
+  justify-content: flex-start;
+  padding-top: 24px;
+  box-sizing: border-box;
+}
+
+.book-cover-wrapper .cover-synopsis {
+  font-size: 10px;
+  line-height: 1.35;
+  opacity: .85;
+  margin-top: 8px;
+  padding: 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0,0,0,.15);
+  color: rgba(255,255,255,.9);
+}
+
 .cover-author {
   font-size: .7em;
   opacity: .85;
@@ -749,6 +762,18 @@ button, a.btn-press, [role="button"] {
   left: 0;
   right: 0;
   text-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.cover-synopsis {
+  font-size: 11px;
+  line-height: 1.4;
+  opacity: .9;
+  margin-top: 4px;
+  padding: 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
 /* Mini cover variant (for ranking, category lists) */
@@ -1426,6 +1451,9 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-content">
       
       
+      
+    <p class="cover-synopsis">在龍與人類共存的艾瑟蘭大陸上，最後一位龍騎士的傳人發現了遠古龍族的秘密遺產。隨著黑暗勢力的甦醒，他必須踏上尋找五把元素聖...</p>
+  
     </div>
   </div>
             <span class="status-badge status-ongoing">連載</span>
@@ -1443,6 +1471,9 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-content">
       
       
+      
+    <p class="cover-synopsis">一個高中生偶然得到了一本死亡筆記本——只要知道對方的長相並寫下其姓名，就能讓對方死亡。面對這個超自然的力量，他決定用筆記...</p>
+  
     </div>
   </div>
             <span class="status-badge status-done">完結</span>
@@ -1460,6 +1491,9 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-content">
       
       
+      
+    <p class="cover-synopsis">靈劍山莊曾是天下武林的聖地，直到一場大火將一切化為灰燼。十年後，一個少年帶著一把生鏽的鐵劍回到這片廢墟。他不知道的是，那...</p>
+  
     </div>
   </div>
             <span class="status-badge status-ongoing">連載</span>
@@ -1477,6 +1511,9 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-content">
       
       
+      
+    <p class="cover-synopsis">2157年，人類終於破解了夢境的量子密碼。一家名為「深夢」的公司開發出能讓人共享夢境的技術，但當越來越多的人沉溺於完美夢...</p>
+  
     </div>
   </div>
             <span class="status-badge status-ongoing">連載</span>
@@ -1494,6 +1531,9 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-content">
       
       
+      
+    <p class="cover-synopsis">一條河流經三個世代，見證了一個家族的興衰。從日治時代的繁榮、戰後的動盪，到現代的沒落，河水始終沉默地流淌。透過三代人的視...</p>
+  
     </div>
   </div>
             <span class="status-badge status-done">完結</span>
@@ -1511,6 +1551,9 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     <div class="cover-content">
       
       
+      
+    <p class="cover-synopsis">資深刑警方遠在追查一連串離奇失蹤案時，發現所有線索都指向一座廢棄的精神病院。隨著調查深入，他開始懷疑自己記憶中的真相是否...</p>
+  
     </div>
   </div>
             <span class="status-badge status-done">完結</span>
