@@ -289,7 +289,7 @@ BOOKS.forEach(book => {
       <div class="detail-hero-bg" style="background:linear-gradient(135deg,${book.color},${book.color}dd)" aria-hidden="true"></div>
       <div class="detail-hero-content">
         ${coverHTML(book,112,160,24)}
-        <div class="detail-info"><h1 class="detail-title">${book.title}</h1>
+        <div class="detail-info"><h2 class="detail-title">${book.title}</h2>
         <div class="detail-author">${book.author}</div>
         <div class="detail-tags">${tagHTML(book)}</div>
         <div class="detail-meta"><span>${book.words.toLocaleString()} 字</span><span>${book.chapters} 章</span>
@@ -406,7 +406,7 @@ BOOKS.forEach(book => {
     function setTTSRate(v){document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';if(ttsUtterance){ttsUtterance.rate=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
     function setTTSPitch(v){document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);if(ttsUtterance){ttsUtterance.pitch=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
     (function(){try{var p=JSON.parse(localStorage.getItem('dn_progress')||'{}');var k='${book.id}';if(p[k]&&p[k].chapter==='${ch.id}'&&p[k].scroll){setTimeout(function(){window.scrollTo(0,p[k].scroll)},100)}var theme=localStorage.getItem('dn_theme');if(theme)setTheme(theme);var fs=localStorage.getItem('dn_fontsize');if(fs){document.getElementById('reader-content').style.fontSize=fs+'px';var fv=document.getElementById('font-size-val');if(fv)fv.textContent=fs+'px';var fr=document.getElementById('font-size-range');if(fr)fr.value=fs}var font=localStorage.getItem('dn_font');if(font)setFont(font)}catch(e){}})();
-    var _st=null;window.addEventListener('scroll',function(){var pb=document.getElementById('reader-progress-bar');if(pb){var h=document.documentElement.scrollHeight-window.innerHeight;pb.style.style=h>0?Math.min(window.scrollY/h*100,100)+'%':'0%'}if(_st)clearTimeout(_st);_st=setTimeout(function(){try{var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');d['${book.id}']={chapter:'${ch.id}',scroll:window.scrollY,time:Date.now()};localStorage.setItem('dn_progress',JSON.stringify(d))}catch(e){}},500)});
+    var _st=null;window.addEventListener('scroll',function(){var pb=document.getElementById('reader-progress-bar');if(pb){var h=document.documentElement.scrollHeight-window.innerHeight;pb.style.width=h>0?Math.min(window.scrollY/h*100,100)+'%':'0%'}if(_st)clearTimeout(_st);_st=setTimeout(function(){try{var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');d['${book.id}']={chapter:'${ch.id}',scroll:window.scrollY,time:Date.now()};localStorage.setItem('dn_progress',JSON.stringify(d))}catch(e){}},500)});
     <\/script>`;
 
     write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`));
