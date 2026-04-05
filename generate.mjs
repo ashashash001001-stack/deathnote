@@ -177,6 +177,11 @@ function write(path, content) {
         ${BOOKS.map(b=>`<a href="book/${b.id}" class="book-card card-hover btn-press" role="listitem">${coverHTML(b,144,192,32)}<h3 class="truncate">${b.title}</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:${b.color}">${b.rating}</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a>`).join('')}
       </div>
     </section>
+    <section style="padding:var(--spacing-lg)" aria-label="載入中" class="skeleton-card">
+      <div class="skeleton skeleton-cover"></div>
+      <div class="skeleton skeleton-text w-75"></div>
+      <div class="skeleton skeleton-text w-50"></div>
+    </section>
     ${adHTML()}
     <section style="padding-bottom:var(--spacing-md)" aria-label="排行榜">
       <h2 class="section-title">排行榜</h2>
@@ -288,7 +293,7 @@ BOOKS.forEach(book => {
   const body = `<main class="page">${backHeader(book.title)}
     ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:cat?cat.name:'分類',url:`category/${book.category}`},{label:book.title}])}
     <div class="detail-hero">
-      <div class="detail-hero-bg" style="background:linear-gradient(135deg,${book.color},${book.color}dd)" aria-hidden="true"></div>
+      <div class="detail-hero-bg" style="background:${book.color}" aria-hidden="true"></div>
       <div class="detail-hero-content">
         ${coverHTML(book,112,160,24)}
         <div class="detail-info"><h2 class="detail-title">${book.title}</h2>
