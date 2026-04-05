@@ -220,22 +220,264 @@ button, a.btn-press, [role="button"] {
 .logo-text { font-size:var(--font-size-lg); font-weight:700; }
 
 /* ============================================
-   STATS
+   HOMEPAGE - Modern App Design
    ============================================ */
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: var(--spacing-lg);
-  max-width: 480px;
-  margin: 0 auto;
-  text-align: center;
+.home-page { padding-top:48px; }
+
+/* Hero Section */
+.home-hero {
+  position: relative;
+  margin: 0 var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  padding: 24px 20px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, #1A1A2E 0%, #2C3E50 50%, #3B82F6 100%);
 }
-.stat-val { font-size:var(--font-size-2xl); font-weight:700; }
-.stat-label { font-size:var(--font-size-sm); color:var(--color-text-secondary); margin-top:var(--spacing-xs); }
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(59,130,246,.15) 0%, transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(139,92,246,.1) 0%, transparent 50%);
+}
+.hero-content { position:relative; z-index:1; }
+.hero-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,.1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: rgba(255,255,255,.9);
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero-stat { text-align:center; flex:1; }
+.hero-stat-num {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.hero-stat-label {
+  display: block;
+  font-size: 11px;
+  color: rgba(255,255,255,.6);
+  margin-top: 2px;
+}
+.hero-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255,255,255,.15);
+}
+
+/* Section Layout */
+.home-section {
+  padding: 24px 0 0;
+}
+.home-section-last {
+  padding-bottom: 80px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+  padding: 0;
+}
+
+/* Featured Cards - Horizontal Scroll */
+.featured-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 50px);
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.featured-scroll::-webkit-scrollbar { display:none; }
+.featured-card {
+  flex-shrink: 0;
+  width: 160px;
+  scroll-snap-align: start;
+}
+.featured-cover {
+  width: 160px;
+  height: 100px;
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.featured-cover-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 800;
+  color: rgba(255,255,255,.9);
+  z-index: 1;
+}
+.featured-cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.3) 0%, transparent 60%);
+}
+.featured-info { padding: 8px 2px 0; }
+.featured-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--color-text-primary);
+}
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.featured-rating {
+  font-size: 12px;
+  font-weight: 700;
+}
+.featured-status {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+.status-done { background:rgba(163,177,138,.2); color:var(--accent-healing); }
+.status-ongoing { background:rgba(59,130,246,.15); color:var(--accent-scifi); }
+
+/* Ranking List */
+.rank-list { padding: 0; }
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.rank-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: var(--color-border-light);
+  color: var(--color-text-tertiary);
+}
+.rank-num.rank-top {
+  background: linear-gradient(135deg, #FF6B35, #FF8F65);
+  color: #fff;
+}
+.rank-cover {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.9);
+  font-size: 14px;
+  font-weight: 700;
+}
+.rank-info { flex:1; min-width:0; }
+.rank-title {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rank-sub {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
+.rank-score {
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Bento Grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 72px;
+  gap: 10px;
+  padding: 0 var(--spacing-lg);
+}
+.bento-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  position: relative;
+  overflow: hidden;
+}
+.bento-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--cat-color);
+  opacity: .7;
+}
+.bento-item:active {
+  transform: scale(0.95);
+  box-shadow: var(--shadow-card-hover);
+}
+.bento-lg {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.bento-lg .bento-icon { font-size: 32px; }
+.bento-lg .bento-name { font-size: 14px; font-weight: 600; }
+.bento-md {
+  grid-column: span 2;
+}
+.bento-icon { font-size: 22px; }
+.bento-name { font-size: 11px; color: var(--color-text-secondary); }
 
 /* ============================================
-   FEATURED - Peeking Cards
+   FEATURED - Peeking Cards (legacy)
    ============================================ */
 
 .swipe-row {
@@ -883,46 +1125,382 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
       </button>
     </div>
   </header>
-  <main class="page" style="padding-top:56px">
+  <main class="page home-page">
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="DeathNote">DeathNote - 沉浸閱讀，從這裡開始</h1>
-    <section style="padding:16px 16px 8px" aria-label="網站統計">
-      <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none">
-        <div style="flex:1;min-width:0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-suspense),#3d566e);color:#fff;text-align:center">
-          <div style="font-size:22px;font-weight:800">16</div>
-          <div style="font-size:11px;opacity:.85;margin-top:2px">收錄作品</div>
-        </div>
-        <div style="flex:1;min-width:0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-healing),#8a9e72);color:#fff;text-align:center">
-          <div style="font-size:22px;font-weight:800">1萬</div>
-          <div style="font-size:11px;opacity:.85;margin-top:2px">總字數</div>
-        </div>
-        <div style="flex:1;min-width:0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-scifi),#2563eb);color:#fff;text-align:center">
-          <div style="font-size:22px;font-weight:800">19</div>
-          <div style="font-size:11px;opacity:.85;margin-top:2px">章節總數</div>
+    <section class="home-hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-badge">📖 沉浸閱讀，從這裡開始</div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="hero-stat-num">16</span><span class="hero-stat-label">作品</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="hero-stat-num">1萬</span><span class="hero-stat-label">字數</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="hero-stat-num">19</span><span class="hero-stat-label">章節</span></div>
         </div>
       </div>
     </section>
-    <section style="padding:16px 0 8px" aria-label="熱門精選">
-      <h2 class="section-title">熱門精選</h2>
-      <div class="swipe-row" role="list">
-        <a href="book/dragon-chronicles" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#8B5CF6,#8B5CF6dd);aspect-ratio:3/4" role="img" aria-label="龍之紀元 封面">龍之</div><h3 class="truncate">龍之紀元</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#8B5CF6">9.4</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a><a href="book/death-note" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#2C3E50,#2C3E50dd);aspect-ratio:3/4" role="img" aria-label="死亡筆記本 封面">死亡</div><h3 class="truncate">死亡筆記本</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#2C3E50">9.2</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a><a href="book/spirit-blade" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#8B5CF6,#8B5CF6dd);aspect-ratio:3/4" role="img" aria-label="靈劍山莊 封面">靈劍</div><h3 class="truncate">靈劍山莊</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#8B5CF6">9.1</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a><a href="book/quantum-dream" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#3B82F6,#3B82F6dd);aspect-ratio:3/4" role="img" aria-label="量子夢境 封面">量子</div><h3 class="truncate">量子夢境</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#3B82F6">9</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a><a href="book/silent-river" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#6B7280,#6B7280dd);aspect-ratio:3/4" role="img" aria-label="沉默的河流 封面">沉默</div><h3 class="truncate">沉默的河流</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#6B7280">9</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a><a href="book/shadow-trace" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#2C3E50,#2C3E50dd);aspect-ratio:3/4" role="img" aria-label="暗影追蹤 封面">暗影</div><h3 class="truncate">暗影追蹤</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#2C3E50">8.9</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a><a href="book/midnight-library" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#A3B18A,#A3B18Add);aspect-ratio:3/4" role="img" aria-label="午夜圖書館 封面">午夜</div><h3 class="truncate">午夜圖書館</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#A3B18A">8.8</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a><a href="book/city-lights" class="book-card card-hover btn-press" role="listitem"><div style="width:130px;height:173px;border-radius:var(--radius-md);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;background:linear-gradient(135deg,#6B7280,#6B7280dd);aspect-ratio:3/4" role="img" aria-label="城市微光 封面">城市</div><h3 class="truncate">城市微光</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:#6B7280">8.8</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a>
+    <section class="home-section" aria-label="熱門精選">
+      <div class="section-header">
+        <h2 class="section-title">🔥 熱門精選</h2>
+      </div>
+      <div class="featured-scroll" role="list">
+        <a href="book/dragon-chronicles" class="featured-card btn-press" role="listitem">
+          <div class="featured-cover" style="background:linear-gradient(160deg,#8B5CF6,#8B5CF6cc)">
+            <div class="featured-cover-text">龍之</div>
+            <div class="featured-cover-overlay"></div>
+          </div>
+          <div class="featured-info">
+            <div class="featured-title">龍之紀元</div>
+            <div class="featured-meta">
+              <span class="featured-rating" style="color:#8B5CF6">★ 9.4</span>
+              <span class="featured-status status-ongoing">連載</span>
+            </div>
+          </div>
+        </a><a href="book/death-note" class="featured-card btn-press" role="listitem">
+          <div class="featured-cover" style="background:linear-gradient(160deg,#2C3E50,#2C3E50cc)">
+            <div class="featured-cover-text">死亡</div>
+            <div class="featured-cover-overlay"></div>
+          </div>
+          <div class="featured-info">
+            <div class="featured-title">死亡筆記本</div>
+            <div class="featured-meta">
+              <span class="featured-rating" style="color:#2C3E50">★ 9.2</span>
+              <span class="featured-status status-done">完結</span>
+            </div>
+          </div>
+        </a><a href="book/spirit-blade" class="featured-card btn-press" role="listitem">
+          <div class="featured-cover" style="background:linear-gradient(160deg,#8B5CF6,#8B5CF6cc)">
+            <div class="featured-cover-text">靈劍</div>
+            <div class="featured-cover-overlay"></div>
+          </div>
+          <div class="featured-info">
+            <div class="featured-title">靈劍山莊</div>
+            <div class="featured-meta">
+              <span class="featured-rating" style="color:#8B5CF6">★ 9.1</span>
+              <span class="featured-status status-ongoing">連載</span>
+            </div>
+          </div>
+        </a><a href="book/quantum-dream" class="featured-card btn-press" role="listitem">
+          <div class="featured-cover" style="background:linear-gradient(160deg,#3B82F6,#3B82F6cc)">
+            <div class="featured-cover-text">量子</div>
+            <div class="featured-cover-overlay"></div>
+          </div>
+          <div class="featured-info">
+            <div class="featured-title">量子夢境</div>
+            <div class="featured-meta">
+              <span class="featured-rating" style="color:#3B82F6">★ 9</span>
+              <span class="featured-status status-ongoing">連載</span>
+            </div>
+          </div>
+        </a><a href="book/silent-river" class="featured-card btn-press" role="listitem">
+          <div class="featured-cover" style="background:linear-gradient(160deg,#6B7280,#6B7280cc)">
+            <div class="featured-cover-text">沉默</div>
+            <div class="featured-cover-overlay"></div>
+          </div>
+          <div class="featured-info">
+            <div class="featured-title">沉默的河流</div>
+            <div class="featured-meta">
+              <span class="featured-rating" style="color:#6B7280">★ 9</span>
+              <span class="featured-status status-done">完結</span>
+            </div>
+          </div>
+        </a><a href="book/shadow-trace" class="featured-card btn-press" role="listitem">
+          <div class="featured-cover" style="background:linear-gradient(160deg,#2C3E50,#2C3E50cc)">
+            <div class="featured-cover-text">暗影</div>
+            <div class="featured-cover-overlay"></div>
+          </div>
+          <div class="featured-info">
+            <div class="featured-title">暗影追蹤</div>
+            <div class="featured-meta">
+              <span class="featured-rating" style="color:#2C3E50">★ 8.9</span>
+              <span class="featured-status status-done">完結</span>
+            </div>
+          </div>
+        </a>
       </div>
     </section>
-    
-    <section style="padding:8px 0" aria-label="排行榜">
-      <h2 class="section-title">排行榜</h2>
+    <section class="home-section" aria-label="排行榜">
+      <div class="section-header">
+        <h2 class="section-title">🏆 排行榜</h2>
+      </div>
       <div class="rank-tabs" role="tablist">
-        <button class="rank-tab active" data-tab="all" onclick="switchRank('all')" role="tab" aria-selected="true" aria-label="總榜">總榜</button>
-        <button class="rank-tab" data-tab="new" onclick="switchRank('new')" role="tab" aria-selected="false" aria-label="新書">新書</button>
-        <button class="rank-tab" data-tab="done" onclick="switchRank('done')" role="tab" aria-selected="false" aria-label="完結">完結</button>
+        <button class="rank-tab active" data-tab="all" onclick="switchRank('all')" role="tab" aria-selected="true">總榜</button>
+        <button class="rank-tab" data-tab="new" onclick="switchRank('new')" role="tab" aria-selected="false">新書</button>
+        <button class="rank-tab" data-tab="done" onclick="switchRank('done')" role="tab" aria-selected="false">完結</button>
       </div>
-      <div id="rank-all" role="tabpanel"><a href="book/dragon-chronicles" class="rank-item btn-press"><span class="rank-badge rank-1" aria-label="第1名">1</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">龍之紀元</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">蒼龍子 · 奇幻 · 冒險</div></div><span style="font-size:12px;font-weight:700;color:#8B5CF6">9.4</span></a><a href="book/death-note" class="rank-item btn-press"><span class="rank-badge rank-2" aria-label="第2名">2</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">死亡筆記本</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">夜神月 · 懸疑 · 心理</div></div><span style="font-size:12px;font-weight:700;color:#2C3E50">9.2</span></a><a href="book/spirit-blade" class="rank-item btn-press"><span class="rank-badge rank-3" aria-label="第3名">3</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">靈劍山莊</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">劍無名 · 奇幻 · 武俠</div></div><span style="font-size:12px;font-weight:700;color:#8B5CF6">9.1</span></a><a href="book/quantum-dream" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第4名">4</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">量子夢境</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">陳星河 · 科幻 · 量子</div></div><span style="font-size:12px;font-weight:700;color:#3B82F6">9</span></a><a href="book/silent-river" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第5名">5</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">沉默的河流</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">江遠 · 文學 · 鄉土</div></div><span style="font-size:12px;font-weight:700;color:#6B7280">9</span></a><a href="book/shadow-trace" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第6名">6</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">暗影追蹤</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">墨痕 · 懸疑 · 推理</div></div><span style="font-size:12px;font-weight:700;color:#2C3E50">8.9</span></a><a href="book/midnight-library" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第7名">7</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">午夜圖書館</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">林深夜 · 療癒 · 奇幻</div></div><span style="font-size:12px;font-weight:700;color:#A3B18A">8.8</span></a><a href="book/city-lights" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第8名">8</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">城市微光</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">陳以文 · 文學 · 都市</div></div><span style="font-size:12px;font-weight:700;color:#6B7280">8.8</span></a><a href="book/mars-chronicle" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第9名">9</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">火星紀事</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">陸星航 · 科幻 · 太空</div></div><span style="font-size:12px;font-weight:700;color:#3B82F6">8.7</span></a><a href="book/office-survival" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第10名">10</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">社畜求生記</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">加班王 · 喜劇 · 職場</div></div><span style="font-size:12px;font-weight:700;color:#F59E0B">8.7</span></a><a href="book/slow-days" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第11名">11</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">慢時光咖啡館</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">溫小禾 · 療癒 · 日常</div></div><span style="font-size:12px;font-weight:700;color:#A3B18A">8.6</span></a><a href="book/cherry-blossom" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第12名">12</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">櫻花樹下的約定</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">花見小路 · 言情 · 青春</div></div><span style="font-size:12px;font-weight:700;color:#E88D9E">8.5</span></a><a href="book/rainy-season" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第13名">13</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">雨季不再來</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">蘇雨晴 · 言情 · 都市</div></div><span style="font-size:12px;font-weight:700;color:#E88D9E">8.4</span></a><a href="book/roommate-chaos" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第14名">14</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">室友是奇葩</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">笑看人生 · 喜劇 · 生活</div></div><span style="font-size:12px;font-weight:700;color:#F59E0B">8.3</span></a><a href="book/whispering-house" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第15名">15</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">低語之屋</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">幽冥散人 · 恐怖 · 靈異</div></div><span style="font-size:12px;font-weight:700;color:#1F2937">8.3</span></a><a href="book/midnight-bus" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第16名">16</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">末班公車</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">鬼谷子 · 恐怖 · 都市傳說</div></div><span style="font-size:12px;font-weight:700;color:#1F2937">8.1</span></a></div>
-      <div id="rank-new" class="hidden" role="tabpanel"><a href="book/roommate-chaos" class="rank-item btn-press"><span class="rank-badge rank-1" aria-label="第1名">1</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">室友是奇葩</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">笑看人生 · 喜劇 · 生活</div></div><span style="font-size:12px;font-weight:700;color:#F59E0B">8.3</span></a><a href="book/midnight-bus" class="rank-item btn-press"><span class="rank-badge rank-2" aria-label="第2名">2</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">末班公車</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">鬼谷子 · 恐怖 · 都市傳說</div></div><span style="font-size:12px;font-weight:700;color:#1F2937">8.1</span></a><a href="book/mars-chronicle" class="rank-item btn-press"><span class="rank-badge rank-3" aria-label="第3名">3</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">火星紀事</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">陸星航 · 科幻 · 太空</div></div><span style="font-size:12px;font-weight:700;color:#3B82F6">8.7</span></a><a href="book/office-survival" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第4名">4</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">社畜求生記</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">加班王 · 喜劇 · 職場</div></div><span style="font-size:12px;font-weight:700;color:#F59E0B">8.7</span></a><a href="book/slow-days" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第5名">5</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">慢時光咖啡館</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">溫小禾 · 療癒 · 日常</div></div><span style="font-size:12px;font-weight:700;color:#A3B18A">8.6</span></a><a href="book/rainy-season" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第6名">6</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">雨季不再來</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">蘇雨晴 · 言情 · 都市</div></div><span style="font-size:12px;font-weight:700;color:#E88D9E">8.4</span></a><a href="book/city-lights" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第7名">7</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">城市微光</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">陳以文 · 文學 · 都市</div></div><span style="font-size:12px;font-weight:700;color:#6B7280">8.8</span></a><a href="book/whispering-house" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第8名">8</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">低語之屋</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">幽冥散人 · 恐怖 · 靈異</div></div><span style="font-size:12px;font-weight:700;color:#1F2937">8.3</span></a><a href="book/shadow-trace" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第9名">9</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">暗影追蹤</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">墨痕 · 懸疑 · 推理</div></div><span style="font-size:12px;font-weight:700;color:#2C3E50">8.9</span></a><a href="book/quantum-dream" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第10名">10</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">量子夢境</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">陳星河 · 科幻 · 量子</div></div><span style="font-size:12px;font-weight:700;color:#3B82F6">9</span></a><a href="book/spirit-blade" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第11名">11</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">靈劍山莊</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">劍無名 · 奇幻 · 武俠</div></div><span style="font-size:12px;font-weight:700;color:#8B5CF6">9.1</span></a><a href="book/midnight-library" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第12名">12</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">午夜圖書館</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">林深夜 · 療癒 · 奇幻</div></div><span style="font-size:12px;font-weight:700;color:#A3B18A">8.8</span></a><a href="book/cherry-blossom" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第13名">13</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">櫻花樹下的約定</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">花見小路 · 言情 · 青春</div></div><span style="font-size:12px;font-weight:700;color:#E88D9E">8.5</span></a><a href="book/death-note" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第14名">14</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">死亡筆記本</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">夜神月 · 懸疑 · 心理</div></div><span style="font-size:12px;font-weight:700;color:#2C3E50">9.2</span></a><a href="book/silent-river" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第15名">15</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">沉默的河流</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">江遠 · 文學 · 鄉土</div></div><span style="font-size:12px;font-weight:700;color:#6B7280">9</span></a><a href="book/dragon-chronicles" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第16名">16</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">龍之紀元</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">蒼龍子 · 奇幻 · 冒險</div></div><span style="font-size:12px;font-weight:700;color:#8B5CF6">9.4</span></a></div>
-      <div id="rank-done" class="hidden" role="tabpanel"><a href="book/death-note" class="rank-item btn-press"><span class="rank-badge rank-1" aria-label="第1名">1</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">死亡筆記本</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">夜神月 · 懸疑 · 心理</div></div><span style="font-size:12px;font-weight:700;color:#2C3E50">9.2</span></a><a href="book/silent-river" class="rank-item btn-press"><span class="rank-badge rank-2" aria-label="第2名">2</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">沉默的河流</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">江遠 · 文學 · 鄉土</div></div><span style="font-size:12px;font-weight:700;color:#6B7280">9</span></a><a href="book/shadow-trace" class="rank-item btn-press"><span class="rank-badge rank-3" aria-label="第3名">3</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">暗影追蹤</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">墨痕 · 懸疑 · 推理</div></div><span style="font-size:12px;font-weight:700;color:#2C3E50">8.9</span></a><a href="book/midnight-library" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第4名">4</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">午夜圖書館</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">林深夜 · 療癒 · 奇幻</div></div><span style="font-size:12px;font-weight:700;color:#A3B18A">8.8</span></a><a href="book/city-lights" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第5名">5</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">城市微光</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">陳以文 · 文學 · 都市</div></div><span style="font-size:12px;font-weight:700;color:#6B7280">8.8</span></a><a href="book/cherry-blossom" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第6名">6</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">櫻花樹下的約定</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">花見小路 · 言情 · 青春</div></div><span style="font-size:12px;font-weight:700;color:#E88D9E">8.5</span></a><a href="book/rainy-season" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第7名">7</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">雨季不再來</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">蘇雨晴 · 言情 · 都市</div></div><span style="font-size:12px;font-weight:700;color:#E88D9E">8.4</span></a><a href="book/whispering-house" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第8名">8</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">低語之屋</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">幽冥散人 · 恐怖 · 靈異</div></div><span style="font-size:12px;font-weight:700;color:#1F2937">8.3</span></a><a href="book/midnight-bus" class="rank-item btn-press"><span class="rank-badge rank-other" aria-label="第9名">9</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">末班公車</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">鬼谷子 · 恐怖 · 都市傳說</div></div><span style="font-size:12px;font-weight:700;color:#1F2937">8.1</span></a></div>
+      <div id="rank-all" role="tabpanel" class="rank-list">
+        <a href="book/dragon-chronicles" class="rank-item btn-press">
+          <span class="rank-num rank-top">1</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#8B5CF6,#8B5CF6aa)">龍</div>
+          <div class="rank-info">
+            <div class="rank-title">龍之紀元</div>
+            <div class="rank-sub">蒼龍子 · 奇幻</div>
+          </div>
+          <div class="rank-score" style="color:#8B5CF6">9.4</div>
+        </a><a href="book/death-note" class="rank-item btn-press">
+          <span class="rank-num rank-top">2</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#2C3E50,#2C3E50aa)">死</div>
+          <div class="rank-info">
+            <div class="rank-title">死亡筆記本</div>
+            <div class="rank-sub">夜神月 · 懸疑</div>
+          </div>
+          <div class="rank-score" style="color:#2C3E50">9.2</div>
+        </a><a href="book/spirit-blade" class="rank-item btn-press">
+          <span class="rank-num rank-top">3</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#8B5CF6,#8B5CF6aa)">靈</div>
+          <div class="rank-info">
+            <div class="rank-title">靈劍山莊</div>
+            <div class="rank-sub">劍無名 · 奇幻</div>
+          </div>
+          <div class="rank-score" style="color:#8B5CF6">9.1</div>
+        </a><a href="book/quantum-dream" class="rank-item btn-press">
+          <span class="rank-num ">4</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#3B82F6,#3B82F6aa)">量</div>
+          <div class="rank-info">
+            <div class="rank-title">量子夢境</div>
+            <div class="rank-sub">陳星河 · 科幻</div>
+          </div>
+          <div class="rank-score" style="color:#3B82F6">9</div>
+        </a><a href="book/silent-river" class="rank-item btn-press">
+          <span class="rank-num ">5</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#6B7280,#6B7280aa)">沉</div>
+          <div class="rank-info">
+            <div class="rank-title">沉默的河流</div>
+            <div class="rank-sub">江遠 · 文學</div>
+          </div>
+          <div class="rank-score" style="color:#6B7280">9</div>
+        </a><a href="book/shadow-trace" class="rank-item btn-press">
+          <span class="rank-num ">6</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#2C3E50,#2C3E50aa)">暗</div>
+          <div class="rank-info">
+            <div class="rank-title">暗影追蹤</div>
+            <div class="rank-sub">墨痕 · 懸疑</div>
+          </div>
+          <div class="rank-score" style="color:#2C3E50">8.9</div>
+        </a><a href="book/midnight-library" class="rank-item btn-press">
+          <span class="rank-num ">7</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#A3B18A,#A3B18Aaa)">午</div>
+          <div class="rank-info">
+            <div class="rank-title">午夜圖書館</div>
+            <div class="rank-sub">林深夜 · 療癒</div>
+          </div>
+          <div class="rank-score" style="color:#A3B18A">8.8</div>
+        </a><a href="book/city-lights" class="rank-item btn-press">
+          <span class="rank-num ">8</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#6B7280,#6B7280aa)">城</div>
+          <div class="rank-info">
+            <div class="rank-title">城市微光</div>
+            <div class="rank-sub">陳以文 · 文學</div>
+          </div>
+          <div class="rank-score" style="color:#6B7280">8.8</div>
+        </a><a href="book/mars-chronicle" class="rank-item btn-press">
+          <span class="rank-num ">9</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#3B82F6,#3B82F6aa)">火</div>
+          <div class="rank-info">
+            <div class="rank-title">火星紀事</div>
+            <div class="rank-sub">陸星航 · 科幻</div>
+          </div>
+          <div class="rank-score" style="color:#3B82F6">8.7</div>
+        </a><a href="book/office-survival" class="rank-item btn-press">
+          <span class="rank-num ">10</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#F59E0B,#F59E0Baa)">社</div>
+          <div class="rank-info">
+            <div class="rank-title">社畜求生記</div>
+            <div class="rank-sub">加班王 · 喜劇</div>
+          </div>
+          <div class="rank-score" style="color:#F59E0B">8.7</div>
+        </a>
+      </div>
+      <div id="rank-new" class="hidden rank-list" role="tabpanel">
+        <a href="book/roommate-chaos" class="rank-item btn-press">
+          <span class="rank-num rank-top">1</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#F59E0B,#F59E0Baa)">室</div>
+          <div class="rank-info">
+            <div class="rank-title">室友是奇葩</div>
+            <div class="rank-sub">笑看人生 · 喜劇</div>
+          </div>
+          <div class="rank-score" style="color:#F59E0B">8.3</div>
+        </a><a href="book/midnight-bus" class="rank-item btn-press">
+          <span class="rank-num rank-top">2</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#1F2937,#1F2937aa)">末</div>
+          <div class="rank-info">
+            <div class="rank-title">末班公車</div>
+            <div class="rank-sub">鬼谷子 · 恐怖</div>
+          </div>
+          <div class="rank-score" style="color:#1F2937">8.1</div>
+        </a><a href="book/mars-chronicle" class="rank-item btn-press">
+          <span class="rank-num rank-top">3</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#3B82F6,#3B82F6aa)">火</div>
+          <div class="rank-info">
+            <div class="rank-title">火星紀事</div>
+            <div class="rank-sub">陸星航 · 科幻</div>
+          </div>
+          <div class="rank-score" style="color:#3B82F6">8.7</div>
+        </a><a href="book/office-survival" class="rank-item btn-press">
+          <span class="rank-num ">4</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#F59E0B,#F59E0Baa)">社</div>
+          <div class="rank-info">
+            <div class="rank-title">社畜求生記</div>
+            <div class="rank-sub">加班王 · 喜劇</div>
+          </div>
+          <div class="rank-score" style="color:#F59E0B">8.7</div>
+        </a><a href="book/slow-days" class="rank-item btn-press">
+          <span class="rank-num ">5</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#A3B18A,#A3B18Aaa)">慢</div>
+          <div class="rank-info">
+            <div class="rank-title">慢時光咖啡館</div>
+            <div class="rank-sub">溫小禾 · 療癒</div>
+          </div>
+          <div class="rank-score" style="color:#A3B18A">8.6</div>
+        </a><a href="book/rainy-season" class="rank-item btn-press">
+          <span class="rank-num ">6</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#E88D9E,#E88D9Eaa)">雨</div>
+          <div class="rank-info">
+            <div class="rank-title">雨季不再來</div>
+            <div class="rank-sub">蘇雨晴 · 言情</div>
+          </div>
+          <div class="rank-score" style="color:#E88D9E">8.4</div>
+        </a><a href="book/city-lights" class="rank-item btn-press">
+          <span class="rank-num ">7</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#6B7280,#6B7280aa)">城</div>
+          <div class="rank-info">
+            <div class="rank-title">城市微光</div>
+            <div class="rank-sub">陳以文 · 文學</div>
+          </div>
+          <div class="rank-score" style="color:#6B7280">8.8</div>
+        </a><a href="book/whispering-house" class="rank-item btn-press">
+          <span class="rank-num ">8</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#1F2937,#1F2937aa)">低</div>
+          <div class="rank-info">
+            <div class="rank-title">低語之屋</div>
+            <div class="rank-sub">幽冥散人 · 恐怖</div>
+          </div>
+          <div class="rank-score" style="color:#1F2937">8.3</div>
+        </a><a href="book/shadow-trace" class="rank-item btn-press">
+          <span class="rank-num ">9</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#2C3E50,#2C3E50aa)">暗</div>
+          <div class="rank-info">
+            <div class="rank-title">暗影追蹤</div>
+            <div class="rank-sub">墨痕 · 懸疑</div>
+          </div>
+          <div class="rank-score" style="color:#2C3E50">8.9</div>
+        </a><a href="book/quantum-dream" class="rank-item btn-press">
+          <span class="rank-num ">10</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#3B82F6,#3B82F6aa)">量</div>
+          <div class="rank-info">
+            <div class="rank-title">量子夢境</div>
+            <div class="rank-sub">陳星河 · 科幻</div>
+          </div>
+          <div class="rank-score" style="color:#3B82F6">9</div>
+        </a>
+      </div>
+      <div id="rank-done" class="hidden rank-list" role="tabpanel">
+        <a href="book/death-note" class="rank-item btn-press">
+          <span class="rank-num rank-top">1</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#2C3E50,#2C3E50aa)">死</div>
+          <div class="rank-info">
+            <div class="rank-title">死亡筆記本</div>
+            <div class="rank-sub">夜神月 · 懸疑</div>
+          </div>
+          <div class="rank-score" style="color:#2C3E50">9.2</div>
+        </a><a href="book/silent-river" class="rank-item btn-press">
+          <span class="rank-num rank-top">2</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#6B7280,#6B7280aa)">沉</div>
+          <div class="rank-info">
+            <div class="rank-title">沉默的河流</div>
+            <div class="rank-sub">江遠 · 文學</div>
+          </div>
+          <div class="rank-score" style="color:#6B7280">9</div>
+        </a><a href="book/shadow-trace" class="rank-item btn-press">
+          <span class="rank-num rank-top">3</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#2C3E50,#2C3E50aa)">暗</div>
+          <div class="rank-info">
+            <div class="rank-title">暗影追蹤</div>
+            <div class="rank-sub">墨痕 · 懸疑</div>
+          </div>
+          <div class="rank-score" style="color:#2C3E50">8.9</div>
+        </a><a href="book/midnight-library" class="rank-item btn-press">
+          <span class="rank-num ">4</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#A3B18A,#A3B18Aaa)">午</div>
+          <div class="rank-info">
+            <div class="rank-title">午夜圖書館</div>
+            <div class="rank-sub">林深夜 · 療癒</div>
+          </div>
+          <div class="rank-score" style="color:#A3B18A">8.8</div>
+        </a><a href="book/city-lights" class="rank-item btn-press">
+          <span class="rank-num ">5</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#6B7280,#6B7280aa)">城</div>
+          <div class="rank-info">
+            <div class="rank-title">城市微光</div>
+            <div class="rank-sub">陳以文 · 文學</div>
+          </div>
+          <div class="rank-score" style="color:#6B7280">8.8</div>
+        </a><a href="book/cherry-blossom" class="rank-item btn-press">
+          <span class="rank-num ">6</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#E88D9E,#E88D9Eaa)">櫻</div>
+          <div class="rank-info">
+            <div class="rank-title">櫻花樹下的約定</div>
+            <div class="rank-sub">花見小路 · 言情</div>
+          </div>
+          <div class="rank-score" style="color:#E88D9E">8.5</div>
+        </a><a href="book/rainy-season" class="rank-item btn-press">
+          <span class="rank-num ">7</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#E88D9E,#E88D9Eaa)">雨</div>
+          <div class="rank-info">
+            <div class="rank-title">雨季不再來</div>
+            <div class="rank-sub">蘇雨晴 · 言情</div>
+          </div>
+          <div class="rank-score" style="color:#E88D9E">8.4</div>
+        </a><a href="book/whispering-house" class="rank-item btn-press">
+          <span class="rank-num ">8</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#1F2937,#1F2937aa)">低</div>
+          <div class="rank-info">
+            <div class="rank-title">低語之屋</div>
+            <div class="rank-sub">幽冥散人 · 恐怖</div>
+          </div>
+          <div class="rank-score" style="color:#1F2937">8.3</div>
+        </a><a href="book/midnight-bus" class="rank-item btn-press">
+          <span class="rank-num ">9</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,#1F2937,#1F2937aa)">末</div>
+          <div class="rank-info">
+            <div class="rank-title">末班公車</div>
+            <div class="rank-sub">鬼谷子 · 恐怖</div>
+          </div>
+          <div class="rank-score" style="color:#1F2937">8.1</div>
+        </a>
+      </div>
     </section>
-    <section style="padding:8px 0 80px" aria-label="分類題材">
-      <h2 class="section-title">分類題材</h2>
-      <div class="cat-grid">
-        <a href="category/suspense" class="cat-item btn-press featured" aria-label="懸疑小說"><span class="cat-icon">🔍</span><span class="cat-name">懸疑</span></a><a href="category/healing" class="cat-item btn-press" aria-label="療癒小說"><span class="cat-icon">🌿</span><span class="cat-name">療癒</span></a><a href="category/scifi" class="cat-item btn-press" aria-label="科幻小說"><span class="cat-icon">🚀</span><span class="cat-name">科幻</span></a><a href="category/romance" class="cat-item btn-press" aria-label="言情小說"><span class="cat-icon">💕</span><span class="cat-name">言情</span></a><a href="category/fantasy" class="cat-item btn-press" aria-label="奇幻小說"><span class="cat-icon">✨</span><span class="cat-name">奇幻</span></a><a href="category/horror" class="cat-item btn-press" aria-label="恐怖小說"><span class="cat-icon">👻</span><span class="cat-name">恐怖</span></a><a href="category/comedy" class="cat-item btn-press" aria-label="喜劇小說"><span class="cat-icon">😂</span><span class="cat-name">喜劇</span></a><a href="category/literary" class="cat-item btn-press" aria-label="文學小說"><span class="cat-icon">📚</span><span class="cat-name">文學</span></a>
+    <section class="home-section home-section-last" aria-label="分類題材">
+      <div class="section-header">
+        <h2 class="section-title">📚 分類題材</h2>
+      </div>
+      <div class="bento-grid">
+        <a href="category/suspense" class="bento-item btn-press bento-lg" style="--cat-color:#2C3E50" aria-label="懸疑小說">
+          <span class="bento-icon">🔍</span>
+          <span class="bento-name">懸疑</span>
+        </a><a href="category/healing" class="bento-item btn-press" style="--cat-color:#A3B18A" aria-label="療癒小說">
+          <span class="bento-icon">🌿</span>
+          <span class="bento-name">療癒</span>
+        </a><a href="category/scifi" class="bento-item btn-press" style="--cat-color:#3B82F6" aria-label="科幻小說">
+          <span class="bento-icon">🚀</span>
+          <span class="bento-name">科幻</span>
+        </a><a href="category/romance" class="bento-item btn-press" style="--cat-color:#E88D9E" aria-label="言情小說">
+          <span class="bento-icon">💕</span>
+          <span class="bento-name">言情</span>
+        </a><a href="category/fantasy" class="bento-item btn-press bento-md" style="--cat-color:#8B5CF6" aria-label="奇幻小說">
+          <span class="bento-icon">✨</span>
+          <span class="bento-name">奇幻</span>
+        </a><a href="category/horror" class="bento-item btn-press" style="--cat-color:#1F2937" aria-label="恐怖小說">
+          <span class="bento-icon">👻</span>
+          <span class="bento-name">恐怖</span>
+        </a><a href="category/comedy" class="bento-item btn-press" style="--cat-color:#F59E0B" aria-label="喜劇小說">
+          <span class="bento-icon">😂</span>
+          <span class="bento-name">喜劇</span>
+        </a><a href="category/literary" class="bento-item btn-press" style="--cat-color:#6B7280" aria-label="文學小說">
+          <span class="bento-icon">📚</span>
+          <span class="bento-name">文學</span>
+        </a>
       </div>
     </section>
     <nav class="footer-nav" role="navigation" aria-label="底部導航">
@@ -938,7 +1516,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
   </main>
   <script>
   function switchRank(tab){
-    document.querySelectorAll('[id^="rank-"]').forEach(function(el){el.classList.add('hidden')});
+    document.querySelectorAll('.rank-list').forEach(function(el){el.classList.add('hidden')});
     document.getElementById('rank-'+tab).classList.remove('hidden');
     document.querySelectorAll('.rank-tab').forEach(function(el){el.classList.remove('active');el.setAttribute('aria-selected','false')});
     var btn=document.querySelector('.rank-tab[data-tab="'+tab+'"]');

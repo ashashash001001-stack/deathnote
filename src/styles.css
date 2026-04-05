@@ -197,22 +197,264 @@ button, a.btn-press, [role="button"] {
 .logo-text { font-size:var(--font-size-lg); font-weight:700; }
 
 /* ============================================
-   STATS
+   HOMEPAGE - Modern App Design
    ============================================ */
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: var(--spacing-lg);
-  max-width: 480px;
-  margin: 0 auto;
-  text-align: center;
+.home-page { padding-top:48px; }
+
+/* Hero Section */
+.home-hero {
+  position: relative;
+  margin: 0 var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  padding: 24px 20px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, #1A1A2E 0%, #2C3E50 50%, #3B82F6 100%);
 }
-.stat-val { font-size:var(--font-size-2xl); font-weight:700; }
-.stat-label { font-size:var(--font-size-sm); color:var(--color-text-secondary); margin-top:var(--spacing-xs); }
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(59,130,246,.15) 0%, transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(139,92,246,.1) 0%, transparent 50%);
+}
+.hero-content { position:relative; z-index:1; }
+.hero-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,.1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: rgba(255,255,255,.9);
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero-stat { text-align:center; flex:1; }
+.hero-stat-num {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.hero-stat-label {
+  display: block;
+  font-size: 11px;
+  color: rgba(255,255,255,.6);
+  margin-top: 2px;
+}
+.hero-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255,255,255,.15);
+}
+
+/* Section Layout */
+.home-section {
+  padding: 24px 0 0;
+}
+.home-section-last {
+  padding-bottom: 80px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+  padding: 0;
+}
+
+/* Featured Cards - Horizontal Scroll */
+.featured-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 0 var(--spacing-lg) var(--spacing-md);
+  padding-right: calc(var(--spacing-lg) + 50px);
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.featured-scroll::-webkit-scrollbar { display:none; }
+.featured-card {
+  flex-shrink: 0;
+  width: 160px;
+  scroll-snap-align: start;
+}
+.featured-cover {
+  width: 160px;
+  height: 100px;
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.featured-cover-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 800;
+  color: rgba(255,255,255,.9);
+  z-index: 1;
+}
+.featured-cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.3) 0%, transparent 60%);
+}
+.featured-info { padding: 8px 2px 0; }
+.featured-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--color-text-primary);
+}
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.featured-rating {
+  font-size: 12px;
+  font-weight: 700;
+}
+.featured-status {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+.status-done { background:rgba(163,177,138,.2); color:var(--accent-healing); }
+.status-ongoing { background:rgba(59,130,246,.15); color:var(--accent-scifi); }
+
+/* Ranking List */
+.rank-list { padding: 0; }
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+}
+.rank-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: var(--color-border-light);
+  color: var(--color-text-tertiary);
+}
+.rank-num.rank-top {
+  background: linear-gradient(135deg, #FF6B35, #FF8F65);
+  color: #fff;
+}
+.rank-cover {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.9);
+  font-size: 14px;
+  font-weight: 700;
+}
+.rank-info { flex:1; min-width:0; }
+.rank-title {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rank-sub {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
+.rank-score {
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Bento Grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 72px;
+  gap: 10px;
+  padding: 0 var(--spacing-lg);
+}
+.bento-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  position: relative;
+  overflow: hidden;
+}
+.bento-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--cat-color);
+  opacity: .7;
+}
+.bento-item:active {
+  transform: scale(0.95);
+  box-shadow: var(--shadow-card-hover);
+}
+.bento-lg {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.bento-lg .bento-icon { font-size: 32px; }
+.bento-lg .bento-name { font-size: 14px; font-weight: 600; }
+.bento-md {
+  grid-column: span 2;
+}
+.bento-icon { font-size: 22px; }
+.bento-name { font-size: 11px; color: var(--color-text-secondary); }
 
 /* ============================================
-   FEATURED - Peeking Cards
+   FEATURED - Peeking Cards (legacy)
    ============================================ */
 
 .swipe-row {

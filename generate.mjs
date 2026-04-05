@@ -162,53 +162,100 @@ function write(path, content) {
   const totalChapters = BOOKS.reduce((s,b)=>s+b.chapters,0);
 
   const body = headerHTML() + `
-  <main class="page" style="padding-top:56px">
+  <main class="page home-page">
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="${SITE.name}">${SITE.name} - ${SITE.tagline}</h1>
-    <section style="padding:16px 16px 8px" aria-label="網站統計">
-      <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none">
-        <div style="flex:1;min-width:0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-suspense),#3d566e);color:#fff;text-align:center">
-          <div style="font-size:22px;font-weight:800">${BOOKS.length}</div>
-          <div style="font-size:11px;opacity:.85;margin-top:2px">收錄作品</div>
-        </div>
-        <div style="flex:1;min-width:0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-healing),#8a9e72);color:#fff;text-align:center">
-          <div style="font-size:22px;font-weight:800">${(totalWords/10000).toFixed(0)}萬</div>
-          <div style="font-size:11px;opacity:.85;margin-top:2px">總字數</div>
-        </div>
-        <div style="flex:1;min-width:0;padding:14px 12px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent-scifi),#2563eb);color:#fff;text-align:center">
-          <div style="font-size:22px;font-weight:800">${totalChapters}</div>
-          <div style="font-size:11px;opacity:.85;margin-top:2px">章節總數</div>
+    <section class="home-hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-badge">📖 沉浸閱讀，從這裡開始</div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="hero-stat-num">${BOOKS.length}</span><span class="hero-stat-label">作品</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="hero-stat-num">${(totalWords/10000).toFixed(0)}萬</span><span class="hero-stat-label">字數</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="hero-stat-num">${totalChapters}</span><span class="hero-stat-label">章節</span></div>
         </div>
       </div>
     </section>
-    <section style="padding:16px 0 8px" aria-label="熱門精選">
-      <h2 class="section-title">熱門精選</h2>
-      <div class="swipe-row" role="list">
-        ${BOOKS.slice(0,8).map(b=>`<a href="book/${b.id}" class="book-card card-hover btn-press" role="listitem">${coverHTML(b,130,173,28)}<h3 class="truncate">${b.title}</h3><div style="display:flex;align-items:center;gap:4px;margin-top:4px"><span class="book-rating" style="color:${b.color}">${b.rating}</span><span style="font-size:12px;color:var(--color-text-tertiary)">分</span></div></a>`).join('')}
+    <section class="home-section" aria-label="熱門精選">
+      <div class="section-header">
+        <h2 class="section-title">🔥 熱門精選</h2>
+      </div>
+      <div class="featured-scroll" role="list">
+        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="featured-card btn-press" role="listitem">
+          <div class="featured-cover" style="background:linear-gradient(160deg,${b.color},${b.color}cc)">
+            <div class="featured-cover-text">${b.title.slice(0,2)}</div>
+            <div class="featured-cover-overlay"></div>
+          </div>
+          <div class="featured-info">
+            <div class="featured-title">${b.title}</div>
+            <div class="featured-meta">
+              <span class="featured-rating" style="color:${b.color}">★ ${b.rating}</span>
+              <span class="featured-status ${b.status==='completed'?'status-done':'status-ongoing'}">${b.status==='completed'?'完結':'連載'}</span>
+            </div>
+          </div>
+        </a>`).join('')}
       </div>
     </section>
-    ${adHTML()}
-    <section style="padding:8px 0" aria-label="排行榜">
-      <h2 class="section-title">排行榜</h2>
+    <section class="home-section" aria-label="排行榜">
+      <div class="section-header">
+        <h2 class="section-title">🏆 排行榜</h2>
+      </div>
       <div class="rank-tabs" role="tablist">
-        <button class="rank-tab active" data-tab="all" onclick="switchRank('all')" role="tab" aria-selected="true" aria-label="總榜">總榜</button>
-        <button class="rank-tab" data-tab="new" onclick="switchRank('new')" role="tab" aria-selected="false" aria-label="新書">新書</button>
-        <button class="rank-tab" data-tab="done" onclick="switchRank('done')" role="tab" aria-selected="false" aria-label="完結">完結</button>
+        <button class="rank-tab active" data-tab="all" onclick="switchRank('all')" role="tab" aria-selected="true">總榜</button>
+        <button class="rank-tab" data-tab="new" onclick="switchRank('new')" role="tab" aria-selected="false">新書</button>
+        <button class="rank-tab" data-tab="done" onclick="switchRank('done')" role="tab" aria-selected="false">完結</button>
       </div>
-      <div id="rank-all" role="tabpanel">${all.map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}" aria-label="第${i+1}名">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
-      <div id="rank-new" class="hidden" role="tabpanel">${newest.map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}" aria-label="第${i+1}名">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
-      <div id="rank-done" class="hidden" role="tabpanel">${done.map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press"><span class="rank-badge ${rankBadge(i)}" aria-label="第${i+1}名">${i+1}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:500" class="truncate">${b.title}</div><div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">${b.author} · ${b.tags.slice(0,2).join(' · ')}</div></div><span style="font-size:12px;font-weight:700;color:${b.color}">${b.rating}</span></a>`).join('')}</div>
+      <div id="rank-all" role="tabpanel" class="rank-list">
+        ${all.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
+          <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,${b.color},${b.color}aa)">${b.title.slice(0,1)}</div>
+          <div class="rank-info">
+            <div class="rank-title">${b.title}</div>
+            <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
+          </div>
+          <div class="rank-score" style="color:${b.color}">${b.rating}</div>
+        </a>`).join('')}
+      </div>
+      <div id="rank-new" class="hidden rank-list" role="tabpanel">
+        ${newest.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
+          <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,${b.color},${b.color}aa)">${b.title.slice(0,1)}</div>
+          <div class="rank-info">
+            <div class="rank-title">${b.title}</div>
+            <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
+          </div>
+          <div class="rank-score" style="color:${b.color}">${b.rating}</div>
+        </a>`).join('')}
+      </div>
+      <div id="rank-done" class="hidden rank-list" role="tabpanel">
+        ${done.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
+          <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
+          <div class="rank-cover" style="background:linear-gradient(135deg,${b.color},${b.color}aa)">${b.title.slice(0,1)}</div>
+          <div class="rank-info">
+            <div class="rank-title">${b.title}</div>
+            <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
+          </div>
+          <div class="rank-score" style="color:${b.color}">${b.rating}</div>
+        </a>`).join('')}
+      </div>
     </section>
-    <section style="padding:8px 0 80px" aria-label="分類題材">
-      <h2 class="section-title">分類題材</h2>
-      <div class="cat-grid">
-        ${CATEGORIES.map((c,i)=>`<a href="category/${c.id}" class="cat-item btn-press${i===0?' featured':''}" aria-label="${c.name}小說"><span class="cat-icon">${c.icon}</span><span class="cat-name">${c.name}</span></a>`).join('')}
+    <section class="home-section home-section-last" aria-label="分類題材">
+      <div class="section-header">
+        <h2 class="section-title">📚 分類題材</h2>
+      </div>
+      <div class="bento-grid">
+        ${CATEGORIES.map((c,i)=>`<a href="category/${c.id}" class="bento-item btn-press${i===0?' bento-lg':''}${i===4?' bento-md':''}" style="--cat-color:${c.color}" aria-label="${c.name}小說">
+          <span class="bento-icon">${c.icon}</span>
+          <span class="bento-name">${c.name}</span>
+        </a>`).join('')}
       </div>
     </section>
     ${footerNav('home')}
   </main>
   <script>
   function switchRank(tab){
-    document.querySelectorAll('[id^="rank-"]').forEach(function(el){el.classList.add('hidden')});
+    document.querySelectorAll('.rank-list').forEach(function(el){el.classList.add('hidden')});
     document.getElementById('rank-'+tab).classList.remove('hidden');
     document.querySelectorAll('.rank-tab').forEach(function(el){el.classList.remove('active');el.setAttribute('aria-selected','false')});
     var btn=document.querySelector('.rank-tab[data-tab="'+tab+'"]');
