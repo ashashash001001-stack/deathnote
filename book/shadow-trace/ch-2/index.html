@@ -1144,7 +1144,9 @@ button, a.btn-press, [role="button"] {
   padding-top: env(safe-area-inset-top);
 }
 .reader-topbar.show { transform:translateY(0); }
-.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; }
+.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; gap:var(--spacing-sm); }
+.reader-topbar-inner a { flex-shrink:0; }
+.reader-topbar-inner nav { margin-left:auto; font-size:12px; color:var(--color-text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50%; }
 
 .reader-bottombar {
   position: fixed;
@@ -1437,11 +1439,17 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#2C3E50"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../shadow-trace" style="color:var(--color-text-secondary)">暗影追蹤</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第二章：病院深處</span></nav>
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../shadow-trace" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 暗影追蹤 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">暗影追蹤</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../shadow-trace" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 暗影追蹤 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">暗影追蹤</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">DeathNote</span><span style=""> › 暗影追蹤</span><span style="color:var(--color-text-primary);font-weight:500"> › 第二章：病院深處</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="第二章：病院深處">
         <h1>第二章：病院深處</h1>
         <p>手電筒的光束在黑暗中搖晃。</p><p>方遠踏進病院大廳的那一刻，一股潮濕的霉味撲面而來。牆壁上佈滿了剝落的油漆和不明污漬，地上散落著生鏽的輪椅和破碎的藥瓶。</p><p>他沿著走廊緩慢前進，腳下的積水發出啪嗒啪嗒的聲響。</p><p>三樓。失蹤者最後被監視器拍到的位置。</p><p>樓梯間的感應燈居然還亮著——這棟已經斷電十年的建築裡，有一盞燈亮著。</p><p>方遠的手按在腰間的槍套上，一步一步走上三樓。</p><p>走廊盡頭，307號病房的門虛掩著。門縫裡，透出一絲微弱的光。</p><p>他推開門。</p><p>房間裡空無一人。只有一張桌子，桌上放著一本翻開的日記。日記的字跡潦草，反复寫著同一句話：</p><p>「它在牆裡。它在牆裡。它在牆裡。」</p>
@@ -1494,8 +1502,11 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

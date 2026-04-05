@@ -1138,7 +1138,9 @@ button, a.btn-press, [role="button"] {
   padding-top: env(safe-area-inset-top);
 }
 .reader-topbar.show { transform:translateY(0); }
-.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; }
+.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; gap:var(--spacing-sm); }
+.reader-topbar-inner a { flex-shrink:0; }
+.reader-topbar-inner nav { margin-left:auto; font-size:12px; color:var(--color-text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50%; }
 
 .reader-bottombar {
   position: fixed;
@@ -1431,11 +1433,17 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#F59E0B"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../office-survival" style="color:var(--color-text-secondary)">社畜求生記</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：又改需求</span></nav>
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../office-survival" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 社畜求生記 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">社畜求生記</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../office-survival" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 社畜求生記 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">社畜求生記</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">DeathNote</span><span style=""> › 社畜求生記</span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：又改需求</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="第一章：又改需求">
         <h1>第一章：又改需求</h1>
         <p>週一早上九點，王大發剛在公司樓下的便利商店買好早餐，手機就響了。</p><p>「大發啊，那個APP的首頁設計要改一下。」PM小陳的聲音從電話那頭傳來，輕鬆得像是在聊天氣，「客戶說想要一種……嗯……五彩斑斕的黑。」</p><p>王大發站在便利商店門口，手裡的蛋餅突然不香了。</p><p>「五彩斑斕的黑？」他重複了一遍，確認自己沒有聽錯。</p><p>「對啊，你那麼厲害，一定沒問題的吧？」</p><p>王大發看著天上飛過的一群烏鴉，認真考慮了辭職的可能性。然後他想到了房租、想到了學貸、想到了信用卡帳單，默默地走進了電梯。</p><p>「沒問題。」他在電梯裡回覆，「我今天就做出來。」</p><p>然後他在日記裡寫下：「Day 1,247。PM今天又提出了五彩斑斕的黑。我活下來了。我是超人。」</p>
@@ -1488,8 +1496,11 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

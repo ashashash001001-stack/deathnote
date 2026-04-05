@@ -1138,7 +1138,9 @@ button, a.btn-press, [role="button"] {
   padding-top: env(safe-area-inset-top);
 }
 .reader-topbar.show { transform:translateY(0); }
-.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; }
+.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; gap:var(--spacing-sm); }
+.reader-topbar-inner a { flex-shrink:0; }
+.reader-topbar-inner nav { margin-left:auto; font-size:12px; color:var(--color-text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50%; }
 
 .reader-bottombar {
   position: fixed;
@@ -1431,11 +1433,17 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#6B7280"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../silent-river" style="color:var(--color-text-secondary)">沉默的河流</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：河之源</span></nav>
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../silent-river" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 沉默的河流 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">沉默的河流</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../silent-river" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 沉默的河流 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">沉默的河流</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">DeathNote</span><span style=""> › 沉默的河流</span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：河之源</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="第一章：河之源">
         <h1>第一章：河之源</h1>
         <p>那條河沒有名字。</p><p>至少在江阿公的記憶裡，沒有人給它取過名字。它就那樣靜靜地流過村子，從有記憶的時候就在流，流過了日治時代的甘蔗園、流過了戰後的荒亂歲月、流到了現在——村裡的年輕人都去了城市，只剩下老人和那條河。</p><p>江阿公坐在河邊的老榕樹下，看著渾濁的河水緩緩流過。他的腳邊放著一把舊藤椅，藤椅上搭著一件洗得發白的藍色工作服。</p><p>「阿公，這條河以前真的有那麼大嗎？」孫子江遠蹲在他身邊，手裡拿著一台相機。</p><p>「大？」江阿公笑了，露出僅存的幾顆牙齒，「以前啊，這河寬得對岸的人都看不清。夏天的時候，整條河都是金色的——不是水，是稻穗。兩岸的稻田一直延伸到山腳下。」</p><p>他停頓了一下，目光望向遠方。</p><p>「後來，一切都變了。」</p>
@@ -1488,8 +1496,11 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

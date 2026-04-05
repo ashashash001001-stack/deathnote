@@ -475,11 +475,17 @@ BOOKS.forEach(book => {
 
     const body = `<div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:${book.color}"></div></div>
-      ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:book.title,url:`../${book.id}`},{label:ch.title}])}
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../${book.id}" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 ${book.title} 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">${book.title}</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../${book.id}" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 ${book.title} 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">${book.title}</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">${SITE.name}</span><span style=""> › ${book.title}</span><span style="color:var(--color-text-primary);font-weight:500"> › ${ch.title}</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="${ch.title}">
         <h1>${ch.title}</h1>
         ${ch.content.split('\n').filter(p=>p.trim()).map(p=>`<p>${p.trim()}</p>`).join('')}
@@ -532,8 +538,11 @@ BOOKS.forEach(book => {
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

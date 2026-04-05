@@ -1144,7 +1144,9 @@ button, a.btn-press, [role="button"] {
   padding-top: env(safe-area-inset-top);
 }
 .reader-topbar.show { transform:translateY(0); }
-.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; }
+.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; gap:var(--spacing-sm); }
+.reader-topbar-inner a { flex-shrink:0; }
+.reader-topbar-inner nav { margin-left:auto; font-size:12px; color:var(--color-text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50%; }
 
 .reader-bottombar {
   position: fixed;
@@ -1437,11 +1439,17 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#E88D9E"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../cherry-blossom" style="color:var(--color-text-secondary)">櫻花樹下的約定</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：櫻花樹下的願望</span></nav>
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../cherry-blossom" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 櫻花樹下的約定 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">櫻花樹下的約定</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../cherry-blossom" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 櫻花樹下的約定 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">櫻花樹下的約定</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">DeathNote</span><span style=""> › 櫻花樹下的約定</span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：櫻花樹下的願望</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="第一章：櫻花樹下的願望">
         <h1>第一章：櫻花樹下的願望</h1>
         <p>三月底的京都，櫻花開了。</p><p>佐藤美咲站在哲學之道旁，看著粉白色的花瓣隨風飄落在河面上。這是她第一次一個人來京都——剛剛結束了一段三年的感情，她需要一個安靜的地方重新開始。</p><p>「那棵樹，你看過了嗎？」一個聲音從身後傳來。</p><p>美咲轉過頭，看見一個戴著眼鏡的年輕男生，手裡拿著一本素描本。</p><p>「哪棵樹？」</p><p>「河對岸那棵最大的。聽說有一千年歷史了。」男生笑了笑，「當地人說，在那棵樹下許願的話，願望一定會實現。」</p><p>美咲順著他指的方向看去。那棵櫻花樹確實壯觀，粉白色的花雲籠罩了半條河道。</p><p>「那你許了什麼願？」她問。</p><p>男生愣了一下，然後把素描本翻開給你看——上面畫的，正是此刻站在櫻花樹下的美咲。</p><p>「我希望能遇見一個讓我想要畫下來的人。」</p>
@@ -1494,8 +1502,11 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

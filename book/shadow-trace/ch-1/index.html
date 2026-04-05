@@ -1144,7 +1144,9 @@ button, a.btn-press, [role="button"] {
   padding-top: env(safe-area-inset-top);
 }
 .reader-topbar.show { transform:translateY(0); }
-.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; }
+.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; gap:var(--spacing-sm); }
+.reader-topbar-inner a { flex-shrink:0; }
+.reader-topbar-inner nav { margin-left:auto; font-size:12px; color:var(--color-text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50%; }
 
 .reader-bottombar {
   position: fixed;
@@ -1437,11 +1439,17 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#2C3E50"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../shadow-trace" style="color:var(--color-text-secondary)">暗影追蹤</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：消失的人</span></nav>
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../shadow-trace" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 暗影追蹤 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">暗影追蹤</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../shadow-trace" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 暗影追蹤 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">暗影追蹤</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">DeathNote</span><span style=""> › 暗影追蹤</span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：消失的人</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="第一章：消失的人">
         <h1>第一章：消失的人</h1>
         <p>雨下了一整夜。</p><p>方遠站在警戒線外，看著那棟廢棄的公寓大樓。這是第三起了——同樣是深夜、同樣是失蹤、同樣沒有留下任何痕跡。</p><p>「方隊，現場勘查完畢。」年輕的鑑識人員走過來，臉色有些蒼白，「還是……什麼都沒有。」</p><p>方遠點點頭，沒有說話。他從口袋裡掏出一根菸，點燃，深吸了一口。</p><p>三個失蹤者，互不相識，年齡、職業、居住地點完全不同。唯一的共同點是——他們失蹤前最後出現的地方，都距離這棟廢棄的精神病院不超過五百公尺。</p><p>「封鎖這棟樓。」方遠掐滅菸頭，「我要親自進去看看。」</p><p>「可是方隊，這棟樓的結構已經——」</p><p>「執行命令。」</p>
@@ -1494,8 +1502,11 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

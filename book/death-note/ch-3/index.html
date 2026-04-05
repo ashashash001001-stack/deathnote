@@ -1144,7 +1144,9 @@ button, a.btn-press, [role="button"] {
   padding-top: env(safe-area-inset-top);
 }
 .reader-topbar.show { transform:translateY(0); }
-.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; }
+.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; gap:var(--spacing-sm); }
+.reader-topbar-inner a { flex-shrink:0; }
+.reader-topbar-inner nav { margin-left:auto; font-size:12px; color:var(--color-text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50%; }
 
 .reader-bottombar {
   position: fixed;
@@ -1437,11 +1439,17 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#2C3E50"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../death-note" style="color:var(--color-text-secondary)">死亡筆記本</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第三章：Kira</span></nav>
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../death-note" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 死亡筆記本 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">死亡筆記本</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../death-note" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 死亡筆記本 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">死亡筆記本</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">DeathNote</span><span style=""> › 死亡筆記本</span><span style="color:var(--color-text-primary);font-weight:500"> › 第三章：Kira</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="第三章：Kira">
         <h1>第三章：Kira</h1>
         <p>一個月後。</p><p>世界各地的新聞媒體都在報導同一個現象——大量犯罪份子接連死於心臟麻痺。有人說這是神的制裁，有人說是某個國家的秘密武器，更有人認為這是一種新型態的生物恐怖攻擊。</p><p>在網路上，一個稱號開始流傳——「Kira」（キラ）。</p><p>「Kira是正義的化身！」「Kira在肅清這個腐敗的世界！」支持者的聲音越來越大。</p><p>當然，也有反對的聲音。「這是大規模謀殺！」「沒有人有權力決定他人的生死！」</p><p>而在日本警視廳，一個國際刑警組織的特別調查小組已經成立。他們面對的是一個前所未有的挑戰——如何追捕一個只需要知道姓名和長相就能殺人的存在？</p><p>「各位，我們面對的不是普通的罪犯。」會議室裡，一位面容枯槁的老人站了起來，「我需要你們的配合，不惜一切代價找出Kira的真實身份。」</p><p>沒有人知道，這位被稱為「L」的世界第一名偵探，已經將目光投向了東京。</p><p>更沒有人知道，月正坐在電視機前，嘴角微微上揚。</p><p>「終於開始有趣了。」</p>
@@ -1494,8 +1502,11 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

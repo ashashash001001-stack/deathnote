@@ -1138,7 +1138,9 @@ button, a.btn-press, [role="button"] {
   padding-top: env(safe-area-inset-top);
 }
 .reader-topbar.show { transform:translateY(0); }
-.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; }
+.reader-topbar-inner { display:flex; align-items:center; padding:0 var(--spacing-lg); height:48px; gap:var(--spacing-sm); }
+.reader-topbar-inner a { flex-shrink:0; }
+.reader-topbar-inner nav { margin-left:auto; font-size:12px; color:var(--color-text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50%; }
 
 .reader-bottombar {
   position: fixed;
@@ -1431,11 +1433,17 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#E88D9E"></div></div>
-      <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="../rainy-season" style="color:var(--color-text-secondary)">雨季不再來</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：雨中的陌生人</span></nav>
-      <header class="reader-topbar" id="reader-topbar" role="banner"><div class="reader-topbar-inner">
-        <a href="../rainy-season" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 雨季不再來 詳情">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="truncate" style="max-width:200px;font-size:14px">雨季不再來</span></a></div></header>
+      <header class="reader-topbar" id="reader-topbar" role="banner">
+        <div class="reader-topbar-inner">
+          <a href="../rainy-season" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 雨季不再來 詳情">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <span class="truncate" style="max-width:200px;font-size:14px">雨季不再來</span>
+          </a>
+          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
+            <span style="">DeathNote</span><span style=""> › 雨季不再來</span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：雨中的陌生人</span>
+          </nav>
+        </div>
+      </header>
       <article class="reader-content" id="reader-content" aria-label="第一章：雨中的陌生人">
         <h1>第一章：雨中的陌生人</h1>
         <p>台北的雨季總是來得毫無預警。</p><p>蘇晴站在捷運站門口，看著傾盆大雨，後悔自己沒有帶傘。她剛從醫院出來——母親的檢查結果不太好，需要進一步治療。她站在雨中，突然覺得自己就像這座城市一樣，被無止境的雨水淹沒。</p><p>「一起走吧。」一把黑色的雨傘出現在她頭頂。</p><p>撐傘的人是一個陌生的男人，三十歲出頭，穿著一件深灰色的風衣。他的表情很平靜，像是做了一件再自然不過的事。</p><p>「我們……認識嗎？」蘇晴有些警惕。</p><p>「不認識。但你看起來需要一把傘。」他笑了笑，「我叫林深。你呢？」</p><p>「蘇晴。」</p><p>「晴天。」林深看了看天，「但今天沒有晴天。」</p><p>那把傘陪她走完了從捷運站到家的十分鐘路程。十分鐘後，林深把傘遞給她：「下次還我就好。」</p><p>「我們連彼此的電話都沒有。」</p><p>「那就當作是命運的安排吧。」他揮揮手，走進了雨中。</p>
@@ -1488,8 +1496,11 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
     </div></main></div>
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     var uiVisible=true;
+    document.getElementById('reader-topbar').classList.add('show');
+    document.getElementById('reader-bottombar').classList.add('show');
+    document.getElementById('reader-progress').classList.add('show');
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){
