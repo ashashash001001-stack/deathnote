@@ -240,7 +240,7 @@ function write(path, content) {
       <div class="featured-scroll">
         ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="featured-card btn-press">
           <div class="book-cover-wrapper">
-            ${coverHTML(b,160,240,14,false)}
+            ${coverHTML(b,160,240,14,false,false)}
             <span class="status-badge ${b.status==='completed'?'status-done':'status-ongoing'}">${b.status==='completed'?'完結':'連載'}</span>
           </div>
           <div class="featured-info">
