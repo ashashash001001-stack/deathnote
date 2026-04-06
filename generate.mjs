@@ -154,8 +154,19 @@ function backHeader(title) {
 
 function adHTML() { return ''; }
 
-function pageHTML(title, desc, accent, body, jsonLd, path) {
+function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false) {
   const canonical = `${SITE.url}${path||'/'}`;
+  const siteJsonLd = isHomepage ? {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": SITE.name,
+    "description": SITE.description,
+    "url": SITE.url,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${SITE.url}/search?q={search_term_string}`
+    }
+  } : null;
   return `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -181,6 +192,7 @@ function pageHTML(title, desc, accent, body, jsonLd, path) {
 <link rel="manifest" href="${SITE.base}/manifest.json">
 <style>${css}</style>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
+${siteJsonLd ? `<script type="application/ld+json">${JSON.stringify(siteJsonLd)}</script>` : ''}
 </head>
 <body>
 ${body}
@@ -350,7 +362,7 @@ function write(path, content) {
   }
   <\/script>`;
 
-  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body, null, '/'));
+  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body, null, '/', true));
 })();
 
 // ===== SEARCH =====
@@ -542,8 +554,7 @@ BOOKS.forEach(book => {
     var uiVisible=true;
     document.getElementById('reader-topbar').classList.add('show');
     document.getElementById('reader-bottombar').classList.add('show');
-    document.getElementById('reader-progress').classList.add('show');
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){

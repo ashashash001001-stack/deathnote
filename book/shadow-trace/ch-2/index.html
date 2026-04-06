@@ -1117,13 +1117,10 @@ button, a.btn-press, [role="button"] {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 2px;
   background: var(--color-border-light);
   z-index: 45;
-  opacity: 0;
-  transition: opacity var(--t-normal);
 }
-.reader-progress.show { opacity: 1; }
 .reader-progress-bar {
   height: 100%;
   width: 0%;
@@ -1434,6 +1431,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
 }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Chapter","name":"第二章：病院深處","position":2,"isPartOf":{"@type":"Book","name":"暗影追蹤"}}</script>
+
 </head>
 <body>
 <div class="reader-page"><main class="reader-immersive" id="reader-el">
@@ -1505,8 +1503,7 @@ input[type=range] { width:100%; accent-color:var(--color-text-primary); }
     var uiVisible=true;
     document.getElementById('reader-topbar').classList.add('show');
     document.getElementById('reader-bottombar').classList.add('show');
-    document.getElementById('reader-progress').classList.add('show');
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);document.getElementById('reader-progress').classList.toggle('show',uiVisible)});
+    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible)});
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){
