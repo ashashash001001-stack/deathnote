@@ -240,6 +240,10 @@ function write(path, content) {
       </div>
       <div class="hero-content">
         <div class="hero-badge">📖 沉浸閱讀，從這裡開始</div>
+        <a href="search" class="hero-search-btn btn-press">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span>搜尋小說、作者...</span>
+        </a>
         <div class="hero-stats">
           <div class="hero-stat glass-card"><span class="hero-stat-num" style="font-variant-numeric:tabular-nums">${BOOKS.length}</span><span class="hero-stat-label">作品</span></div>
           <div class="hero-stat-divider"></div>
