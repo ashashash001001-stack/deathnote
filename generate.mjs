@@ -322,7 +322,7 @@ function write(path, content) {
         ${BOOKS.filter(b=>b.status==='ongoing').slice(0,4).map(b=>{
           const ch = b._chapters ? b._chapters[b._chapters.length-1] : null;
           return `<a href="book/${b.id}/${ch?ch.id:''}" class="update-item btn-press" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border-light)">
-            <div style="width:40px;height:40px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;background:linear-gradient(135deg,${b.color},${b.color}cc)">${b.title.slice(0,1)}</div>
+            ${coverMini(b,40,52)}
             <div style="flex:1;min-width:0">
               <div style="font-size:14px;font-weight:600" class="truncate">${b.title}</div>
               <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">${ch?ch.title:'新章節'} · ${b.updated}</div>
