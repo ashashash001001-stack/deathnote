@@ -1146,7 +1146,10 @@ body {
 .reader-topbar-inner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--spacing-3);
+  max-width: 900px;
+  margin: 0 auto;
 }
 .reader-topbar-inner .truncate {
   max-width: 200px;
@@ -1156,6 +1159,11 @@ body {
   font-size: 14px;
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
+}
+.reader-breadcrumb-nav {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-left: auto;
 }
 
 /* Bottom toolbar */
@@ -1180,6 +1188,8 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-2);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* Navigation buttons */
@@ -1250,6 +1260,56 @@ body {
 .reader-content p {
   margin-bottom: var(--spacing-4);
   text-indent: 2em;
+}
+
+/* Desktop reader layout */
+@media (min-width: 768px) {
+  .reader-topbar {
+    transform: translateY(0);
+  }
+  .reader-bottombar {
+    transform: translateY(0);
+  }
+  .reader-content {
+    max-width: 720px;
+    padding-left: var(--spacing-8);
+    padding-right: var(--spacing-8);
+    padding-top: 100px;
+    padding-bottom: 100px;
+    font-size: 20px;
+    line-height: 1.9;
+  }
+  .reader-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav-btn {
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--text-base);
+  }
+  .tool-btn {
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--text-sm);
+  }
+  .tool-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .reader-content {
+    max-width: 760px;
+    font-size: 20px;
+    line-height: 2;
+  }
+  .reader-topbar-inner {
+    max-width: 820px;
+  }
+  .reader-bottombar-inner {
+    max-width: 820px;
+  }
 }
 
 /* Sheet overlay / bottom sheet */

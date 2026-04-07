@@ -577,9 +577,20 @@ BOOKS.forEach(book => {
     var ttsUtterance=null;
     var ttsCurrentIdx=0;
     var ttsCharOffset=0;
-    document.getElementById('reader-topbar').classList.add('show');
-    document.getElementById('reader-bottombar').classList.add('show');
-    document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible)});
+    var isDesktop=window.innerWidth>=768;
+    if(isDesktop){
+      document.getElementById('reader-topbar').classList.add('show');
+      document.getElementById('reader-bottombar').classList.add('show');
+    }else{
+      document.getElementById('reader-topbar').classList.add('show');
+      document.getElementById('reader-bottombar').classList.add('show');
+      var _lt=null;
+      document.getElementById('reader-el').addEventListener('click',function(e){
+        if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content,.tts-range-slider'))return;
+        if(_lt){clearTimeout(_lt);_lt=null;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible);return}
+        _lt=setTimeout(function(){_lt=null},300)
+      });
+    }
     function openSheet(id){document.getElementById(id).classList.add('active')}
     function closeSheet(id){document.getElementById(id).classList.remove('active')}
     function setTheme(t){
