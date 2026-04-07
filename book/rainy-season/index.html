@@ -1587,28 +1587,32 @@ body {
   font-weight: var(--font-medium);
   color: var(--color-text-secondary);
 }
-.tts-voice-select {
-  width: 100%;
+.tts-toggle-group {
+  display: flex;
+  gap: 8px;
+}
+.tts-toggle-btn {
+  flex: 1;
   padding: var(--spacing-3) var(--spacing-4);
-  margin: 8px 0;
   font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-md);
   background: var(--color-bg-primary, #fff);
-  color: var(--color-text-primary, #1A1A2E);
+  color: var(--color-text-secondary, #666);
   cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
+  transition: all var(--motion-fast);
 }
-.tts-voice-select:focus {
-  outline: none;
+.tts-toggle-btn:hover {
   border-color: var(--accent-default, #3B82F6);
 }
-[data-theme="night"] .tts-voice-select,
-[data-theme="sepia"] .tts-voice-select {
+.tts-toggle-btn.active {
+  background: var(--accent-default, #3B82F6);
+  color: #fff;
+  border-color: var(--accent-default, #3B82F6);
+}
+[data-theme="night"] .tts-toggle-btn,
+[data-theme="sepia"] .tts-toggle-btn {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   border-color: var(--color-border);

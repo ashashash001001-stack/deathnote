@@ -1605,28 +1605,32 @@ body {
   font-weight: var(--font-medium);
   color: var(--color-text-secondary);
 }
-.tts-voice-select {
-  width: 100%;
+.tts-toggle-group {
+  display: flex;
+  gap: 8px;
+}
+.tts-toggle-btn {
+  flex: 1;
   padding: var(--spacing-3) var(--spacing-4);
-  margin: 8px 0;
   font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-md);
   background: var(--color-bg-primary, #fff);
-  color: var(--color-text-primary, #1A1A2E);
+  color: var(--color-text-secondary, #666);
   cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
+  transition: all var(--motion-fast);
 }
-.tts-voice-select:focus {
-  outline: none;
+.tts-toggle-btn:hover {
   border-color: var(--accent-default, #3B82F6);
 }
-[data-theme="night"] .tts-voice-select,
-[data-theme="sepia"] .tts-voice-select {
+.tts-toggle-btn.active {
+  background: var(--accent-default, #3B82F6);
+  color: #fff;
+  border-color: var(--accent-default, #3B82F6);
+}
+[data-theme="night"] .tts-toggle-btn,
+[data-theme="sepia"] .tts-toggle-btn {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   border-color: var(--color-border);
@@ -1896,20 +1900,24 @@ body {
             <svg id="tts-pause-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="hidden" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
           </button>
           <div class="tts-progress-wrap">
-            <input type="range" min="0" max="100" value="0" step="1" id="tts-range" class="tts-range-slider" oninput="seekTTSRange(this.value)" onchange="seekTTSRange(this.value)" ontouchend="seekTTSRange(this.value)" aria-label="朗讀進度拖曳條">
+            <input type="range" min="0" max="100" value="0" step="1" id="tts-range" class="tts-range-slider" oninput="seekTTSRange(this.value)" onchange="seekTTSRange(this.value)" ontouchmove="seekTTSRange(this.value)" ontouchend="seekTTSRange(this.value)" aria-label="朗讀進度拖曳條">
             <div class="tts-progress-label"><span id="tts-current-para">0</span> / <span id="tts-total-para">0</span></div>
           </div>
           <div class="tts-control" style="text-align:left">
-            <div class="tts-label"><span>聲音</span></div>
-            <select id="tts-voice-select" class="tts-voice-select" onchange="setTTSVoice(this.value)" aria-label="選擇朗讀聲音">
-              <option value="">載入中...</option>
-            </select>
-            <div class="tts-label" style="margin-top:12px"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
+            <div class="tts-label"><span>語言</span></div>
+            <div class="tts-toggle-group" style="display:flex;gap:8px;margin:8px 0 16px">
+              <button class="tts-toggle-btn active" id="tts-lang-zh" onclick="setTTSLang('zh-CN')" aria-label="普通話">普通話</button>
+              <button class="tts-toggle-btn" id="tts-lang-cantonese" onclick="setTTSLang('zh-HK')" aria-label="廣東話">廣東話</button>
+            </div>
+            <div class="tts-label"><span>音色</span></div>
+            <div class="tts-toggle-group" style="display:flex;gap:8px;margin:8px 0 16px">
+              <button class="tts-toggle-btn active" id="tts-voice-male" onclick="setTTSVoice('male')" aria-label="男聲">👨 男聲</button>
+              <button class="tts-toggle-btn" id="tts-voice-female" onclick="setTTSVoice('female')" aria-label="女聲">👩 女聲</button>
+            </div>
+            <div class="tts-label"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-rate" oninput="setTTSRate(this.value)" style="margin:8px 0 16px" aria-label="調整朗讀語速">
             <div class="tts-label"><span>音高</span><span id="tts-pitch-val">1.0</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
-            <div class="tts-label"><span>音量</span><span id="tts-volume-val">1.0</span></div>
-            <input type="range" min="0" max="1" step="0.1" value="1" id="tts-volume" oninput="setTTSVolume(this.value)" style="margin:8px 0" aria-label="調整朗讀音量">
           </div></div></div></div>
     </div></main></div>
     <script>
@@ -1965,39 +1973,33 @@ body {
         if(ttsUtterance)ttsUtterance.pitch=parseFloat(v)
       };
 
-      window.setTTSVolume=function(v){
-        document.getElementById('tts-volume-val').textContent=parseFloat(v).toFixed(1);
-        if(ttsUtterance)ttsUtterance.volume=parseFloat(v)
-      };
-
-      window.setTTSVoice=function(v){
+window.setTTSVoice=function(v){
+        ttsCurrentVoice=v;
+        var maleBtn=document.getElementById('tts-voice-male');
+        var femaleBtn=document.getElementById('tts-voice-female');
+        if(maleBtn)maleBtn.classList.toggle('active',v==='male');
+        if(femaleBtn)femaleBtn.classList.toggle('active',v==='female');
         try{localStorage.setItem('dn_tts_voice',v)}catch(e){}
       };
+      
+      window.setTTSLang=function(lang){
+        ttsCurrentLang=lang;
+        var zhBtn=document.getElementById('tts-lang-zh');
+        var cantoneseBtn=document.getElementById('tts-lang-cantonese');
+        if(zhBtn)zhBtn.classList.toggle('active',lang==='zh-CN');
+        if(cantoneseBtn)cantoneseBtn.classList.toggle('active',lang==='zh-HK');
+        try{localStorage.setItem('dn_tts_lang',lang)}catch(e){}
+      };
 
-      var ttsVoicesLoaded=false;
-      function loadTTSVoices(){
-        if(ttsVoicesLoaded)return;
-        var voices=speechSynthesis.getVoices();
-        var sel=document.getElementById('tts-voice-select');
-        if(!sel||!voices.length)return;
-        var zhVoices=voices.filter(function(vo){
-          return vo.lang&&(vo.lang.indexOf('zh')>-1||vo.lang.indexOf('cn')>-1||vo.lang.indexOf('tw')>-1)
-        });
-        if(zhVoices.length===0)zhVoices=voices;
-        var html='';
-        var savedVoice=localStorage.getItem('dn_tts_voice');
-        zhVoices.forEach(function(vo,i){
-          var selected=savedVoice&&savedVoice===vo.name?' selected':'';
-          html+='<option value="'+vo.name+'"'+(savedVoice===vo.name?' selected':'')+'>'+(vo.name.indexOf('Female')>-1||vo.name.indexOf('female')>-1?'👩 ':vo.name.indexOf('Male')>-1||vo.name.indexOf('male')>-1?'👨 ':'')+vo.name+'</option>'
-        });
-        if(html){
-          sel.innerHTML=html;
-          if(savedVoice)sel.value=savedVoice;
-        }
-        ttsVoicesLoaded=true
-      }
-      if(speechSynthesis.getVoices().length>0)loadTTSVoices();
-      else speechSynthesis.onvoiceschanged=loadTTSVoices;
+      // Restore saved preferences
+      (function(){
+        try{
+          var savedVoice=localStorage.getItem('dn_tts_voice');
+          if(savedVoice){ttsCurrentVoice=savedVoice;setTTSVoice(savedVoice)}
+          var savedLang=localStorage.getItem('dn_tts_lang');
+          if(savedLang){ttsCurrentLang=savedLang;setTTSLang(savedLang)}
+        }catch(e){}
+      })();
 
       window.seekTTSRange=function(val){
         var pct=parseInt(val)/100;
@@ -2019,19 +2021,23 @@ body {
         var txt='';
         for(var i=idx;i<paras.length;i++){txt+=paras[i].textContent+' '}
         ttsUtterance=new SpeechSynthesisUtterance(txt);
-        ttsUtterance.lang='zh-TW';
+        ttsUtterance.lang=ttsCurrentLang;
         var r=document.getElementById('tts-rate');
         var p=document.getElementById('tts-pitch');
-        var v=document.getElementById('tts-volume');
-        var s=document.getElementById('tts-voice-select');
         if(r)ttsUtterance.rate=parseFloat(r.value);
         if(p)ttsUtterance.pitch=parseFloat(p.value);
-        if(v)ttsUtterance.volume=parseFloat(v.value);
-        if(s&&s.value){
-          var voices=speechSynthesis.getVoices();
-          var vo=voices.find(function(x){return x.name===s.value});
-          if(vo)ttsUtterance.voice=vo
-        }
+        
+        // Apply voice based on gender selection
+        var voices=speechSynthesis.getVoices();
+        var isFemale=ttsCurrentVoice==='female';
+        var vo=voices.find(function(x){
+          var name=x.name.toLowerCase();
+          var langMatch=x.lang&&(x.lang.indexOf('zh')>-1||x.lang.indexOf('cn')>-1);
+          if(ttsCurrentLang==='zh-HK')langMatch=x.lang&&(x.lang.indexOf('HK')>-1||x.lang.indexOf('cant')>-1);
+          return langMatch&&(isFemale?(name.indexOf('female')>-1||name.indexOf('女')>-1):(name.indexOf('male')>-1||name.indexOf('男')>-1));
+        });
+        if(!vo)vo=voices.find(function(x){return x.lang&&x.lang.indexOf('zh')>-1});
+        if(vo)ttsUtterance.voice=vo;
         ttsUtterance.onend=function(){
           ttsPlaying=false;
           ttsCurrentIdx=0;
