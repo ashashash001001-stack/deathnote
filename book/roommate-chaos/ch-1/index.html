@@ -1875,31 +1875,187 @@ body {
           </div></div></div></div>
     </div></main></div>
     <script>
-    var uiVisible=true;
-    var ttsPlaying=false;
-    var ttsUtterance=null;
-    var ttsCurrentIdx=0;
-    var ttsCharOffset=0;
-    function openSheet(id){document.getElementById(id).classList.add('active')}
-    function closeSheet(id){document.getElementById(id).classList.remove('active')}
-    function setTheme(t){
-      if(t==='light')document.documentElement.removeAttribute('data-theme');
-      else document.documentElement.setAttribute('data-theme',t);
-      try{localStorage.setItem('dn_theme',t)}catch(e){}
-    }
-    function setFontSize(v){document.getElementById('reader-content').style.fontSize=v+'px';document.getElementById('font-size-val').textContent=v+'px';try{localStorage.setItem('dn_fontsize',v)}catch(e){}}
-    function setFont(t){document.getElementById('reader-content').style.fontFamily=t==='serif'?"'PingFang TC','Microsoft JhengHei',Georgia,serif":"system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif";try{localStorage.setItem('dn_font',t)}catch(e){}}
-    function toggleTTS(){if(ttsPlaying){speechSynthesis.cancel();ttsPlaying=false;ttsCurrentIdx=0;updateTTSIcon();updateTTSProgress(0)}else{var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');if(!paras.length)return;speakFrom(ttsCurrentIdx)}}
-    function updateTTSIcon(){var pi=document.getElementById('tts-play-icon');var pa=document.getElementById('tts-pause-icon');if(pi)pi.classList.toggle('hidden',ttsPlaying);if(pa)pa.classList.toggle('hidden',!ttsPlaying)}
-    function setTTSRate(v){document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';if(ttsUtterance){ttsUtterance.rate=parseFloat(v)}}
-    function setTTSPitch(v){document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);if(ttsUtterance){ttsUtterance.pitch=parseFloat(v)}}
-    function seekTTSRange(val){var pct=parseInt(val)/100;var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');var total=paras.length;if(!total)return;var targetIdx=Math.min(Math.floor(pct*total),total-1);if(targetIdx<0)targetIdx=0;if(ttsPlaying){speakFrom(targetIdx)}else{ttsCurrentIdx=targetIdx;updateTTSProgress(targetIdx/(total-1));highlightParagraph(targetIdx)}}
-    function speakFrom(idx){speechSynthesis.cancel();var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');if(idx<0||idx>=paras.length){ttsPlaying=false;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight();return}ttsCurrentIdx=idx;ttsCharOffset=0;var txt='';for(var i=idx;i<paras.length;i++){txt+=paras[i].textContent+' '}ttsUtterance=new SpeechSynthesisUtterance(txt);ttsUtterance.lang='zh-TW';var r=document.getElementById('tts-rate');var p=document.getElementById('tts-pitch');if(r)ttsUtterance.rate=parseFloat(r.value);if(p)ttsUtterance.pitch=parseFloat(p.value);ttsUtterance.onend=function(){ttsPlaying=false;ttsCurrentIdx=0;ttsCharOffset=0;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight();var rng=document.getElementById('tts-range');if(rng)rng.value=0};ttsUtterance.onboundary=function(ev){if(ev.name==='word'||ev.name==='sentence'){var charPos=ev.charIndex;var before=0;var done=idx;for(var j=idx;j<paras.length;j++){var plen=paras[j].textContent.length;if(charPos<before+plen+1){done=j;ttsCharOffset=charPos-before;break}before+=plen+1}if(done!==ttsCurrentIdx){ttsCurrentIdx=done;highlightParagraph(done)}var pct=(done-idx)/(paras.length-idx);updateTTSProgress(pct);var rng=document.getElementById('tts-range');if(rng)rng.value=Math.round(pct*100)}}};speechSynthesis.speak(ttsUtterance);ttsPlaying=true;updateTTSIcon();updateTTSProgress(0);highlightParagraph(idx);var rng=document.getElementById('tts-range');if(rng)rng.value=0}
-    function highlightParagraph(idx){var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');paras.forEach(function(p){p.classList.remove('tts-active')});if(idx>=0&&idx<paras.length){var el=paras[idx];el.classList.add('tts-active');el.scrollIntoView({behavior:'smooth',block:'center'})}}
-    function clearTTSHighlight(){document.querySelectorAll('#reader-content p[data-tts-idx].tts-active').forEach(function(p){p.classList.remove('tts-active')})}
-    function updateTTSProgress(pct){var fill=document.getElementById('tts-progress-fill');if(fill)fill.style.width=Math.max(0,Math.min(100,pct*100))+'%';var curEl=document.getElementById('tts-current-para');var totEl=document.getElementById('tts-total-para');if(curEl)curEl.textContent=ttsCurrentIdx+1;if(totEl)totEl.textContent=document.querySelectorAll('#reader-content p[data-tts-idx]').length}
-    (function(){try{var p=JSON.parse(localStorage.getItem('dn_progress')||'{}');var k='roommate-chaos';if(p[k]&&p[k].chapter==='ch-1'&&p[k].scroll){setTimeout(function(){window.scrollTo(0,p[k].scroll)},100)}var theme=localStorage.getItem('dn_theme');if(theme&&theme!=='light')document.documentElement.setAttribute('data-theme',theme);var fs=localStorage.getItem('dn_fontsize');if(fs){document.getElementById('reader-content').style.fontSize=fs+'px';var fv=document.getElementById('font-size-val');if(fv)fv.textContent=fs+'px';var fr=document.getElementById('font-size-range');if(fr)fr.value=fs}var font=localStorage.getItem('dn_font');if(font)document.getElementById('reader-content').style.fontFamily=font==='serif'?"'PingFang TC','Microsoft JhengHei',Georgia,serif":"system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif"}catch(e){}})();
-    var _st=null;window.addEventListener('scroll',function(){var pb=document.getElementById('reader-progress-bar');if(pb){var h=document.documentElement.scrollHeight-window.innerHeight;pb.style.width=h>0?Math.min(window.scrollY/h*100,100)+'%':'0%'}if(_st)clearTimeout(_st);_st=setTimeout(function(){try{var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');d['roommate-chaos']={chapter:'ch-1',scroll:window.scrollY,time:Date.now()};localStorage.setItem('dn_progress',JSON.stringify(d))}catch(e){}},500)});
+    (function(){
+      var uiVisible=true;
+      var ttsPlaying=false;
+      var ttsUtterance=null;
+      var ttsCurrentIdx=0;
+      var ttsCharOffset=0;
+
+      window.openSheet=function(id){document.getElementById(id).classList.add('active')};
+      window.closeSheet=function(id){document.getElementById(id).classList.remove('active')};
+
+      window.setTheme=function(t){
+        if(t==='light')document.documentElement.removeAttribute('data-theme');
+        else document.documentElement.setAttribute('data-theme',t);
+        try{localStorage.setItem('dn_theme',t)}catch(e){}
+      };
+
+      window.setFontSize=function(v){
+        document.getElementById('reader-content').style.fontSize=v+'px';
+        var fv=document.getElementById('font-size-val');
+        if(fv)fv.textContent=v+'px';
+        try{localStorage.setItem('dn_fontsize',v)}catch(e){}
+      };
+
+      window.setFont=function(t){
+        var el=document.getElementById('reader-content');
+        if(t==='serif')el.style.fontFamily="'PingFang TC','Microsoft JhengHei',Georgia,serif";
+        else el.style.fontFamily="system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif";
+        try{localStorage.setItem('dn_font',t)}catch(e){}
+      };
+
+      window.toggleTTS=function(){
+        if(ttsPlaying){speechSynthesis.cancel();ttsPlaying=false;ttsCurrentIdx=0;updateTTSIcon();updateTTSProgress(0)}
+        else{var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');if(!paras.length)return;speakFrom(ttsCurrentIdx)}
+      };
+
+      window.updateTTSIcon=function(){
+        var pi=document.getElementById('tts-play-icon');
+        var pa=document.getElementById('tts-pause-icon');
+        if(pi)pi.classList.toggle('hidden',ttsPlaying);
+        if(pa)pa.classList.toggle('hidden',!ttsPlaying)
+      };
+
+      window.setTTSRate=function(v){
+        document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';
+        if(ttsUtterance)ttsUtterance.rate=parseFloat(v)
+      };
+
+      window.setTTSPitch=function(v){
+        document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);
+        if(ttsUtterance)ttsUtterance.pitch=parseFloat(v)
+      };
+
+      window.seekTTSRange=function(val){
+        var pct=parseInt(val)/100;
+        var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');
+        var total=paras.length;
+        if(!total)return;
+        var targetIdx=Math.min(Math.floor(pct*total),total-1);
+        if(targetIdx<0)targetIdx=0;
+        if(ttsPlaying)speakFrom(targetIdx);
+        else{ttsCurrentIdx=targetIdx;updateTTSProgress(targetIdx/(total-1));highlightParagraph(targetIdx)}
+      };
+
+      function speakFrom(idx){
+        speechSynthesis.cancel();
+        var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');
+        if(idx<0||idx>=paras.length){ttsPlaying=false;ttsCurrentIdx=0;ttsCharOffset=0;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight();return}
+        ttsCurrentIdx=idx;
+        ttsCharOffset=0;
+        var txt='';
+        for(var i=idx;i<paras.length;i++){txt+=paras[i].textContent+' '}
+        ttsUtterance=new SpeechSynthesisUtterance(txt);
+        ttsUtterance.lang='zh-TW';
+        var r=document.getElementById('tts-rate');
+        var p=document.getElementById('tts-pitch');
+        if(r)ttsUtterance.rate=parseFloat(r.value);
+        if(p)ttsUtterance.pitch=parseFloat(p.value);
+        ttsUtterance.onend=function(){
+          ttsPlaying=false;
+          ttsCurrentIdx=0;
+          ttsCharOffset=0;
+          updateTTSIcon();
+          updateTTSProgress(0);
+          clearTTSHighlight();
+          var rng=document.getElementById('tts-range');
+          if(rng)rng.value=0
+        };
+        ttsUtterance.onboundary=function(ev){
+          if(ev.name==='word'||ev.name==='sentence'){
+            var charPos=ev.charIndex;
+            var before=0;
+            var done=idx;
+            for(var j=idx;j<paras.length;j++){
+              var plen=paras[j].textContent.length;
+              if(charPos<before+plen+1){done=j;ttsCharOffset=charPos-before;break}
+              before+=plen+1
+            }
+            if(done!==ttsCurrentIdx){ttsCurrentIdx=done;highlightParagraph(done)}
+            var pct=(done-idx)/(paras.length-idx);
+            updateTTSProgress(pct);
+            var rng=document.getElementById('tts-range');
+            if(rng)rng.value=Math.round(pct*100)
+          }
+        };
+        speechSynthesis.speak(ttsUtterance);
+        ttsPlaying=true;
+        updateTTSIcon();
+        updateTTSProgress(0);
+        highlightParagraph(idx);
+        var rng=document.getElementById('tts-range');
+        if(rng)rng.value=0
+      }
+
+      function highlightParagraph(idx){
+        var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');
+        paras.forEach(function(p){p.classList.remove('tts-active')});
+        if(idx>=0&&idx<paras.length){
+          var el=paras[idx];
+          el.classList.add('tts-active');
+          el.scrollIntoView({behavior:'smooth',block:'center'})
+        }
+      }
+
+      function clearTTSHighlight(){
+        document.querySelectorAll('#reader-content p[data-tts-idx].tts-active').forEach(function(p){p.classList.remove('tts-active')})
+      }
+
+      function updateTTSProgress(pct){
+        var fill=document.getElementById('tts-progress-fill');
+        if(fill)fill.style.width=Math.max(0,Math.min(100,pct*100))+'%';
+        var curEl=document.getElementById('tts-current-para');
+        var totEl=document.getElementById('tts-total-para');
+        if(curEl)curEl.textContent=ttsCurrentIdx+1;
+        if(totEl)totEl.textContent=document.querySelectorAll('#reader-content p[data-tts-idx]').length
+      }
+
+      // Restore saved state
+      (function(){
+        try{
+          var p=JSON.parse(localStorage.getItem('dn_progress')||'{}');
+          var k='roommate-chaos';
+          if(p[k]&&p[k].chapter==='ch-1'&&p[k].scroll){
+            setTimeout(function(){window.scrollTo(0,p[k].scroll)},100)
+          }
+          var theme=localStorage.getItem('dn_theme');
+          if(theme&&theme!=='light')document.documentElement.setAttribute('data-theme',theme);
+          var fs=localStorage.getItem('dn_fontsize');
+          if(fs){
+            document.getElementById('reader-content').style.fontSize=fs+'px';
+            var fv=document.getElementById('font-size-val');
+            if(fv)fv.textContent=fs+'px';
+            var fr=document.getElementById('font-size-range');
+            if(fr)fr.value=fs
+          }
+          var font=localStorage.getItem('dn_font');
+          if(font){
+            var el=document.getElementById('reader-content');
+            if(font==='serif')el.style.fontFamily="'PingFang TC','Microsoft JhengHei',Georgia,serif";
+            else el.style.fontFamily="system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif"
+          }
+        }catch(e){}
+      })();
+
+      // Scroll progress
+      var _st=null;
+      window.addEventListener('scroll',function(){
+        var pb=document.getElementById('reader-progress-bar');
+        if(pb){
+          var h=document.documentElement.scrollHeight-window.innerHeight;
+          pb.style.width=h>0?Math.min(window.scrollY/h*100,100)+'%':'0%'
+        }
+        if(_st)clearTimeout(_st);
+        _st=setTimeout(function(){
+          try{
+            var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');
+            d['roommate-chaos']={chapter:'ch-1',scroll:window.scrollY,time:Date.now()};
+            localStorage.setItem('dn_progress',JSON.stringify(d))
+          }catch(e){}
+        },500)
+      });
+    })();
     </script>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}
