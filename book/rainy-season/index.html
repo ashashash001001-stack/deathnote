@@ -1585,7 +1585,7 @@ body {
     <button class="btn-press" onclick="history.back()" aria-label="返回上一頁">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
     <h1>雨季不再來</h1></div></div>
-    <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="./" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="category/romance" style="color:var(--color-text-secondary)">言情</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 雨季不再來</span></nav>
+    <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="/deathnote/" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="/deathnote/category/romance" style="color:var(--color-text-secondary)">言情</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 雨季不再來</span></nav>
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#E88D9E" aria-hidden="true"></div>
       <div class="detail-hero-content">
@@ -1612,16 +1612,16 @@ body {
     <button class="synopsis-toggle btn-press" style="color:#E88D9E" onclick="toggleSynopsis()" aria-label="展開或收合簡介">展開全部</button></section>
     
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>
-    <div class="toc-list-wrap"><div id="toc-list"><a href="book/rainy-season/ch-1" class="toc-item btn-press"><span>第一章：雨中的陌生人</span><span>330 字</span></a></div></div></section>
+    <div class="toc-list-wrap"><div id="toc-list"><a href="/deathnote/book/rainy-season/ch-1" class="toc-item btn-press"><span>第一章：雨中的陌生人</span><span>330 字</span></a></div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="book/rainy-season/ch-1" class="btn-primary btn-press" style="background:#E88D9E" aria-label="開始閱讀 雨季不再來">開始閱讀</a>
+      <a href="/deathnote/book/rainy-season/ch-1" class="btn-primary btn-press" style="background:#E88D9E" aria-label="開始閱讀 雨季不再來">開始閱讀</a>
       <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('rainy-season')" aria-label="加入書籤">加入書籤</button>
     </div>
   </main>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：雨中的陌生人","words":330}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/rainy-season/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：雨中的陌生人","words":330}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="/deathnote/book/rainy-season/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn){btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤';btn.classList.toggle('bookmark-active',bm.indexOf(id)>-1)}}
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('rainy-season')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}})()
   </script>

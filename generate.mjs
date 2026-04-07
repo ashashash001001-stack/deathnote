@@ -119,13 +119,13 @@ function rankBadge(i) { return i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'ran
 
 function footerNav(active) {
   return `<nav class="footer-nav" role="navigation" aria-label="底部導航">
-    <a href="./" class="footer-nav-item${active==='home'?' active':''}" data-nav="home" aria-label="首頁">
+    <a href="/" class="footer-nav-item${active==='home'?' active':''}" data-nav="home" aria-label="首頁">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>首頁</a>
-    <a href="search" class="footer-nav-item${active==='search'?' active':''}" data-nav="search" aria-label="搜尋">
+    <a href="/search" class="footer-nav-item${active==='search'?' active':''}" data-nav="search" aria-label="搜尋">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>搜尋</a>
-    <a href="legal/privacy" class="footer-nav-item${active==='privacy'?' active':''}" data-nav="privacy" aria-label="隱私權政策">
+    <a href="/legal/privacy" class="footer-nav-item${active==='privacy'?' active':''}" data-nav="privacy" aria-label="隱私權政策">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>隱私</a>
-    <a href="legal/terms" class="footer-nav-item${active==='terms'?' active':''}" data-nav="terms" aria-label="使用條款">
+    <a href="/legal/terms" class="footer-nav-item${active==='terms'?' active':''}" data-nav="terms" aria-label="使用條款">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>條款</a>
   </nav>`;
 }
@@ -134,7 +134,7 @@ function headerHTML() {
   return `<header class="header" role="banner">
     <div class="header-inner">
       <a href="./" class="logo" aria-label="${SITE.name} 首頁">${SVG_ICON}<span class="logo-text">${SITE.name}</span></a>
-      <button class="btn-press" onclick="window.location.href='search'" aria-label="搜尋小說">
+      <button class="btn-press" onclick="window.location.href='/search'" aria-label="搜尋小說">
         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </button>
     </div>
@@ -209,7 +209,9 @@ function fixPaths(html) {
     .replace(/href="\/manifest.json"/g,'href="manifest.json"').replace(/href="\/sw.js"/g,'href="sw.js"')
     .replace(/href="\/sitemap.xml"/g,'href="sitemap.xml"').replace(/href="\/robots.txt"/g,'href="robots.txt"')
     .replace(/href="\/"/g,'href="./"').replace(/location\.href='\/search'/g,"location.href='search'")
-    .replace(/location\.href='\/'/g,"location.href='./'").replace(/register\('\/sw.js'\)/g,"register('sw.js')");
+    .replace(/location\.href='\/'/g,"location.href='./'").replace(/register\('\/sw.js'\)/g,"register('sw.js')")
+    .replace(/onclick="window\.location\.href='\/search'"/g,"onclick=\"window.location.href='search'\"")
+    .replace(/onclick="window\.location\.href='\/'"/g,"onclick=\"window.location.href='./'\"");
 }
 
 function write(path, content) {
@@ -374,7 +376,7 @@ function write(path, content) {
   const body = `<main class="page">
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="搜尋小說">搜尋小說</h1>
     <div class="search-header"><div class="search-bar">
-      <button class="btn-press" onclick="window.location.href='./'" aria-label="返回首頁">
+      <button class="btn-press" onclick="window.location.href='/'" aria-label="返回首頁">
         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
       <div class="search-icon-wrap">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -398,7 +400,7 @@ function write(path, content) {
     var ql=q.toLowerCase();
     var results=booksData.filter(function(b){return b.title.toLowerCase().includes(ql)||b.author.toLowerCase().includes(ql)||b.tags.some(function(t){return t.toLowerCase().includes(ql)})});
     resDiv.innerHTML='<div class="result-count">找到 '+results.length+' 個結果</div>'+
-    results.map(function(b){return '<a href="book/'+b.id+'" class="result-item btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:'+(b.color?parseInt(b.color.slice(1),16)%360:210)+';--hue2:'+(b.color?(parseInt(b.color.slice(1),16)%360+40)%360:250)+';width:48px;height:64px"><div class="cover-content"><h2 class="cover-title" style="font-size:12px">'+b.title.slice(0,2)+'</h2></div></div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--color-text-tertiary);padding:32px 0">找不到相關結果</p>';
+    results.map(function(b){return '<a href="${SITE.base}/book/'+b.id+'" class="result-item btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:'+(b.color?parseInt(b.color.slice(1),16)%360:210)+';--hue2:'+(b.color?(parseInt(b.color.slice(1),16)%360+40)%360:250)+';width:48px;height:64px"><div class="cover-content"><h2 class="cover-title" style="font-size:12px">'+b.title.slice(0,2)+'</h2></div></div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--color-text-tertiary);padding:32px 0">找不到相關結果</p>';
   }
   <\/script>`;
 
@@ -410,7 +412,7 @@ CATEGORIES.forEach(cat => {
   const catBooks = BOOKS.filter(b => b.category === cat.id);
   const body = `<main class="page">${backHeader(cat.name+'小說')}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
-      `<a href="book/${b.id}" class="cat-book card-hover btn-press">${coverMini(b,80,112)}
+      `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press">${coverMini(b,80,112)}
         <div class="cat-book-info"><div><div class="cat-book-title">${b.title}</div>
         <div class="cat-book-author">${b.author}</div>
         <div class="cat-book-tags">${tagHTML(b)}</div></div>
@@ -445,7 +447,7 @@ BOOKS.forEach(book => {
     }</select>` : '';
 
   const body = `<main class="page">${backHeader(book.title)}
-    ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:cat?cat.name:'分類',url:`category/${book.category}`},{label:book.title}])}
+    ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat?cat.name:'分類',url:`${SITE.base}/category/${book.category}`},{label:book.title}])}
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:${book.color}" aria-hidden="true"></div>
       <div class="detail-hero-content">
@@ -463,17 +465,17 @@ BOOKS.forEach(book => {
     ${adHTML()}
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>${tocHTML}
     <div class="toc-list-wrap"><div id="toc-list">${bookChapters.map(ch =>
-      `<a href="book/${book.id}/${ch.id}" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
+      `<a href="${SITE.base}/book/${book.id}/${ch.id}" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
     ).join('')}</div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
+      <a href="${SITE.base}/book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
       <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('${book.id}')" aria-label="加入書籤">加入書籤</button>
     </div>
   </main>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="${SITE.base}/book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn){btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤';btn.classList.toggle('bookmark-active',bm.indexOf(id)>-1)}}
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('${book.id}')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}})()
   <\/script>`;
@@ -608,7 +610,7 @@ write('404.html', pageHTML('404 - 頁面不存在', '找不到您要的頁面', 
   <p style="font-size:64px;margin-bottom:16px" aria-hidden="true">📭</p>
   <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">404 - 頁面不存在</h1>
   <p style="color:var(--color-text-secondary);margin-bottom:24px">您尋找的頁面可能已被移除或不存在</p>
-  <a href="./" class="btn-primary btn-press" style="display:inline-block;width:auto;padding:12px 32px;background:var(--color-text-primary)" aria-label="返回首頁">返回首頁</a>
+      <a href="/" class="btn-primary btn-press" style="display:inline-block;width:auto;padding:12px 32px;background:var(--color-text-primary)" aria-label="返回首頁">返回首頁</a>
 </div>${footerNav('home')}</main>`, null, '/404'));
 
 // ===== SITEMAP =====
