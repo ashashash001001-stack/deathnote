@@ -525,7 +525,7 @@ BOOKS.forEach(book => {
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           ${prev ? `<a href="${SITE.base}/book/${book.id}/${prev.id}" class="nav-btn btn-press" aria-label="上一章：${prev.title}"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></a>` : '<span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>'}
-          <div class="reader-bottombar-tools">
+          <div class="reader-bottombar-tools" id="toolbar-btns">
             <button type="button" class="tool-btn btn-press" data-sheet="toc-sheet" aria-label="開啟目錄">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
             <button type="button" class="tool-btn btn-press" data-sheet="settings-sheet" aria-label="開啟閱讀設定">
@@ -641,11 +641,14 @@ BOOKS.forEach(book => {
       window.closeSheet=function(id){document.getElementById(id).classList.remove('active')};
       
       // Bind toolbar button clicks
-      document.querySelectorAll('.reader-bottombar-tools .tool-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-          var sheetId=this.getAttribute('data-sheet');
+      document.getElementById('toolbar-btns').addEventListener('click',function(e){
+        console.log('Toolbar clicked',e.target);
+        var btn=e.target.closest('[data-sheet]');
+        if(btn){
+          var sheetId=btn.getAttribute('data-sheet');
+          console.log('Opening sheet:',sheetId);
           if(sheetId)window.openSheet(sheetId);
-        });
+        }
       });
 
       window.setTheme=function(t){
