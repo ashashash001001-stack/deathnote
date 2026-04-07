@@ -154,7 +154,7 @@ function backHeader(title) {
 
 function adHTML() { return ''; }
 
-function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false) {
+function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, ogType = 'website') {
   const canonical = `${SITE.url}${path||'/'}`;
   const siteJsonLd = isHomepage ? {
     "@context": "https://schema.org",
@@ -180,7 +180,7 @@ function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false) {
 <link rel="canonical" href="${canonical}">
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc||SITE.description}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="${ogType}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:locale" content="zh_Hant">
 <meta name="twitter:card" content="summary">
@@ -404,13 +404,18 @@ function write(path, content) {
   }
   <\/script>`;
 
-  write('search/index.html', pageHTML('搜尋 - '+SITE.name, '搜尋小說、作者、關鍵字', '#F8F9FA', body, null, '/search'));
+  const searchJsonLd = {
+    "@context":"https://schema.org","@type":"SearchResultsPage","name":"搜尋結果",
+    "url":`${SITE.url}/search`
+  };
+  write('search/index.html', pageHTML('搜尋 - '+SITE.name, '搜尋小說、作者、關鍵字', '#F8F9FA', body, searchJsonLd, '/search'));
 })();
 
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
   const catBooks = BOOKS.filter(b => b.category === cat.id);
   const body = `<main class="page">${backHeader(cat.name+'小說')}
+    ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說'}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
       `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press">${coverMini(b,80,112)}
         <div class="cat-book-info"><div><div class="cat-book-title">${b.title}</div>
@@ -421,7 +426,13 @@ CATEGORIES.forEach(cat => {
     ).join('') + adHTML() : '<div style="text-align:center;padding:64px 0;color:var(--color-text-tertiary)"><p style="font-size:32px;margin-bottom:8px" aria-hidden="true">📭</p><p>此分類暫無作品</p></div>'}</div>
   </main>`;
 
-  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, null, `/category/${cat.id}`));
+  const catJsonLd = {
+    "@context":"https://schema.org","@type":"CollectionPage","name":`${cat.name}小說`,
+    "description":`瀏覽${cat.name}題材的小說`,
+    "url":`${SITE.url}/category/${cat.id}`,
+    "about":{"@type":"Thing","name":cat.name}
+  };
+  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, catJsonLd, `/category/${cat.id}`));
 });
 
 // ===== BOOK DETAIL =====
@@ -480,7 +491,7 @@ BOOKS.forEach(book => {
   (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('${book.id}')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}})()
   <\/script>`;
 
-  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`));
+  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`, false, 'book'));
 
   // ===== CHAPTER READER =====
   bookChapters.forEach((ch, idx) => {
@@ -578,12 +589,13 @@ BOOKS.forEach(book => {
     var _st=null;window.addEventListener('scroll',function(){var pb=document.getElementById('reader-progress-bar');if(pb){var h=document.documentElement.scrollHeight-window.innerHeight;pb.style.width=h>0?Math.min(window.scrollY/h*100,100)+'%':'0%'}if(_st)clearTimeout(_st);_st=setTimeout(function(){try{var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');d['${book.id}']={chapter:'${ch.id}',scroll:window.scrollY,time:Date.now()};localStorage.setItem('dn_progress',JSON.stringify(d))}catch(e){}},500)});
     <\/script>`;
 
-    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`));
+    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`, false, 'article'));
   });
 });
 
 // ===== LEGAL =====
 write('legal/privacy/index.html', pageHTML('隱私權政策 - '+SITE.name, '本網站的隱私權政策', '#F8F9FA', `<main class="page">${backHeader('隱私權政策')}
+  ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:'隱私權政策'}])}
   <div class="legal-body">
     <p class="legal-date">最後更新日期：2026年4月4日</p>
     <h2>1. 我們收集的資訊</h2><p>DeathNote 可能會收集：瀏覽數據、裝置資訊、Cookie 及類似技術所收集的資訊。</p>
@@ -595,6 +607,7 @@ write('legal/privacy/index.html', pageHTML('隱私權政策 - '+SITE.name, '本�
   </div>${footerNav('privacy')}</main>`, null, '/legal/privacy'));
 
 write('legal/terms/index.html', pageHTML('使用條款 - '+SITE.name, '本網站的使用條款', '#F8F9FA', `<main class="page">${backHeader('使用條款')}
+  ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:'使用條款'}])}
   <div class="legal-body">
     <p class="legal-date">最後更新日期：2026年4月4日</p>
     <h2>1. 接受條款</h2><p>使用本網站即表示您同意遵守本使用條款。</p>
