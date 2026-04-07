@@ -1386,26 +1386,65 @@ body {
 }
 .tts-progress-wrap {
   margin-bottom: var(--spacing-4);
+  padding: 0 var(--spacing-2);
 }
-.tts-progress-bar {
+.tts-range-slider {
+  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
-  height: 8px;
+  height: 12px;
   background: var(--color-border-light);
-  border: 2px solid var(--color-border);
+  border: 3px solid var(--color-border);
   border-radius: var(--radius-full);
-  overflow: hidden;
+  outline: none;
   cursor: pointer;
+  transition: box-shadow var(--motion-fast);
 }
-.tts-progress-fill {
-  height: 100%;
+.tts-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
   background: var(--color-primary);
-  transition: width 0.2s ease;
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-xs);
+  cursor: grab;
+  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+}
+.tts-range-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.15);
+  box-shadow: var(--shadow-sm);
+}
+.tts-range-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: var(--color-primary);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-xs);
+  cursor: grab;
+  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+}
+.tts-range-slider::-moz-range-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.15);
+  box-shadow: var(--shadow-sm);
+}
+.tts-range-slider::-moz-range-track {
+  height: 12px;
+  background: var(--color-border-light);
+  border: 3px solid var(--color-border);
   border-radius: var(--radius-full);
 }
 .tts-progress-label {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-1);
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
-  margin-top: var(--spacing-1);
+  margin-top: var(--spacing-2);
   font-weight: var(--font-medium);
 }
 .tts-control {
@@ -1678,9 +1717,7 @@ body {
             <svg id="tts-pause-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="hidden" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
           </button>
           <div class="tts-progress-wrap">
-            <div class="tts-progress-bar" id="tts-progress-bar" onclick="seekTTS(event)">
-              <div class="tts-progress-fill" id="tts-progress-fill" style="background:#E88D9E"></div>
-            </div>
+            <input type="range" min="0" max="100" value="0" step="1" id="tts-range" class="tts-range-slider" oninput="seekTTSRange(this.value)" aria-label="朗讀進度拖曳條">
             <div class="tts-progress-label"><span id="tts-current-para">0</span> / <span id="tts-total-para">0</span></div>
           </div>
           <div class="tts-control" style="text-align:left">
@@ -1712,8 +1749,8 @@ body {
     function updateTTSIcon(){var pi=document.getElementById('tts-play-icon');var pa=document.getElementById('tts-pause-icon');if(pi)pi.classList.toggle('hidden',ttsPlaying);if(pa)pa.classList.toggle('hidden',!ttsPlaying)}
     function setTTSRate(v){document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';if(ttsUtterance){ttsUtterance.rate=parseFloat(v)}}
     function setTTSPitch(v){document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);if(ttsUtterance){ttsUtterance.pitch=parseFloat(v)}}
-    function speakFrom(idx){speechSynthesis.cancel();var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');if(idx<0||idx>=paras.length){ttsPlaying=false;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight();return}ttsCurrentIdx=idx;ttsCharOffset=0;var txt='';for(var i=idx;i<paras.length;i++){txt+=paras[i].textContent+' '}ttsUtterance=new SpeechSynthesisUtterance(txt);ttsUtterance.lang='zh-TW';var r=document.getElementById('tts-rate');var p=document.getElementById('tts-pitch');if(r)ttsUtterance.rate=parseFloat(r.value);if(p)ttsUtterance.pitch=parseFloat(p.value);ttsUtterance.onend=function(){ttsPlaying=false;ttsCurrentIdx=0;ttsCharOffset=0;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight()};ttsUtterance.onboundary=function(ev){if(ev.name==='word'||ev.name==='sentence'){var charPos=ev.charIndex;var before=0;var done=idx;for(var j=idx;j<paras.length;j++){var plen=paras[j].textContent.length;if(charPos<before+plen+1){done=j;ttsCharOffset=charPos-before;break}before+=plen+1}if(done!==ttsCurrentIdx){ttsCurrentIdx=done;highlightParagraph(done)}updateTTSProgress((done-idx)/(paras.length-idx))}};speechSynthesis.speak(ttsUtterance);ttsPlaying=true;updateTTSIcon();updateTTSProgress(0);highlightParagraph(idx)}
-    function seekTTS(e){var bar=document.getElementById('tts-progress-bar');if(!bar)return;var rect=bar.getBoundingClientRect();var pct=(e.clientX-rect.left)/rect.width;var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');var total=paras.length;if(!total)return;var targetIdx=Math.min(Math.floor(pct*total),total-1);if(targetIdx<0)targetIdx=0;if(ttsPlaying){speakFrom(targetIdx)}else{ttsCurrentIdx=targetIdx;updateTTSProgress(targetIdx/(total-1));highlightParagraph(targetIdx)}}
+    function seekTTSRange(val){var pct=parseInt(val)/100;var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');var total=paras.length;if(!total)return;var targetIdx=Math.min(Math.floor(pct*total),total-1);if(targetIdx<0)targetIdx=0;if(ttsPlaying){speakFrom(targetIdx)}else{ttsCurrentIdx=targetIdx;updateTTSProgress(targetIdx/(total-1));highlightParagraph(targetIdx)}}
+    function speakFrom(idx){speechSynthesis.cancel();var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');if(idx<0||idx>=paras.length){ttsPlaying=false;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight();return}ttsCurrentIdx=idx;ttsCharOffset=0;var txt='';for(var i=idx;i<paras.length;i++){txt+=paras[i].textContent+' '}ttsUtterance=new SpeechSynthesisUtterance(txt);ttsUtterance.lang='zh-TW';var r=document.getElementById('tts-rate');var p=document.getElementById('tts-pitch');if(r)ttsUtterance.rate=parseFloat(r.value);if(p)ttsUtterance.pitch=parseFloat(p.value);ttsUtterance.onend=function(){ttsPlaying=false;ttsCurrentIdx=0;ttsCharOffset=0;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight();var rng=document.getElementById('tts-range');if(rng)rng.value=0};ttsUtterance.onboundary=function(ev){if(ev.name==='word'||ev.name==='sentence'){var charPos=ev.charIndex;var before=0;var done=idx;for(var j=idx;j<paras.length;j++){var plen=paras[j].textContent.length;if(charPos<before+plen+1){done=j;ttsCharOffset=charPos-before;break}before+=plen+1}if(done!==ttsCurrentIdx){ttsCurrentIdx=done;highlightParagraph(done)}var pct=(done-idx)/(paras.length-idx);updateTTSProgress(pct);var rng=document.getElementById('tts-range');if(rng)rng.value=Math.round(pct*100)}}};speechSynthesis.speak(ttsUtterance);ttsPlaying=true;updateTTSIcon();updateTTSProgress(0);highlightParagraph(idx);var rng=document.getElementById('tts-range');if(rng)rng.value=0}
     function highlightParagraph(idx){var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');paras.forEach(function(p){p.classList.remove('tts-active')});if(idx>=0&&idx<paras.length){var el=paras[idx];el.classList.add('tts-active');el.scrollIntoView({behavior:'smooth',block:'center'})}}
     function clearTTSHighlight(){document.querySelectorAll('#reader-content p[data-tts-idx].tts-active').forEach(function(p){p.classList.remove('tts-active')})}
     function updateTTSProgress(pct){var fill=document.getElementById('tts-progress-fill');if(fill)fill.style.width=Math.max(0,Math.min(100,pct*100))+'%';var curEl=document.getElementById('tts-current-para');var totEl=document.getElementById('tts-total-para');if(curEl)curEl.textContent=ttsCurrentIdx+1;if(totEl)totEl.textContent=document.querySelectorAll('#reader-content p[data-tts-idx]').length}
