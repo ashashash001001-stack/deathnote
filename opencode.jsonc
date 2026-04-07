@@ -19,5 +19,6 @@
   },
   "plugin": [
     "opencode-scheduler"
-  ]
+  ],
+  "model": "opencode/qwen3.6-plus-free"
 }

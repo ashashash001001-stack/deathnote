@@ -1892,15 +1892,15 @@ body {
             <div class="tts-progress-label"><span id="tts-current-para">0</span> / <span id="tts-total-para">0</span></div>
           </div>
           <div class="tts-control" style="text-align:left">
-            <div class="tts-label"><span>語言</span></div>
-            <div class="tts-toggle-group" style="display:flex;gap:8px;margin:8px 0 16px">
-              <button class="tts-toggle-btn active" id="tts-lang-zh" onclick="setTTSLang('zh-CN')" aria-label="普通話">普通話</button>
-              <button class="tts-toggle-btn" id="tts-lang-cantonese" onclick="setTTSLang('zh-HK')" aria-label="廣東話">廣東話</button>
-            </div>
             <div class="tts-label"><span>音色</span></div>
             <div class="tts-toggle-group" style="display:flex;gap:8px;margin:8px 0 16px">
-              <button class="tts-toggle-btn active" id="tts-voice-male" onclick="setTTSVoice('male')" aria-label="男聲">👨 男聲</button>
-              <button class="tts-toggle-btn" id="tts-voice-female" onclick="setTTSVoice('female')" aria-label="女聲">👩 女聲</button>
+              <button type="button" class="tts-toggle-btn active" id="tts-voice-male" data-voice="male" onclick="setTTSVoice(this)" aria-label="男聲">👨 男聲</button>
+              <button type="button" class="tts-toggle-btn" id="tts-voice-female" data-voice="female" onclick="setTTSVoice(this)" aria-label="女聲">👩 女聲</button>
+            </div>
+            <div class="tts-label"><span>語言</span></div>
+            <div class="tts-toggle-group" style="display:flex;gap:8px;margin:8px 0 16px">
+              <button type="button" class="tts-toggle-btn active" id="tts-lang-zh" data-lang="zh-CN" onclick="setTTSLang(this)" aria-label="普通話">普通話</button>
+              <button type="button" class="tts-toggle-btn" id="tts-lang-cantonese" data-lang="zh-HK" onclick="setTTSLang(this)" aria-label="廣東話">廣東話</button>
             </div>
             <div class="tts-label"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-rate" oninput="setTTSRate(this.value)" style="margin:8px 0 16px" aria-label="調整朗讀語速">
@@ -1915,6 +1915,48 @@ body {
       var ttsUtterance=null;
       var ttsCurrentIdx=0;
       var ttsCharOffset=0;
+      var ttsCurrentVoice='male';
+      var ttsCurrentLang='zh-CN';
+      
+      // Update button UI states
+      function updateButtonStates(){
+        document.querySelectorAll('.tts-toggle-btn').forEach(function(btn){btn.classList.remove('active')});
+        var maleBtn=document.getElementById('tts-voice-male');
+        var femaleBtn=document.getElementById('tts-voice-female');
+        var zhBtn=document.getElementById('tts-lang-zh');
+        var cantoneseBtn=document.getElementById('tts-lang-cantonese');
+        if(ttsCurrentVoice==='male'&&maleBtn)maleBtn.classList.add('active');
+        if(ttsCurrentVoice==='female'&&femaleBtn)femaleBtn.classList.add('active');
+        if(ttsCurrentLang==='zh-CN'&&zhBtn)zhBtn.classList.add('active');
+        if(ttsCurrentLang==='zh-HK'&&cantoneseBtn)cantoneseBtn.classList.add('active');
+      }
+      
+      window.setTTSVoice=function(btn){
+        var v=typeof btn==='string'?btn:btn.getAttribute('data-voice');
+        if(!v)return;
+        ttsCurrentVoice=v;
+        updateButtonStates();
+        try{localStorage.setItem('dn_tts_voice',v)}catch(e){}
+      };
+      
+      window.setTTSLang=function(btn){
+        var lang=typeof btn==='string'?btn:btn.getAttribute('data-lang');
+        if(!lang)return;
+        ttsCurrentLang=lang;
+        updateButtonStates();
+        try{localStorage.setItem('dn_tts_lang',lang)}catch(e){}
+      };
+
+      // Restore saved preferences
+      (function(){
+        try{
+          var savedVoice=localStorage.getItem('dn_tts_voice');
+          if(savedVoice)ttsCurrentVoice=savedVoice;
+          var savedLang=localStorage.getItem('dn_tts_lang');
+          if(savedLang)ttsCurrentLang=savedLang;
+        }catch(e){}
+      })();
+      updateButtonStates();
 
       window.openSheet=function(id){document.getElementById(id).classList.add('active')};
       window.closeSheet=function(id){document.getElementById(id).classList.remove('active')};
@@ -1961,31 +2003,7 @@ body {
         if(ttsUtterance)ttsUtterance.pitch=parseFloat(v)
       };
 
-window.setTTSVoice=function(v){
-        ttsCurrentVoice=v;
-        var maleBtn=document.getElementById('tts-voice-male');
-        var femaleBtn=document.getElementById('tts-voice-female');
-        if(maleBtn)maleBtn.classList.toggle('active',v==='male');
-        if(femaleBtn)femaleBtn.classList.toggle('active',v==='female');
-        try{localStorage.setItem('dn_tts_voice',v)}catch(e){}
-      };
-      
-      window.setTTSLang=function(lang){
-        ttsCurrentLang=lang;
-        var zhBtn=document.getElementById('tts-lang-zh');
-        var cantoneseBtn=document.getElementById('tts-lang-cantonese');
-        if(zhBtn)zhBtn.classList.toggle('active',lang==='zh-CN');
-        if(cantoneseBtn)cantoneseBtn.classList.toggle('active',lang==='zh-HK');
-        try{localStorage.setItem('dn_tts_lang',lang)}catch(e){}
-      };
-
-      // Restore saved preferences
-      (function(){
-        try{
-          var savedVoice=localStorage.getItem('dn_tts_voice');
-          if(savedVoice){ttsCurrentVoice=savedVoice;setTTSVoice(savedVoice)}
-          var savedLang=localStorage.getItem('dn_tts_lang');
-          if(savedLang){ttsCurrentLang=savedLang;setTTSLang(savedLang)}
+      window.seekTTSRange=function(val){
         }catch(e){}
       })();
 
