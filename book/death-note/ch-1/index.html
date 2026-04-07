@@ -1135,7 +1135,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1150,7 +1150,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1205,7 +1205,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1805,7 +1805,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#2C3E50"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1818,11 +1818,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：降臨">
         <h1>第一章：降臨</h1>
         <p data-tts-idx="0">放學後的校園格外安靜。</p><p data-tts-idx="1">夜神月獨自走在空無一人的走廊上，皮鞋踩在磨石子地板上發出清脆的聲響。夕陽的餘暉從窗戶斜斜地灑進來，將整條走廊染成橘紅色。</p><p data-tts-idx="2">「真是無聊透頂的世界。」他低聲自語。</p><p data-tts-idx="3">作為全國模擬考連續三年的榜首，月對這一切早已感到厭倦。老師的讚賞、同學的羨慕、父母的期待——所有這些在他看來都不過是這個腐朽世界的縮影。犯罪新聞、貪汙腐敗、道德淪喪，每天打開電視看到的都是這些令人作嘔的消息。</p><p data-tts-idx="4">就在他準備離開校舍的時候，一樣不尋常的東西從天而降。</p><p data-tts-idx="5">那是一本黑色的筆記本，封面上用白色字體寫著——</p><p data-tts-idx="6">「DEATH NOTE」</p><p data-tts-idx="7">月彎下腰，撿起了那本筆記本。翻開第一頁，上面寫著一段令人不寒而慄的使用說明：</p><p data-tts-idx="8">「The human whose name is written in this note shall die.」</p><p data-tts-idx="9">（名字被寫在這本筆記本上的人將會死亡。）</p><p data-tts-idx="10">月冷笑了一聲。「惡作劇嗎？真是幼稚。」</p><p data-tts-idx="11">然而，他還是將筆記本放進了書包裡。</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

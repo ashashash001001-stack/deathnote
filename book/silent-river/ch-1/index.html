@@ -1123,7 +1123,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1138,7 +1138,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1193,7 +1193,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1793,7 +1793,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#6B7280"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1806,11 +1806,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：河之源">
         <h1>第一章：河之源</h1>
         <p data-tts-idx="0">那條河沒有名字。</p><p data-tts-idx="1">至少在江阿公的記憶裡，沒有人給它取過名字。它就那樣靜靜地流過村子，從有記憶的時候就在流，流過了日治時代的甘蔗園、流過了戰後的荒亂歲月、流到了現在——村裡的年輕人都去了城市，只剩下老人和那條河。</p><p data-tts-idx="2">江阿公坐在河邊的老榕樹下，看著渾濁的河水緩緩流過。他的腳邊放著一把舊藤椅，藤椅上搭著一件洗得發白的藍色工作服。</p><p data-tts-idx="3">「阿公，這條河以前真的有那麼大嗎？」孫子江遠蹲在他身邊，手裡拿著一台相機。</p><p data-tts-idx="4">「大？」江阿公笑了，露出僅存的幾顆牙齒，「以前啊，這河寬得對岸的人都看不清。夏天的時候，整條河都是金色的——不是水，是稻穗。兩岸的稻田一直延伸到山腳下。」</p><p data-tts-idx="5">他停頓了一下，目光望向遠方。</p><p data-tts-idx="6">「後來，一切都變了。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

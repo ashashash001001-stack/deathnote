@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#F59E0B"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：奇葩室友們">
         <h1>第一章：奇葩室友們</h1>
         <p data-tts-idx="0">林小魚做夢也沒想到，她的人生在找到合租套房的那一刻起，變成了一部荒謬喜劇。</p><p data-tts-idx="1">室友一號：陳美聲，歌劇系碩二。每天凌晨兩點在客廳練聲，曲目是《今夜無人入睡》。林小魚覺得自己確實無人能睡了。</p><p data-tts-idx="2">室友二號：貓奴阿宅，本名不詳，自稱「貓奴」，在家養了二十隻貓。客廳、廚房、廁所、甚至冰箱裡都可能有貓。</p><p data-tts-idx="3">室友三號：外星人小王，哲學系博士生，堅信自己是M78星雲派來地球考察的使者。他的房間裡貼滿了星圖，書架上全是尼采和康德的著作。</p><p data-tts-idx="4">搬進去的第一天晚上，林小魚被美聲的高音C吵醒，踩到了一隻貓，然後在廚房遇到了正在用望遠鏡觀察月亮的小王。</p><p data-tts-idx="5">「你好，地球人。」小王認真地說，「你們的噪音污染指數已經超過了星際標準。」</p><p data-tts-idx="6">林小魚看著天花板，認真考慮了搬回去跟父母住的可能性。</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

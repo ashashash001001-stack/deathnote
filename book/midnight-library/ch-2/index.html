@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#A3B18A"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第二章：另一種人生">
         <h1>第二章：另一種人生</h1>
         <p data-tts-idx="0">林晚翻開了那本書。</p><p data-tts-idx="1">書頁間的文字像活過來一樣，在她眼前展開了一幅她從未想像過的畫面——</p><p data-tts-idx="2">二十五歲的林晚，沒有選擇念商科，而是去了巴黎學畫。她在蒙馬特的小公寓裡，窗台上擺滿了顏料管。牆上掛著她自己的畫作，色彩大膽而熱烈。</p><p data-tts-idx="3">三十歲的林晚，在一家小型畫廊舉辦了人生第一次個展。來的人不多，但每一個站在她畫作前的人，眼中都有光。</p><p data-tts-idx="4">三十五歲的林晚，遇到了一個懂她的人。他不富有，但會在每個清晨為她煮一杯咖啡，然後安靜地坐在角落看她畫畫。</p><p data-tts-idx="5">「這……」林晚的眼眶濕了，「這些都是真的嗎？」</p><p data-tts-idx="6">「這些都是可能。」老太太的聲音從身後傳來，「每一個選擇，都會開啟一條新的時間線。這本書只是讓你看見——如果你當初勇敢一點，人生會是什麼模樣。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <a href="/deathnote/book/midnight-library/ch-1" class="nav-btn btn-press" aria-label="上一章：第一章：午夜的鐘聲"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></a>

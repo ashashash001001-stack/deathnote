@@ -1123,7 +1123,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1138,7 +1138,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1193,7 +1193,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1793,7 +1793,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#E88D9E"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1806,11 +1806,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：雨中的陌生人">
         <h1>第一章：雨中的陌生人</h1>
         <p data-tts-idx="0">台北的雨季總是來得毫無預警。</p><p data-tts-idx="1">蘇晴站在捷運站門口，看著傾盆大雨，後悔自己沒有帶傘。她剛從醫院出來——母親的檢查結果不太好，需要進一步治療。她站在雨中，突然覺得自己就像這座城市一樣，被無止境的雨水淹沒。</p><p data-tts-idx="2">「一起走吧。」一把黑色的雨傘出現在她頭頂。</p><p data-tts-idx="3">撐傘的人是一個陌生的男人，三十歲出頭，穿著一件深灰色的風衣。他的表情很平靜，像是做了一件再自然不過的事。</p><p data-tts-idx="4">「我們……認識嗎？」蘇晴有些警惕。</p><p data-tts-idx="5">「不認識。但你看起來需要一把傘。」他笑了笑，「我叫林深。你呢？」</p><p data-tts-idx="6">「蘇晴。」</p><p data-tts-idx="7">「晴天。」林深看了看天，「但今天沒有晴天。」</p><p data-tts-idx="8">那把傘陪她走完了從捷運站到家的十分鐘路程。十分鐘後，林深把傘遞給她：「下次還我就好。」</p><p data-tts-idx="9">「我們連彼此的電話都沒有。」</p><p data-tts-idx="10">「那就當作是命運的安排吧。」他揮揮手，走進了雨中。</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

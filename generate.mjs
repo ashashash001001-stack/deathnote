@@ -502,7 +502,7 @@ BOOKS.forEach(book => {
       "isPartOf":{"@type":"Book","name":book.title}
     };
 
-    const body = `<div class="reader-page"><main class="reader-immersive" id="reader-el">
+    const body = `<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:${book.color}"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -515,11 +515,13 @@ BOOKS.forEach(book => {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="${ch.title}">
         <h1>${ch.title}</h1>
         ${ch.content.split('\n').filter(p=>p.trim()).map((p,i)=>`<p data-tts-idx="${i}">${p.trim()}</p>`).join('')}
       </article>
       ${adHTML()}
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           ${prev ? `<a href="${SITE.base}/book/${book.id}/${prev.id}" class="nav-btn btn-press" aria-label="上一章：${prev.title}"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></a>` : '<span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>'}

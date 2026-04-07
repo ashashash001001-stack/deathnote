@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#3B82F6"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：深夢計畫">
         <h1>第一章：深夢計畫</h1>
         <p data-tts-idx="0">2157年，新上海。</p><p data-tts-idx="1">李維站在「深夢科技」總部大樓的頂層，俯瞰著腳下霓虹閃爍的城市。作為首席夢境工程師，他比任何人都清楚這項技術意味著什麼。</p><p data-tts-idx="2">「量子夢境共享系統」——簡稱深夢——已經通過了最後一輪臨床試驗。簡單來說，它能在多人之間建立一個共享的夢境空間。在這個空間裡，物理法則可以重寫，時間可以扭曲，想像力是唯一的邊界。</p><p data-tts-idx="3">「李工，董事會要你在明天之前提交最終報告。」助理的聲音從通訊器裡傳來。</p><p data-tts-idx="4">「知道了。」</p><p data-tts-idx="5">但他沒有告訴任何人一件事——在昨晚的測試中，他夢見了一個不應該存在的東西。</p><p data-tts-idx="6">在夢境的最深處，有一扇門。門後有一個聲音，用他母親的語調說了一句話：</p><p data-tts-idx="7">「你不該來這裡。他們在騙你。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

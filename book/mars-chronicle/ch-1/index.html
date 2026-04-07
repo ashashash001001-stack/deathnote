@@ -1135,7 +1135,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1150,7 +1150,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1205,7 +1205,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1805,7 +1805,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#3B82F6"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1818,11 +1818,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：紅色星球">
         <h1>第一章：紅色星球</h1>
         <p data-tts-idx="0">「著陸倒數，十、九、八……」</p><p data-tts-idx="1">張遠透過舷窗看著那顆越來越大的紅色星球。火星——人類夢想了幾個世紀的地方，今天終於要踏足。</p><p data-tts-idx="2">「三、二、一、著陸。」</p><p data-tts-idx="3">一陣劇烈的震動後，「希望號」登陸艙穩穩地落在了火星的水手號谷邊緣。艙內六名船員沉默了幾秒，然後爆發出一陣歡呼。</p><p data-tts-idx="4">「休士頓，希望號已成功著陸。重複，希望號已成功著陸。」指令長的聲音有些顫抖。</p><p data-tts-idx="5">張遠是任務的地質學家。他第一個穿上太空服，踏上了火星的表面。</p><p data-tts-idx="6">紅色的塵土在他的靴子下揚起。他蹲下來，用地質錘敲了一塊岩石。</p><p data-tts-idx="7">然後他看到了——岩石的斷面上，有一組規則的幾何圖案。那不是自然形成的。</p><p data-tts-idx="8">「休士頓……」他的聲音乾澀得像火星的空氣，「我想你們需要看看這個。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

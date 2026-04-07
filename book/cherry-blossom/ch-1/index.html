@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#E88D9E"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：櫻花樹下的願望">
         <h1>第一章：櫻花樹下的願望</h1>
         <p data-tts-idx="0">三月底的京都，櫻花開了。</p><p data-tts-idx="1">佐藤美咲站在哲學之道旁，看著粉白色的花瓣隨風飄落在河面上。這是她第一次一個人來京都——剛剛結束了一段三年的感情，她需要一個安靜的地方重新開始。</p><p data-tts-idx="2">「那棵樹，你看過了嗎？」一個聲音從身後傳來。</p><p data-tts-idx="3">美咲轉過頭，看見一個戴著眼鏡的年輕男生，手裡拿著一本素描本。</p><p data-tts-idx="4">「哪棵樹？」</p><p data-tts-idx="5">「河對岸那棵最大的。聽說有一千年歷史了。」男生笑了笑，「當地人說，在那棵樹下許願的話，願望一定會實現。」</p><p data-tts-idx="6">美咲順著他指的方向看去。那棵櫻花樹確實壯觀，粉白色的花雲籠罩了半條河道。</p><p data-tts-idx="7">「那你許了什麼願？」她問。</p><p data-tts-idx="8">男生愣了一下，然後把素描本翻開給你看——上面畫的，正是此刻站在櫻花樹下的美咲。</p><p data-tts-idx="9">「我希望能遇見一個讓我想要畫下來的人。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

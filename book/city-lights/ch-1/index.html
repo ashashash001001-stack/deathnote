@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#6B7280"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：深夜便利店">
         <h1>第一章：深夜便利店</h1>
         <p data-tts-idx="0">凌晨三點的7-11，是這座城市最安靜的角落。</p><p data-tts-idx="1">陳默是這家店的大夜班店員。他喜歡這個時段——沒有白天的喧囂，沒有擁擠的客人，只有冰櫃低沉的嗡嗡聲和偶爾進來的幾個夜歸人。</p><p data-tts-idx="2">今晚的第一個客人是一個計程車司機。他買了一包菸和一瓶咖啡，站在門口抽菸的時候，跟陳默聊起了他今晚載到的一個奇怪客人——一個穿著睡衣、抱著一盆仙人掌的女人，要在凌晨三點去陽明山看星星。</p><p data-tts-idx="3">第二個客人是一個失眠的作家。她每天凌晨三點準時出現，買同一款茶包，坐在靠窗的位置寫東西。陳默從來沒看過她寫什麼，但她的表情總是忽喜忽悲，像是活在另一個世界裡。</p><p data-tts-idx="4">第三個客人是一個剛出院的獨居老人。他走得很慢，買了一個飯糰和一瓶茶。結帳的時候，他看著陳默說：「年輕人，你一個人在這裡不會寂寞嗎？」</p><p data-tts-idx="5">陳默想了想，回答：「不會。因為每個來這裡的人，都帶著一個故事。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

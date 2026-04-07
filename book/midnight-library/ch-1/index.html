@@ -1135,7 +1135,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1150,7 +1150,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1205,7 +1205,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1805,7 +1805,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#A3B18A"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1818,11 +1818,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：午夜的鐘聲">
         <h1>第一章：午夜的鐘聲</h1>
         <p data-tts-idx="0">林晚從來不相信命運這種東西。</p><p data-tts-idx="1">直到那個下著大雨的深夜，她失魂落魄地走在回家的路上，看見了那盞燈。</p><p data-tts-idx="2">那是一間她從未見過的書店，就開在她每天經過的巷口。木製的招牌上寫著三個字——「午夜圖書館」。</p><p data-tts-idx="3">她推開門，門鈴叮噹作響。</p><p data-tts-idx="4">「歡迎光臨。」櫃檯後的老太太抬起頭，笑容溫和得像是在等一個老朋友，「你來了。」</p><p data-tts-idx="5">「我們……見過嗎？」林晚有些疑惑。</p><p data-tts-idx="6">「沒有。但我一直在等你。」老太太站起身，從書架上抽出一本深藍色封面的書，遞給她，「這本書，寫的是你的人生。」</p><p data-tts-idx="7">林晚接過書，翻開第一頁。上面寫著她的名字、出生日期，以及一行小字：</p><p data-tts-idx="8">「如果你當時沒有放棄畫畫，現在的你會是什麼樣子？」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

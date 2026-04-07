@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#1F2937"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：末班車">
         <h1>第一章：末班車</h1>
         <p data-tts-idx="0">凌晨一點十五分，最後一班109路公車緩緩駛入站牌。</p><p data-tts-idx="1">安雅是車上唯一的乘客。她剛結束醫院的夜班，疲憊地靠在窗邊，閉著眼睛假寐。</p><p data-tts-idx="2">公車開過兩個站後，她感覺到旁邊的座位陷了下去——有人上車了，而且坐在了她旁邊。</p><p data-tts-idx="3">但公車並沒有停站。</p><p data-tts-idx="4">安雅睜開眼睛，用餘光瞥向旁邊。那是一個穿著白色連衣裙的女人，長髮遮住了臉。最讓安雅脊背發涼的是——她沒有看到那張臉的輪廓。就像是一團模糊的影子。</p><p data-tts-idx="5">「不要看它。」司機的聲音突然從前方傳來，平靜得詭異，「到了站你就下車，不要回頭。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>

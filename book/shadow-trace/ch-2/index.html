@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#2C3E50"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第二章：病院深處">
         <h1>第二章：病院深處</h1>
         <p data-tts-idx="0">手電筒的光束在黑暗中搖晃。</p><p data-tts-idx="1">方遠踏進病院大廳的那一刻，一股潮濕的霉味撲面而來。牆壁上佈滿了剝落的油漆和不明污漬，地上散落著生鏽的輪椅和破碎的藥瓶。</p><p data-tts-idx="2">他沿著走廊緩慢前進，腳下的積水發出啪嗒啪嗒的聲響。</p><p data-tts-idx="3">三樓。失蹤者最後被監視器拍到的位置。</p><p data-tts-idx="4">樓梯間的感應燈居然還亮著——這棟已經斷電十年的建築裡，有一盞燈亮著。</p><p data-tts-idx="5">方遠的手按在腰間的槍套上，一步一步走上三樓。</p><p data-tts-idx="6">走廊盡頭，307號病房的門虛掩著。門縫裡，透出一絲微弱的光。</p><p data-tts-idx="7">他推開門。</p><p data-tts-idx="8">房間裡空無一人。只有一張桌子，桌上放著一本翻開的日記。日記的字跡潦草，反复寫著同一句話：</p><p data-tts-idx="9">「它在牆裡。它在牆裡。它在牆裡。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <a href="/deathnote/book/shadow-trace/ch-1" class="nav-btn btn-press" aria-label="上一章：第一章：消失的人"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></a>

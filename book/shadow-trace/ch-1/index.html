@@ -1129,7 +1129,7 @@ body {
   right: 0;
   height: 3px;
   background: var(--color-border-light);
-  z-index: 31;
+  z-index: 101;
 }
 .reader-progress-bar {
   height: 100%;
@@ -1144,7 +1144,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 100;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1199,7 +1199,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 100;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
   padding: var(--spacing-2) var(--spacing-3);
@@ -1799,7 +1799,7 @@ body {
 
 </head>
 <body>
-<div class="reader-page"><main class="reader-immersive" id="reader-el">
+<div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#2C3E50"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -1812,11 +1812,13 @@ body {
           </nav>
         </div>
       </header>
+      <main class="reader-immersive" id="reader-el">
       <article class="reader-content" id="reader-content" aria-label="第一章：消失的人">
         <h1>第一章：消失的人</h1>
         <p data-tts-idx="0">雨下了一整夜。</p><p data-tts-idx="1">方遠站在警戒線外，看著那棟廢棄的公寓大樓。這是第三起了——同樣是深夜、同樣是失蹤、同樣沒有留下任何痕跡。</p><p data-tts-idx="2">「方隊，現場勘查完畢。」年輕的鑑識人員走過來，臉色有些蒼白，「還是……什麼都沒有。」</p><p data-tts-idx="3">方遠點點頭，沒有說話。他從口袋裡掏出一根菸，點燃，深吸了一口。</p><p data-tts-idx="4">三個失蹤者，互不相識，年齡、職業、居住地點完全不同。唯一的共同點是——他們失蹤前最後出現的地方，都距離這棟廢棄的精神病院不超過五百公尺。</p><p data-tts-idx="5">「封鎖這棟樓。」方遠掐滅菸頭，「我要親自進去看看。」</p><p data-tts-idx="6">「可是方隊，這棟樓的結構已經——」</p><p data-tts-idx="7">「執行命令。」</p>
       </article>
       
+      </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>
