@@ -517,7 +517,7 @@ BOOKS.forEach(book => {
       </header>
       <article class="reader-content" id="reader-content" aria-label="${ch.title}">
         <h1>${ch.title}</h1>
-        ${ch.content.split('\n').filter(p=>p.trim()).map(p=>`<p>${p.trim()}</p>`).join('')}
+        ${ch.content.split('\n').filter(p=>p.trim()).map((p,i)=>`<p data-tts-idx="${i}">${p.trim()}</p>`).join('')}
       </article>
       ${adHTML()}
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
@@ -560,6 +560,12 @@ BOOKS.forEach(book => {
             <svg id="tts-play-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
             <svg id="tts-pause-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="hidden" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
           </button>
+          <div class="tts-progress-wrap">
+            <div class="tts-progress-bar" id="tts-progress-bar">
+              <div class="tts-progress-fill" id="tts-progress-fill" style="background:${book.color}"></div>
+            </div>
+            <div class="tts-progress-label"><span id="tts-current-para">0</span> / <span id="tts-total-para">0</span></div>
+          </div>
           <div class="tts-control" style="text-align:left">
             <div class="tts-label"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-rate" oninput="setTTSRate(this.value)" style="margin:8px 0 16px" aria-label="調整朗讀語速">
@@ -569,6 +575,9 @@ BOOKS.forEach(book => {
     </div></main></div>
     <script>
     var uiVisible=true;
+    var ttsPlaying=false;
+    var ttsUtterance=null;
+    var ttsCurrentIdx=0;
     document.getElementById('reader-topbar').classList.add('show');
     document.getElementById('reader-bottombar').classList.add('show');
     document.getElementById('reader-el').addEventListener('click',function(e){if(e.target.closest('.reader-topbar,.reader-bottombar,.sheet-overlay,.sheet-content'))return;uiVisible=!uiVisible;document.getElementById('reader-topbar').classList.toggle('show',uiVisible);document.getElementById('reader-bottombar').classList.toggle('show',uiVisible)});
@@ -581,10 +590,15 @@ BOOKS.forEach(book => {
     }
     function setFontSize(v){document.getElementById('reader-content').style.fontSize=v+'px';document.getElementById('font-size-val').textContent=v+'px';try{localStorage.setItem('dn_fontsize',v)}catch(e){}}
     function setFont(t){document.getElementById('reader-content').style.fontFamily=t==='serif'?"'PingFang TC','Microsoft JhengHei',Georgia,serif":"system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif";try{localStorage.setItem('dn_font',t)}catch(e){}}
-    function toggleTTS(){if(ttsPlaying){speechSynthesis.cancel();ttsPlaying=false}else{var text=document.getElementById('reader-content').textContent;if(!text)return;ttsUtterance=new SpeechSynthesisUtterance(text);ttsUtterance.lang='zh-TW';var r=document.getElementById('tts-rate');var p=document.getElementById('tts-pitch');if(r)ttsUtterance.rate=parseFloat(r.value);if(p)ttsUtterance.pitch=parseFloat(p.value);ttsUtterance.onend=function(){ttsPlaying=false;updateTTSIcon()};speechSynthesis.speak(ttsUtterance);ttsPlaying=true}updateTTSIcon()}
+    function toggleTTS(){if(ttsPlaying){speechSynthesis.cancel();ttsPlaying=false;ttsCurrentIdx=0;updateTTSIcon();updateTTSProgress(0)}else{var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');if(!paras.length)return;speakFrom(ttsCurrentIdx)}}
     function updateTTSIcon(){var pi=document.getElementById('tts-play-icon');var pa=document.getElementById('tts-pause-icon');if(pi)pi.classList.toggle('hidden',ttsPlaying);if(pa)pa.classList.toggle('hidden',!ttsPlaying)}
-    function setTTSRate(v){document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';if(ttsUtterance){ttsUtterance.rate=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
-    function setTTSPitch(v){document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);if(ttsUtterance){ttsUtterance.pitch=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speechSynthesis.speak(ttsUtterance)}}
+    function setTTSRate(v){document.getElementById('tts-rate-val').textContent=parseFloat(v).toFixed(1)+'x';if(ttsUtterance){ttsUtterance.rate=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speakFrom(ttsCurrentIdx)}}
+    function setTTSPitch(v){document.getElementById('tts-pitch-val').textContent=parseFloat(v).toFixed(1);if(ttsUtterance){ttsUtterance.pitch=parseFloat(v);speechSynthesis.cancel();if(ttsPlaying)speakFrom(ttsCurrentIdx)}}
+    function speakFrom(idx){speechSynthesis.cancel();var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');if(idx<0||idx>=paras.length){ttsPlaying=false;updateTTSIcon();updateTTSProgress(0);return}ttsCurrentIdx=idx;var txt='';for(var i=idx;i<paras.length;i++){txt+=paras[i].textContent+' '}ttsUtterance=new SpeechSynthesisUtterance(txt);ttsUtterance.lang='zh-TW';var r=document.getElementById('tts-rate');var p=document.getElementById('tts-pitch');if(r)ttsUtterance.rate=parseFloat(r.value);if(p)ttsUtterance.pitch=parseFloat(p.value);ttsUtterance.onend=function(){ttsPlaying=false;ttsCurrentIdx=0;updateTTSIcon();updateTTSProgress(0);clearTTSHighlight()};ttsUtterance.onboundary=function(ev){if(ev.name==='sentence'){var before=txt.substring(0,ev.charIndex);var done=idx;for(var j=idx;j<paras.length;j++){if(ev.charIndex<before.length+paras[j].textContent.length){done=j;break}before+=paras[j].textContent+' '}if(done!==ttsCurrentIdx){ttsCurrentIdx=done;updateTTSProgress((done-idx)/(paras.length-idx));highlightParagraph(done)}}};speechSynthesis.speak(ttsUtterance);ttsPlaying=true;updateTTSIcon();updateTTSProgress(0);highlightParagraph(idx)}
+    function highlightParagraph(idx){var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');paras.forEach(function(p){p.classList.remove('tts-active')});if(idx>=0&&idx<paras.length){var el=paras[idx];el.classList.add('tts-active');el.scrollIntoView({behavior:'smooth',block:'center'})}}
+    function clearTTSHighlight(){document.querySelectorAll('#reader-content p[data-tts-idx].tts-active').forEach(function(p){p.classList.remove('tts-active')})}
+    function updateTTSProgress(pct){var fill=document.getElementById('tts-progress-fill');if(fill)fill.style.width=Math.max(0,Math.min(100,pct*100))+'%';var curEl=document.getElementById('tts-current-para');var totEl=document.getElementById('tts-total-para');if(curEl)curEl.textContent=ttsCurrentIdx+1;if(totEl)totEl.textContent=document.querySelectorAll('#reader-content p[data-tts-idx]').length}
+    function speakFromParagraph(idx){if(!ttsPlaying){speakFrom(idx)}else{speakFrom(idx)}}
     (function(){try{var p=JSON.parse(localStorage.getItem('dn_progress')||'{}');var k='${book.id}';if(p[k]&&p[k].chapter==='${ch.id}'&&p[k].scroll){setTimeout(function(){window.scrollTo(0,p[k].scroll)},100)}var theme=localStorage.getItem('dn_theme');if(theme&&theme!=='light')document.documentElement.setAttribute('data-theme',theme);var fs=localStorage.getItem('dn_fontsize');if(fs){document.getElementById('reader-content').style.fontSize=fs+'px';var fv=document.getElementById('font-size-val');if(fv)fv.textContent=fs+'px';var fr=document.getElementById('font-size-range');if(fr)fr.value=fs}var font=localStorage.getItem('dn_font');if(font)document.getElementById('reader-content').style.fontFamily=font==='serif'?"'PingFang TC','Microsoft JhengHei',Georgia,serif":"system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif"}catch(e){}})();
     var _st=null;window.addEventListener('scroll',function(){var pb=document.getElementById('reader-progress-bar');if(pb){var h=document.documentElement.scrollHeight-window.innerHeight;pb.style.width=h>0?Math.min(window.scrollY/h*100,100)+'%':'0%'}if(_st)clearTimeout(_st);_st=setTimeout(function(){try{var d=JSON.parse(localStorage.getItem('dn_progress')||'{}');d['${book.id}']={chapter:'${ch.id}',scroll:window.scrollY,time:Date.now()};localStorage.setItem('dn_progress',JSON.stringify(d))}catch(e){}},500)});
     <\/script>`;
