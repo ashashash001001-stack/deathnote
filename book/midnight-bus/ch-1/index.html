@@ -1852,12 +1852,12 @@ body {
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
           <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>
-          <div class="reader-bottombar-tools" id="toolbar-btns">
-            <button type="button" class="tool-btn btn-press" data-sheet="toc-sheet" aria-label="開啟目錄">
+          <div class="reader-bottombar-tools">
+            <button type="button" class="tool-btn btn-press" id="tool-btn-toc" aria-label="開啟目錄">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
-            <button type="button" class="tool-btn btn-press" data-sheet="settings-sheet" aria-label="開啟閱讀設定">
+            <button type="button" class="tool-btn btn-press" id="tool-btn-settings" aria-label="開啟閱讀設定">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg><span>設定</span></button>
-            <button type="button" class="tool-btn btn-press" data-sheet="tts-sheet" aria-label="開啟發聲朗讀">
+            <button type="button" class="tool-btn btn-press" id="tool-btn-tts" aria-label="開啟發聲朗讀">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 12h.01"/><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg><span>朗讀</span></button>
           </div>
           <span class="nav-btn disabled" aria-label="已是最後一章"><span class="nav-label">下一章</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
@@ -1968,15 +1968,9 @@ body {
       window.closeSheet=function(id){document.getElementById(id).classList.remove('active')};
       
       // Bind toolbar button clicks
-      document.getElementById('toolbar-btns').addEventListener('click',function(e){
-        console.log('Toolbar clicked',e.target);
-        var btn=e.target.closest('[data-sheet]');
-        if(btn){
-          var sheetId=btn.getAttribute('data-sheet');
-          console.log('Opening sheet:',sheetId);
-          if(sheetId)window.openSheet(sheetId);
-        }
-      });
+      document.getElementById('tool-btn-toc').onclick=function(){window.openSheet('toc-sheet')};
+      document.getElementById('tool-btn-settings').onclick=function(){window.openSheet('settings-sheet')};
+      document.getElementById('tool-btn-tts').onclick=function(){window.openSheet('tts-sheet')};
 
       window.setTheme=function(t){
         if(t==='light')document.documentElement.removeAttribute('data-theme');
