@@ -1564,6 +1564,32 @@ body {
   font-weight: var(--font-medium);
   color: var(--color-text-secondary);
 }
+.tts-voice-select {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  margin: 8px 0;
+  font-size: var(--text-sm);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary, #fff);
+  color: var(--color-text-primary, #1A1A2E);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+.tts-voice-select:focus {
+  outline: none;
+  border-color: var(--accent-default, #3B82F6);
+}
+[data-theme="night"] .tts-voice-select,
+[data-theme="sepia"] .tts-voice-select {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
 
 /* TTS paragraph highlight */
 .reader-content p[data-tts-idx].tts-active {

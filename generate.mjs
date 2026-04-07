@@ -567,14 +567,20 @@ BOOKS.forEach(book => {
             <svg id="tts-pause-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="hidden" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
           </button>
           <div class="tts-progress-wrap">
-            <input type="range" min="0" max="100" value="0" step="1" id="tts-range" class="tts-range-slider" oninput="seekTTSRange(this.value)" aria-label="朗讀進度拖曳條">
+            <input type="range" min="0" max="100" value="0" step="1" id="tts-range" class="tts-range-slider" oninput="seekTTSRange(this.value)" onchange="seekTTSRange(this.value)" ontouchend="seekTTSRange(this.value)" aria-label="朗讀進度拖曳條">
             <div class="tts-progress-label"><span id="tts-current-para">0</span> / <span id="tts-total-para">0</span></div>
           </div>
           <div class="tts-control" style="text-align:left">
-            <div class="tts-label"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
+            <div class="tts-label"><span>聲音</span></div>
+            <select id="tts-voice-select" class="tts-voice-select" onchange="setTTSVoice(this.value)" aria-label="選擇朗讀聲音">
+              <option value="">載入中...</option>
+            </select>
+            <div class="tts-label" style="margin-top:12px"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-rate" oninput="setTTSRate(this.value)" style="margin:8px 0 16px" aria-label="調整朗讀語速">
             <div class="tts-label"><span>音高</span><span id="tts-pitch-val">1.0</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
+            <div class="tts-label"><span>音量</span><span id="tts-volume-val">1.0</span></div>
+            <input type="range" min="0" max="1" step="0.1" value="1" id="tts-volume" oninput="setTTSVolume(this.value)" style="margin:8px 0" aria-label="調整朗讀音量">
           </div></div></div></div>
     </div></main></div>
     <script>
@@ -630,6 +636,40 @@ BOOKS.forEach(book => {
         if(ttsUtterance)ttsUtterance.pitch=parseFloat(v)
       };
 
+      window.setTTSVolume=function(v){
+        document.getElementById('tts-volume-val').textContent=parseFloat(v).toFixed(1);
+        if(ttsUtterance)ttsUtterance.volume=parseFloat(v)
+      };
+
+      window.setTTSVoice=function(v){
+        try{localStorage.setItem('dn_tts_voice',v)}catch(e){}
+      };
+
+      var ttsVoicesLoaded=false;
+      function loadTTSVoices(){
+        if(ttsVoicesLoaded)return;
+        var voices=speechSynthesis.getVoices();
+        var sel=document.getElementById('tts-voice-select');
+        if(!sel||!voices.length)return;
+        var zhVoices=voices.filter(function(vo){
+          return vo.lang&&(vo.lang.indexOf('zh')>-1||vo.lang.indexOf('cn')>-1||vo.lang.indexOf('tw')>-1)
+        });
+        if(zhVoices.length===0)zhVoices=voices;
+        var html='';
+        var savedVoice=localStorage.getItem('dn_tts_voice');
+        zhVoices.forEach(function(vo,i){
+          var selected=savedVoice&&savedVoice===vo.name?' selected':'';
+          html+='<option value="'+vo.name+'"'+(savedVoice===vo.name?' selected':'')+'>'+(vo.name.indexOf('Female')>-1||vo.name.indexOf('female')>-1?'👩 ':vo.name.indexOf('Male')>-1||vo.name.indexOf('male')>-1?'👨 ':'')+vo.name+'</option>'
+        });
+        if(html){
+          sel.innerHTML=html;
+          if(savedVoice)sel.value=savedVoice;
+        }
+        ttsVoicesLoaded=true
+      }
+      if(speechSynthesis.getVoices().length>0)loadTTSVoices();
+      else speechSynthesis.onvoiceschanged=loadTTSVoices;
+
       window.seekTTSRange=function(val){
         var pct=parseInt(val)/100;
         var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');
@@ -653,8 +693,16 @@ BOOKS.forEach(book => {
         ttsUtterance.lang='zh-TW';
         var r=document.getElementById('tts-rate');
         var p=document.getElementById('tts-pitch');
+        var v=document.getElementById('tts-volume');
+        var s=document.getElementById('tts-voice-select');
         if(r)ttsUtterance.rate=parseFloat(r.value);
         if(p)ttsUtterance.pitch=parseFloat(p.value);
+        if(v)ttsUtterance.volume=parseFloat(v.value);
+        if(s&&s.value){
+          var voices=speechSynthesis.getVoices();
+          var vo=voices.find(function(x){return x.name===s.value});
+          if(vo)ttsUtterance.voice=vo
+        }
         ttsUtterance.onend=function(){
           ttsPlaying=false;
           ttsCurrentIdx=0;
