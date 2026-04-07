@@ -688,10 +688,6 @@ BOOKS.forEach(book => {
       };
 
       window.seekTTSRange=function(val){
-        }catch(e){}
-      })();
-
-      window.seekTTSRange=function(val){
         var pct=parseInt(val)/100;
         var paras=document.querySelectorAll('#reader-content p[data-tts-idx]');
         var total=paras.length;
