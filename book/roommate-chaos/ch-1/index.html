@@ -1894,20 +1894,10 @@ body {
             <svg id="tts-pause-icon" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" class="hidden" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
           </button>
           <div class="tts-progress-wrap">
-            <input type="range" min="0" max="100" value="0" step="1" id="tts-range" class="tts-range-slider" oninput="seekTTSRange(this.value)" onchange="seekTTSRange(this.value)" ontouchmove="seekTTSRange(this.value)" ontouchend="seekTTSRange(this.value)" aria-label="朗讀進度拖曳條">
+            <input type="range" min="0" max="100" value="0" step="1" id="tts-range" class="tts-range-slider" oninput="seekTTSRange(this.value)" onchange="seekTTSRange(this.value)" ontouchstart="seekTTSRange(this.value)" ontouchmove="seekTTSRange(this.value)" ontouchend="seekTTSRange(this.value)" aria-label="朗讀進度拖曳條">
             <div class="tts-progress-label"><span id="tts-current-para">0</span> / <span id="tts-total-para">0</span></div>
           </div>
           <div class="tts-control" style="text-align:left">
-            <div class="tts-label"><span>音色</span></div>
-            <div class="tts-toggle-group" style="display:flex;gap:8px;margin:8px 0 16px">
-              <button type="button" class="tts-toggle-btn active" id="tts-voice-male" data-voice="male" onclick="setTTSVoice(this)" aria-label="男聲">👨 男聲</button>
-              <button type="button" class="tts-toggle-btn" id="tts-voice-female" data-voice="female" onclick="setTTSVoice(this)" aria-label="女聲">👩 女聲</button>
-            </div>
-            <div class="tts-label"><span>語言</span></div>
-            <div class="tts-toggle-group" style="display:flex;gap:8px;margin:8px 0 16px">
-              <button type="button" class="tts-toggle-btn active" id="tts-lang-zh" data-lang="zh-CN" onclick="setTTSLang(this)" aria-label="普通話">普通話</button>
-              <button type="button" class="tts-toggle-btn" id="tts-lang-cantonese" data-lang="zh-HK" onclick="setTTSLang(this)" aria-label="廣東話">廣東話</button>
-            </div>
             <div class="tts-label"><span>語速</span><span id="tts-rate-val">1.0x</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-rate" oninput="setTTSRate(this.value)" style="margin:8px 0 16px" aria-label="調整朗讀語速">
             <div class="tts-label"><span>音高</span><span id="tts-pitch-val">1.0</span></div>
@@ -1921,49 +1911,7 @@ body {
       var ttsUtterance=null;
       var ttsCurrentIdx=0;
       var ttsCharOffset=0;
-      var ttsCurrentVoice='male';
-      var ttsCurrentLang='zh-CN';
       
-      // Update button UI states
-      function updateButtonStates(){
-        document.querySelectorAll('.tts-toggle-btn').forEach(function(btn){btn.classList.remove('active')});
-        var maleBtn=document.getElementById('tts-voice-male');
-        var femaleBtn=document.getElementById('tts-voice-female');
-        var zhBtn=document.getElementById('tts-lang-zh');
-        var cantoneseBtn=document.getElementById('tts-lang-cantonese');
-        if(ttsCurrentVoice==='male'&&maleBtn)maleBtn.classList.add('active');
-        if(ttsCurrentVoice==='female'&&femaleBtn)femaleBtn.classList.add('active');
-        if(ttsCurrentLang==='zh-CN'&&zhBtn)zhBtn.classList.add('active');
-        if(ttsCurrentLang==='zh-HK'&&cantoneseBtn)cantoneseBtn.classList.add('active');
-      }
-      
-      window.setTTSVoice=function(btn){
-        var v=typeof btn==='string'?btn:btn.getAttribute('data-voice');
-        if(!v)return;
-        ttsCurrentVoice=v;
-        updateButtonStates();
-        try{localStorage.setItem('dn_tts_voice',v)}catch(e){}
-      };
-      
-      window.setTTSLang=function(btn){
-        var lang=typeof btn==='string'?btn:btn.getAttribute('data-lang');
-        if(!lang)return;
-        ttsCurrentLang=lang;
-        updateButtonStates();
-        try{localStorage.setItem('dn_tts_lang',lang)}catch(e){}
-      };
-
-      // Restore saved preferences
-      (function(){
-        try{
-          var savedVoice=localStorage.getItem('dn_tts_voice');
-          if(savedVoice)ttsCurrentVoice=savedVoice;
-          var savedLang=localStorage.getItem('dn_tts_lang');
-          if(savedLang)ttsCurrentLang=savedLang;
-        }catch(e){}
-      })();
-      updateButtonStates();
-
       window.openSheet=function(id){document.getElementById(id).classList.add('active')};
       window.closeSheet=function(id){document.getElementById(id).classList.remove('active')};
       
@@ -2034,23 +1982,11 @@ body {
         var txt='';
         for(var i=idx;i<paras.length;i++){txt+=paras[i].textContent+' '}
         ttsUtterance=new SpeechSynthesisUtterance(txt);
-        ttsUtterance.lang=ttsCurrentLang;
+        ttsUtterance.lang='zh-TW';
         var r=document.getElementById('tts-rate');
         var p=document.getElementById('tts-pitch');
         if(r)ttsUtterance.rate=parseFloat(r.value);
         if(p)ttsUtterance.pitch=parseFloat(p.value);
-        
-        // Apply voice based on gender selection
-        var voices=speechSynthesis.getVoices();
-        var isFemale=ttsCurrentVoice==='female';
-        var vo=voices.find(function(x){
-          var name=x.name.toLowerCase();
-          var langMatch=x.lang&&(x.lang.indexOf('zh')>-1||x.lang.indexOf('cn')>-1);
-          if(ttsCurrentLang==='zh-HK')langMatch=x.lang&&(x.lang.indexOf('HK')>-1||x.lang.indexOf('cant')>-1);
-          return langMatch&&(isFemale?(name.indexOf('female')>-1||name.indexOf('女')>-1):(name.indexOf('male')>-1||name.indexOf('男')>-1));
-        });
-        if(!vo)vo=voices.find(function(x){return x.lang&&x.lang.indexOf('zh')>-1});
-        if(vo)ttsUtterance.voice=vo;
         ttsUtterance.onend=function(){
           ttsPlaying=false;
           ttsCurrentIdx=0;
