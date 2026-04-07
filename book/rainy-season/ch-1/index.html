@@ -1141,8 +1141,8 @@ body {
   z-index: 30;
   background: var(--color-surface);
   border-bottom: 3px solid var(--color-border);
-  padding: var(--spacing-3) var(--spacing-4);
-  padding-top: calc(var(--spacing-3) + env(safe-area-inset-top) + 3px);
+  padding: var(--spacing-2) var(--spacing-3);
+  padding-top: calc(var(--spacing-2) + env(safe-area-inset-top) + 3px);
   transition: transform var(--motion-smooth);
   transform: translateY(-100%);
 }
@@ -1152,24 +1152,44 @@ body {
 .reader-topbar-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-3);
+  gap: var(--spacing-2);
   max-width: 900px;
   margin: 0 auto;
+  min-height: 36px;
 }
-.reader-topbar-inner .truncate {
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
+.reader-topbar-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+  transition: all var(--motion-fast);
+}
+.reader-topbar-back:active {
+  transform: translate(2px, 2px);
+}
+.reader-topbar-title {
+  font-size: 13px;
   font-weight: var(--font-bold);
   color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
 }
-.reader-breadcrumb-nav {
+.reader-topbar-breadcrumb {
+  display: none;
   font-size: 12px;
   color: var(--color-text-secondary);
-  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Bottom toolbar */
@@ -1181,8 +1201,8 @@ body {
   z-index: 20;
   background: var(--color-surface);
   border-top: 3px solid var(--color-border);
-  padding: var(--spacing-3) var(--spacing-4);
-  padding-bottom: calc(var(--spacing-3) + env(safe-area-inset-bottom));
+  padding: var(--spacing-2) var(--spacing-3);
+  padding-bottom: calc(var(--spacing-2) + env(safe-area-inset-bottom));
   transition: transform var(--motion-smooth);
   transform: translateY(100%);
 }
@@ -1197,22 +1217,39 @@ body {
   max-width: 900px;
   margin: 0 auto;
 }
+.reader-bottombar-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
 
 /* Navigation buttons */
 .nav-btn {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-3);
+  gap: var(--spacing-1);
+  padding: var(--spacing-2);
+  min-width: 40px;
+  min-height: 40px;
+  justify-content: center;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text-primary);
-  font-size: var(--text-sm);
+  font-size: 0;
   font-weight: var(--font-bold);
   text-decoration: none;
   transition: all var(--motion-fast);
   white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.nav-btn .nav-label {
+  display: none;
 }
 .nav-btn:active {
   transform: translate(2px, 2px);
@@ -1226,21 +1263,28 @@ body {
 .tool-btn {
   display: flex;
   align-items: center;
-  gap: var(--spacing-1);
-  padding: var(--spacing-2) var(--spacing-3);
+  justify-content: center;
+  gap: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text-primary);
-  font-size: var(--text-xs);
+  font-size: 0;
   font-weight: var(--font-bold);
   cursor: pointer;
   transition: all var(--motion-fast);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .tool-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
+}
+.tool-btn span {
+  display: none;
 }
 .tool-btn:active {
   transform: translate(2px, 2px);
@@ -1272,9 +1316,53 @@ body {
 @media (min-width: 768px) {
   .reader-topbar {
     transform: translateY(0);
+    padding: var(--spacing-3) var(--spacing-6);
   }
   .reader-bottombar {
     transform: translateY(0);
+    padding: var(--spacing-3) var(--spacing-6);
+  }
+  .reader-topbar-title {
+    display: none;
+  }
+  .reader-topbar-breadcrumb {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .reader-topbar-back {
+    width: 36px;
+    height: 36px;
+  }
+  .nav-btn {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--text-sm);
+    min-width: auto;
+    gap: var(--spacing-1);
+  }
+  .nav-btn .nav-label {
+    display: inline;
+  }
+  .nav-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .tool-btn {
+    width: auto;
+    height: auto;
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--text-xs);
+    gap: var(--spacing-1);
+  }
+  .tool-btn span {
+    display: inline;
+  }
+  .tool-btn svg {
+    width: 16px;
+    height: 16px;
   }
   .reader-content {
     max-width: 720px;
@@ -1289,18 +1377,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  .nav-btn {
-    padding: var(--spacing-3) var(--spacing-4);
-    font-size: var(--text-base);
-  }
-  .tool-btn {
-    padding: var(--spacing-3) var(--spacing-4);
-    font-size: var(--text-sm);
-  }
-  .tool-btn svg {
-    width: 18px;
-    height: 18px;
   }
 }
 
@@ -1722,12 +1798,12 @@ body {
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#E88D9E"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
-          <a href="/deathnote/book/rainy-season" class="btn-press" style="display:flex;align-items:center;gap:8px" aria-label="返回 雨季不再來 詳情">
+          <a href="/deathnote/book/rainy-season" class="reader-topbar-back btn-press" aria-label="返回 雨季不再來 詳情">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            <span class="truncate" style="max-width:200px;font-size:14px">雨季不再來</span>
           </a>
-          <nav style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb">
-            <span style="">DeathNote</span><span style=""> › 雨季不再來</span><span style="color:var(--color-text-primary);font-weight:500"> › 第一章：雨中的陌生人</span>
+          <span class="reader-topbar-title">雨季不再來</span>
+          <nav class="reader-topbar-breadcrumb" aria-label="breadcrumb">
+            <span>雨季不再來</span><span> › </span><span>第一章：雨中的陌生人</span>
           </nav>
         </div>
       </header>
@@ -1736,16 +1812,20 @@ body {
         <p data-tts-idx="0">台北的雨季總是來得毫無預警。</p><p data-tts-idx="1">蘇晴站在捷運站門口，看著傾盆大雨，後悔自己沒有帶傘。她剛從醫院出來——母親的檢查結果不太好，需要進一步治療。她站在雨中，突然覺得自己就像這座城市一樣，被無止境的雨水淹沒。</p><p data-tts-idx="2">「一起走吧。」一把黑色的雨傘出現在她頭頂。</p><p data-tts-idx="3">撐傘的人是一個陌生的男人，三十歲出頭，穿著一件深灰色的風衣。他的表情很平靜，像是做了一件再自然不過的事。</p><p data-tts-idx="4">「我們……認識嗎？」蘇晴有些警惕。</p><p data-tts-idx="5">「不認識。但你看起來需要一把傘。」他笑了笑，「我叫林深。你呢？」</p><p data-tts-idx="6">「蘇晴。」</p><p data-tts-idx="7">「晴天。」林深看了看天，「但今天沒有晴天。」</p><p data-tts-idx="8">那把傘陪她走完了從捷運站到家的十分鐘路程。十分鐘後，林深把傘遞給她：「下次還我就好。」</p><p data-tts-idx="9">「我們連彼此的電話都沒有。」</p><p data-tts-idx="10">「那就當作是命運的安排吧。」他揮揮手，走進了雨中。</p>
       </article>
       
-      <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo"><div class="reader-bottombar-inner">
-        <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>上一章</span>
-        <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
-        <button class="tool-btn btn-press" onclick="openSheet('settings-sheet')" aria-label="開啟閱讀設定">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg><span>設定</span></button>
-        <button class="tool-btn btn-press" onclick="openSheet('tts-sheet')" aria-label="開啟發聲朗讀">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 12h.01"/><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg><span>朗讀</span></button>
-        <span class="nav-btn disabled" aria-label="已是最後一章">下一章<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
-      </div></footer>
+      <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
+        <div class="reader-bottombar-inner">
+          <span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>
+          <div class="reader-bottombar-tools">
+            <button class="tool-btn btn-press" onclick="openSheet('toc-sheet')" aria-label="開啟目錄">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
+            <button class="tool-btn btn-press" onclick="openSheet('settings-sheet')" aria-label="開啟閱讀設定">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg><span>設定</span></button>
+            <button class="tool-btn btn-press" onclick="openSheet('tts-sheet')" aria-label="開啟發聲朗讀">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 12h.01"/><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg><span>朗讀</span></button>
+          </div>
+          <span class="nav-btn disabled" aria-label="已是最後一章"><span class="nav-label">下一章</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
+        </div>
+      </footer>
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')" role="dialog" aria-modal="true" aria-label="章節目錄"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')" aria-label="關閉目錄"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
