@@ -237,8 +237,8 @@ function write(path, content) {
   const totalWords = BOOKS.reduce((s,b)=>s+b.words,0);
   const totalChapters = BOOKS.reduce((s,b)=>s+b.chapters,0);
 
-  const body = `<div class="app-container" style="max-width:400px;margin:0 auto;min-height:100dvh;background:var(--bg-app);position:relative;overflow:hidden;display:flex;flex-direction:column">
-  <main id="main-scroll" class="hide-scrollbar" style="flex:1;overflow-y:auto;padding-bottom:80px;-webkit-overflow-scrolling:touch">
+  const body = `<div class="app-container" style="max-width:430px;margin:0 auto;min-height:100dvh;background:var(--bg-app);position:relative;overflow:hidden;display:flex;flex-direction:column">
+  <main id="main-scroll" class="hide-scrollbar" style="flex:1;overflow-y:auto;padding-bottom:180px;-webkit-overflow-scrolling:touch">
     <div id="home-content" class="tab-content" style="padding:48px 24px 0">
       <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">${new Date().toLocaleDateString('zh-HK', {month:'short',day:'numeric',weekday:'short'})}</p>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
@@ -296,8 +296,8 @@ function write(path, content) {
       <div style="margin-top:40px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-light)">
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">🔥 熱門精選</h3>
       </div>
-      <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none">
-        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none">
+      <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;touch-action:pan-x">
+        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
           <div style="width:120px;height:170px;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
             <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
             <span style="position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
