@@ -390,14 +390,16 @@ function write(path, content) {
       </section>
       <section class="home-section" aria-label="全部作品">
         <div class="book-grid" style="padding:0 var(--spacing-4)">
-          ${BOOKS.map(b=>`<a href="book/${b.id}" class="book-card btn-press">
-            ${coverHTML(b,80,120,10,false,true,false)}
+          ${BOOKS.map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
+            <div style="width:120px;height:170px;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
+              <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
+              <span style="position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
+            </div>
             <div class="book-card-info">
-              <div class="book-card-title">${b.title}</div>
-              <div class="book-card-author">${b.author}</div>
-              <div class="book-card-meta">
+              <div class="book-card-title" style="font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
+              <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">${b.author}</div>
+              <div class="book-card-meta" style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
                 <span style="color:${b.color}">★ ${b.rating}</span>
-                <span>${b.chapters}章</span>
               </div>
             </div>
           </a>`).join('')}
@@ -418,11 +420,8 @@ function write(path, content) {
           <div class="settings-item" onclick="showHistory()">
             <span>📖</span><span>閱讀記錄</span><span style="color:var(--text-muted)" id="history-count">0</span>
           </div>
-          <div class="settings-item" onclick="showFavorites()">
+          <div class="settings-item" onclick="showCollection()">
             <span>❤️</span><span>我的收藏</span><span style="color:var(--text-muted)" id="fav-count">0</span>
-          </div>
-          <div class="settings-item" onclick="showBookmarks()">
-            <span>📌</span><span>我的書籤</span><span style="color:var(--text-muted)" id="bm-count">0</span>
           </div>
         </div>
       </section>
@@ -440,17 +439,18 @@ function write(path, content) {
           </div>
         </div>
       </section>
-      <section class="home-section" aria-label="我的收藏" id="favorites-section" style="display:none">
+      <section class="home-section" aria-label="我的收藏" id="collection-section" style="display:none">
         <div style="margin-bottom:16px;padding:0 4px">
           <button onclick="backToSettings()" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;margin-bottom:16px;padding:0">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             返回
           </button>
           <h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">❤️ 我的收藏</h3>
-          <div id="favorites-list" class="settings-list"></div>
-          <div id="favorites-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">
+          <div id="collection-list" class="settings-list"></div>
+          <div id="collection-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">
             <p style="font-size:48px;margin-bottom:12px">💝</p>
             <p>尚無收藏書籍</p>
+            <p style="font-size:12px;margin-top:8px">在首頁點擊收藏按鈕即可加入</p>
           </div>
         </div>
       </section>
@@ -566,33 +566,50 @@ function write(path, content) {
     }
   }
   
-  function showFavorites() {
+  function showCollection() {
     document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
-    document.getElementById('favorites-section').style.display = '';
+    document.getElementById('collection-section').style.display = '';
     var favs = getFavorites();
-    var list = document.getElementById('favorites-list');
-    var empty = document.getElementById('favorites-empty');
-    if (favs.length === 0) {
+    var bms = getBookmarks();
+    var list = document.getElementById('collection-list');
+    var empty = document.getElementById('collection-empty');
+    
+    // Combine favorites and bookmarks into one list
+    var items = [];
+    
+    // Add favorites (books)
+    favs.forEach(function(f) {
+      items.push({type: 'book', id: f.id, title: f.title, time: f.time});
+    });
+    
+    // Add bookmarks (chapters)
+    Object.entries(bms).forEach(function(e) {
+      if (e[1]) {
+        var book = booksData.find(function(b){return b.id === e[1].bookId});
+        var chapter = chaptersData.find(function(c){return c.bookId === e[1].bookId && c.id === e[1].chapterId});
+        if (book && chapter) {
+          items.push({type: 'chapter', bookId: e[1].bookId, chapterId: e[1].chapterId, title: book.title + ' - ' + chapter.title, time: e[1].time});
+        }
+      }
+    });
+    
+    // Sort by time (newest first)
+    items.sort(function(a,b){return b.time - a.time});
+    
+    if (items.length === 0) {
       list.innerHTML = '';
       empty.style.display = '';
     } else {
       empty.style.display = 'none';
-      list.innerHTML = favs.map(function(f) {
-        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span></a>';
+      list.innerHTML = items.map(function(item) {
+        if (item.type === 'book') {
+          return '<a href="book/' + item.id + '" class="settings-item"><span>❤️</span><span>' + item.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(item.time).toLocaleDateString('zh-HK') + '</span></a>';
+        } else {
+          return '<a href="book/' + item.bookId + '/' + item.chapterId + '" class="settings-item"><span>📌</span><span>' + item.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(item.time).toLocaleDateString('zh-HK') + '</span></a>';
+        }
       }).join('');
     }
   }
-  
-  function showBookmarks() {
-    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
-    var section = document.getElementById('bookmarks-section');
-    if (!section) {
-      section = document.createElement('section');
-      section.id = 'bookmarks-section';
-      section.className = 'home-section';
-      section.setAttribute('aria-label', '我的書籤');
-      section.innerHTML = '<div style="margin-bottom:16px;padding:0 4px">' +
-        '<button onclick="backToSettings()" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;margin-bottom:16px;padding:0">' +
         '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> 返回</button>' +
         '<h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">📌 我的書籤</h3>' +
         '<div id="bookmarks-list" class="settings-list"></div>' +
@@ -625,7 +642,7 @@ function write(path, content) {
   
   function backToSettings() {
     document.getElementById('history-section').style.display = 'none';
-    document.getElementById('favorites-section').style.display = 'none';
+    document.getElementById('collection-section').style.display = 'none';
     document.querySelectorAll('.home-section').forEach(function(el){el.style.display = ''});
   }
   
