@@ -244,9 +244,9 @@ function write(path, content) {
       <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">${new Date().toLocaleDateString('zh-HK', {month:'short',day:'numeric',weekday:'short'})}</p>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
         <h1 style="font-family:var(--font-serif);font-size:36px;font-weight:700;letter-spacing:0.1em;color:var(--text-main)">拾遺</h1>
-        <div style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <button onclick="switchTab('profile')" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base)">
           <svg width="16" height="16" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-        </div>
+        </button>
       </div>
       
       <a href="book/${BOOKS[0].id}" class="hero-card-fusion card-active" style="display:block;text-decoration:none">
@@ -484,7 +484,8 @@ function write(path, content) {
     ${footerNav('home')}
   </main></div>
   <script>
-  var booksData = ${JSON.stringify(BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, chapters: b._chapters || [] })))};
+  var booksData = ${JSON.stringify(BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, color: b.color, chapters: b._chapters || [] })))};
+  var chaptersData = ${JSON.stringify(BOOKS.flatMap(b => (b._chapters || []).map(c => ({ id: c.id, bookId: b.id, title: c.title }))))};
   
   // Initialize localStorage data
   function getHistory() { return JSON.parse(localStorage.getItem('browsingHistory') || '[]'); }
@@ -583,7 +584,43 @@ function write(path, content) {
   }
   
   function showBookmarks() {
-    alert('書籤功能：請在閱讀頁面中點擊章節進行書籤');
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
+    var section = document.getElementById('bookmarks-section');
+    if (!section) {
+      section = document.createElement('section');
+      section.id = 'bookmarks-section';
+      section.className = 'home-section';
+      section.setAttribute('aria-label', '我的書籤');
+      section.innerHTML = '<div style="margin-bottom:16px;padding:0 4px">' +
+        '<button onclick="backToSettings()" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;margin-bottom:16px;padding:0">' +
+        '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> 返回</button>' +
+        '<h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">📌 我的書籤</h3>' +
+        '<div id="bookmarks-list" class="settings-list"></div>' +
+        '<div id="bookmarks-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">' +
+        '<p style="font-size:48px;margin-bottom:12px">📌</p><p>尚無書籤</p><p style="font-size:12px;margin-top:8px">在閱讀頁面中點擊章節即可加入書籤</p></div></div>';
+      document.getElementById('profile-content').appendChild(section);
+    } else {
+      section.style.display = '';
+    }
+    
+    var bms = getBookmarks();
+    var list = document.getElementById('bookmarks-list');
+    var empty = document.getElementById('bookmarks-empty');
+    
+    var bmsArray = Object.entries(bms).map(function(e) { return e[1]; }).filter(function(b) { return b; });
+    
+    if (bmsArray.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+      list.innerHTML = bmsArray.map(function(bm) {
+        var book = booksData.find(function(x) { return x.id === bm.bookId; });
+        var chapter = chaptersData.find(function(c) { return c.bookId === bm.bookId && c.id === bm.chapterId; });
+        if (!book || !chapter) return '';
+        return '<a href="book/' + bm.bookId + '/' + bm.chapterId + '" class="settings-item"><span>📌</span><span>' + book.title + ' - ' + chapter.title + '</span></a>';
+      }).join('');
+    }
   }
   
   function backToSettings() {
