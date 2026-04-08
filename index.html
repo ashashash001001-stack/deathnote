@@ -250,18 +250,34 @@
   display: block;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  border-radius: 12px;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+  min-height: 44px;
+  min-width: 44px;
+}
+.fusion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 .fusion-card:active {
-  opacity: 0.8;
+  transform: scale(0.95);
+  opacity: 0.9;
 }
 
 /* ===== FUSION STYLE - List Item Fusion ===== */
 .list-item-fusion {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  min-height: 44px;
+}
+.list-item-fusion:hover {
+  background: rgba(163, 145, 113, 0.05);
 }
 .list-item-fusion:active {
-  opacity: 0.8;
+  transform: scale(0.98);
+  background: rgba(163, 145, 113, 0.1);
 }
 
 /* ===== FUSION STYLE - Rank Item Fusion ===== */
@@ -271,18 +287,32 @@
   text-decoration: none;
   display: flex;
   align-items: center;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  min-height: 44px;
+}
+.rank-item-fusion:hover {
+  background: rgba(163, 145, 113, 0.05);
 }
 .rank-item-fusion:active {
-  opacity: 0.8;
+  transform: scale(0.98);
+  background: rgba(163, 145, 113, 0.1);
 }
 
 /* ===== FUSION STYLE - Category Card ===== */
 .category-card {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  min-height: 44px;
+}
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 .category-card:active {
-  opacity: 0.8;
+  transform: scale(0.95);
 }
 
 /* ===== FUSION STYLE - Slide Up Panel ===== */
@@ -300,14 +330,22 @@
   width: 100%;
   height: 420px;
   border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(163, 145, 113, 0.15);
+  box-shadow: 0 20px 40px rgba(163, 145, 113, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+}
+.hero-card-fusion:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(163, 145, 113, 0.25), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.hero-card-fusion:active {
+  transform: scale(0.98);
 }
 .hero-card-fusion .card-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #ebe6df 0%, #e1d9ce 100%);
+  background: linear-gradient(135deg, #f5f0e8 0%, #e8e0d4 50%, #ddd5c8 100%);
 }
 .hero-card-fusion .card-content {
   position: relative;
@@ -337,13 +375,17 @@
   right: -10px;
   width: 140px;
   height: 200px;
-  background: #f8f6f2;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(145deg, #faf8f4, #f0ebe3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
   transform: rotate(-4deg);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e5e0d8;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.hero-card-fusion:hover .card-book {
+  transform: rotate(-2deg) translateX(-8px);
 }
 .hero-card-fusion .card-footer {
   position: absolute;
@@ -368,16 +410,22 @@
 .hero-card-fusion .card-action {
   font-weight: 700;
   font-size: 13px;
-  padding: 8px 20px;
+  padding: 10px 24px;
   border-radius: 999px;
   background: var(--accent);
   color: white;
   border: none;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(163, 145, 113, 0.4);
 }
 .hero-card-fusion .card-action:hover {
   background: var(--accent-hover);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(163, 145, 113, 0.5);
+}
+.hero-card-fusion .card-action:active {
+  transform: scale(0.95);
 }
 
 /* ===== FUSION STYLE - Reading Text ===== */
@@ -506,20 +554,27 @@
   font-size: var(--text-base);
   border-bottom: 1px solid var(--color-border-light);
   cursor: pointer;
-  transition: background var(--t-fast);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   text-decoration: none;
+  border-radius: 12px;
+  margin: 4px 0;
+  min-height: 52px;
+  -webkit-tap-highlight-color: transparent;
 }
 .settings-item:last-child {
   border-bottom: none;
 }
 .settings-item:hover {
-  background: rgba(0,0,0,0.02);
+  background: rgba(163, 145, 113, 0.08);
 }
 .settings-item:active {
-  background: rgba(0,0,0,0.04);
+  transform: scale(0.98);
+  background: rgba(163, 145, 113, 0.12);
 }
 .settings-item span:first-child {
-  font-size: 18px;
+  font-size: 20px;
+  width: 28px;
+  text-align: center;
 }
 .settings-item span:nth-child(2) {
   flex: 1;
@@ -790,7 +845,7 @@ body {
 }
 
 .app-container {
-  max-width: 400px;
+  max-width: 430px;
   margin: 0 auto;
   min-height: 100dvh;
   background: var(--bg-app);
@@ -803,22 +858,27 @@ body {
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
 @media (min-width: 480px) {
   .app-container {
     min-height: 100vh;
     border-radius: 24px;
     overflow: hidden;
     margin: 8px auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 }
 
 .btn-press {
-  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
 }
 .btn-press:active {
-  transform: scale(0.98);
-  box-shadow: none;
+  transform: scale(0.95);
 }
 
 @keyframes bookmark-bounce {
@@ -887,7 +947,7 @@ body {
 }
 
 .footer-nav {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
@@ -897,6 +957,61 @@ body {
   display: flex;
   justify-content: space-around;
   transition: transform var(--t-normal);
+}
+
+/* Sticky Bottom Toolbar */
+.sticky-toolbar {
+  position: fixed;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.toolbar-btn:active {
+  transform: scale(0.95);
+  background: var(--bg-base);
+}
+.toolbar-btn:hover {
+  background: var(--bg-base);
+}
+.toolbar-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.toolbar-btn.primary {
+  background: var(--accent);
+  color: white;
+}
+.toolbar-btn.primary:active {
+  background: var(--accent-hover);
+}
+.toolbar-divider {
+  width: 1px;
+  background: var(--border-light);
+  margin: 4px 4px;
 }
 
 /* Fusion Style Bottom Nav */
@@ -3135,6 +3250,23 @@ body {
           </div>
         </div>
       </section>
+    </div>
+    
+    <div class="sticky-toolbar">
+      <button class="toolbar-btn primary" onclick="switchTab('search')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <span>搜尋</span>
+      </button>
+      <div class="toolbar-divider"></div>
+      <button class="toolbar-btn" onclick="switchTab('books')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span>書閣</span>
+      </button>
+      <div class="toolbar-divider"></div>
+      <button class="toolbar-btn" onclick="switchTab('profile')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        <span>收藏</span>
+      </button>
     </div>
     
     <nav class="footer-nav glass-warm" role="navigation" aria-label="底部導航" style="padding:12px 32px;padding-bottom:calc(12px + env(safe-area-inset-bottom))">
