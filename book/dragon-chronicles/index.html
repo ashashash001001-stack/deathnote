@@ -2517,7 +2517,12 @@ body {
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：最後的龍騎士","words":295}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="/deathnote/book/dragon-chronicles/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn){btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤';btn.classList.toggle('bookmark-active',bm.indexOf(id)>-1)}}
-  (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('dragon-chronicles')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}})()
+  (function(){
+    // Add to browsing history
+    var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='dragon-chronicles'});h.unshift({id:'dragon-chronicles',title:'龍之紀元',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
+    // Update bookmark button
+    var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('dragon-chronicles')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}
+  })()
   </script>
 <script>
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}

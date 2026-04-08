@@ -248,7 +248,7 @@ function write(path, content) {
         </div>
       </div>
       
-      <div class="hero-card-fusion card-active" onclick="openDetailSlide()">
+      <a href="book/${BOOKS[0].id}" class="hero-card-fusion card-active" style="display:block;text-decoration:none">
         <div class="card-bg"></div>
         <div class="card-content">
           <p class="card-label">主編推薦</p>
@@ -261,10 +261,10 @@ function write(path, content) {
               <p class="card-footer-title">${BOOKS[0].title}</p>
               <p class="card-footer-author">${BOOKS[0].author}</p>
             </div>
-            <button class="card-action" onclick="event.stopPropagation();window.location.href='book/${BOOKS[0].id}'">收藏</button>
+            <button class="card-action" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${BOOKS[0].id}', '${BOOKS[0].title}')" id="fav-btn-${BOOKS[0].id}">收藏</button>
           </div>
         </div>
-      </div>
+      </a>
       
       <div style="margin-top:var(--spacing-10);margin-bottom:var(--spacing-3);padding-bottom:var(--spacing-3);border-bottom:1px solid var(--border-light)">
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">本週細讀</h3>
@@ -414,14 +414,42 @@ function write(path, content) {
       </section>
       <section class="home-section" aria-label="設定">
         <div class="settings-list">
-          <div class="settings-item" onclick="alert('書籤功能開發中')">
-            <span>📌</span><span>我的書籤</span><span style="color:var(--text-muted)">0</span>
+          <div class="settings-item" onclick="showHistory()">
+            <span>📖</span><span>閱讀記錄</span><span style="color:var(--text-muted)" id="history-count">0</span>
           </div>
-          <div class="settings-item" onclick="alert('閱讀記錄功能開發中')">
-            <span>📖</span><span>閱讀記錄</span>
+          <div class="settings-item" onclick="showFavorites()">
+            <span>❤️</span><span>我的收藏</span><span style="color:var(--text-muted)" id="fav-count">0</span>
           </div>
-          <div class="settings-item" onclick="alert('收藏功能開發中')">
-            <span>❤️</span><span>我的收藏</span><span style="color:var(--text-muted)">0</span>
+          <div class="settings-item" onclick="showBookmarks()">
+            <span>📌</span><span>我的書籤</span><span style="color:var(--text-muted)" id="bm-count">0</span>
+          </div>
+        </div>
+      </section>
+      <section class="home-section" aria-label="瀏覽歷史" id="history-section" style="display:none">
+        <div style="margin-bottom:16px;padding:0 4px">
+          <button onclick="backToSettings()" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;margin-bottom:16px;padding:0">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            返回
+          </button>
+          <h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">📖 瀏覽記錄</h3>
+          <div id="history-list" class="settings-list"></div>
+          <div id="history-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">
+            <p style="font-size:48px;margin-bottom:12px">📚</p>
+            <p>尚無瀏覽記錄</p>
+          </div>
+        </div>
+      </section>
+      <section class="home-section" aria-label="我的收藏" id="favorites-section" style="display:none">
+        <div style="margin-bottom:16px;padding:0 4px">
+          <button onclick="backToSettings()" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;margin-bottom:16px;padding:0">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            返回
+          </button>
+          <h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">❤️ 我的收藏</h3>
+          <div id="favorites-list" class="settings-list"></div>
+          <div id="favorites-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">
+            <p style="font-size:48px;margin-bottom:12px">💝</p>
+            <p>尚無收藏書籍</p>
           </div>
         </div>
       </section>
@@ -452,32 +480,116 @@ function write(path, content) {
       </section>
     </div>
     
-    <div id="detail-slide" class="slide-up" style="background:var(--bg-reading);position:fixed;inset:0;z-index:50;overflow-y:auto">
-      <div style="position:sticky;top:0;width:100%;display:flex;justify-content:flex-end;padding:20px;z-index:10;background:linear-gradient(to bottom, var(--bg-reading) 60%, transparent)">
-        <button onclick="closeDetailSlide()" style="width:36px;height:36px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text-main);border:none;cursor:pointer">✕</button>
-      </div>
-      <div style="padding:0 32px 48px;margin-top:-16px">
-        <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border-light)">
-          <div style="width:110px;height:160px;background:#f8f6f2;box-shadow:0 8px 24px rgba(0,0,0,0.1);margin-bottom:24px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-light)">
-            <span class="book-spine" style="font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--text-main)">${BOOKS[0].title.slice(0,2)}</span>
-          </div>
-          <h1 style="font-family:var(--font-serif);font-size:28px;font-weight:700;letter-spacing:0.1em;margin-bottom:12px">${BOOKS[0].title}</h1>
-          <p style="letter-spacing:0.2em;font-size:14px;color:var(--accent)">${BOOKS[0].author}</p>
-        </div>
-        <div class="reading-text" style="font-family:var(--font-serif);font-size:17px;text-align:justify;color:var(--text-main)">
-          <p>${BOOKS[0].synopsis || '在喧囂的都市中，我們常常忘記了內心的聲音。這本書帶領讀者走進一段尋找自我的旅程，在文字的海洋裡重新發現生活的意義。'}</p>
-          <p>每一個故事都是一盞燈，照亮我們前行的道路。讓我們在閱讀中找到平靜，在文字裡尋獲力量。</p>
-          <div style="margin-top:48px;text-align:center">
-            <button onclick="window.location.href='book/${BOOKS[0].id}'" style="font-family:var(--font-serif);font-weight:700;font-size:15px;padding:12px 32px;border-radius:999px;background:var(--text-main);color:var(--bg-base);border:none;cursor:pointer;letter-spacing:0.1em">進入靜默閱讀</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     ${footerNav('home')}
   </main></div>
   <script>
   var booksData = ${JSON.stringify(BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, chapters: b._chapters || [] })))};
+  
+  // Initialize localStorage data
+  function getHistory() { return JSON.parse(localStorage.getItem('browsingHistory') || '[]'); }
+  function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+  function getBookmarks() { return JSON.parse(localStorage.getItem('bookmarks') || '{}'); }
+  
+  function addToHistory(bookId, bookTitle) {
+    var history = getHistory();
+    history = history.filter(function(h){return h.id !== bookId});
+    history.unshift({id: bookId, title: bookTitle, time: Date.now()});
+    history = history.slice(0, 50);
+    localStorage.setItem('browsingHistory', JSON.stringify(history));
+    updateCounts();
+  }
+  
+  function toggleFavorite(bookId, bookTitle) {
+    var favs = getFavorites();
+    var idx = favs.findIndex(function(f){return f.id === bookId});
+    var btn = document.getElementById('fav-btn-' + bookId);
+    if (idx > -1) {
+      favs.splice(idx, 1);
+      if (btn) btn.textContent = '收藏';
+      if (btn) btn.style.color = 'var(--accent)';
+    } else {
+      favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+      if (btn) btn.textContent = '已收藏';
+      if (btn) btn.style.color = '#e74c3c';
+    }
+    localStorage.setItem('favorites', JSON.stringify(favs));
+    updateCounts();
+  }
+  
+  function toggleBookmark(bookId, chapterId) {
+    var bms = getBookmarks();
+    var key = bookId + '-' + chapterId;
+    bms[key] = bms[key] ? null : {bookId: bookId, chapterId: chapterId, time: Date.now()};
+    Object.keys(bms).forEach(function(k){if(!bms[k]) delete bms[k]});
+    localStorage.setItem('bookmarks', JSON.stringify(bms));
+    updateCounts();
+  }
+  
+  function updateCounts() {
+    var favCount = getFavorites().length;
+    var histCount = getHistory().length;
+    var bmCount = Object.keys(getBookmarks()).length;
+    var favEl = document.getElementById('fav-count');
+    var histEl = document.getElementById('history-count');
+    var bmEl = document.getElementById('bm-count');
+    if (favEl) favEl.textContent = favCount;
+    if (histEl) histEl.textContent = histCount;
+    if (bmEl) bmEl.textContent = bmCount;
+    
+    // Update favorite button state
+    var favs = getFavorites();
+    booksData.forEach(function(b) {
+      var btn = document.getElementById('fav-btn-' + b.id);
+      if (btn && favs.find(function(f){return f.id === b.id})) {
+        btn.textContent = '已收藏';
+        btn.style.color = '#e74c3c';
+      }
+    });
+  }
+  
+  function showHistory() {
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
+    document.getElementById('history-section').style.display = '';
+    var history = getHistory();
+    var list = document.getElementById('history-list');
+    var empty = document.getElementById('history-empty');
+    if (history.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+      list.innerHTML = history.slice(0, 20).map(function(h) {
+        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+      }).join('');
+    }
+  }
+  
+  function showFavorites() {
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
+    document.getElementById('favorites-section').style.display = '';
+    var favs = getFavorites();
+    var list = document.getElementById('favorites-list');
+    var empty = document.getElementById('favorites-empty');
+    if (favs.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+      list.innerHTML = favs.map(function(f) {
+        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span></a>';
+      }).join('');
+    }
+  }
+  
+  function showBookmarks() {
+    alert('書籤功能：請在閱讀頁面中點擊章節進行書籤');
+  }
+  
+  function backToSettings() {
+    document.getElementById('history-section').style.display = 'none';
+    document.getElementById('favorites-section').style.display = 'none';
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = ''});
+  }
   
   function switchTab(tab) {
     document.querySelectorAll('.footer-tab').forEach(function(el){el.classList.remove('active')});
@@ -487,11 +599,12 @@ function write(path, content) {
     var content = document.getElementById(tab+'-content');
     if(content){content.classList.remove('hidden')}
     document.getElementById('main-scroll').scrollTop = 0;
+    if (tab === 'profile') {
+      backToSettings();
+      updateCounts();
+    }
   }
   
-  function openDetailSlide() { document.getElementById('detail-slide').classList.add('active'); }
-  function closeDetailSlide() { document.getElementById('detail-slide').classList.remove('active'); }
-
   function switchView(view, bookId) {
     document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
     if (view === 'home') {
@@ -666,7 +779,12 @@ BOOKS.forEach(book => {
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="${SITE.base}/book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn){btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤';btn.classList.toggle('bookmark-active',bm.indexOf(id)>-1)}}
-  (function(){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('${book.id}')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}})()
+  (function(){
+    // Add to browsing history
+    var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='${book.id}'});h.unshift({id:'${book.id}',title:'${book.title}',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
+    // Update bookmark button
+    var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('${book.id}')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}
+  })()
   <\/script>`;
 
   write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`, false, 'book'));
