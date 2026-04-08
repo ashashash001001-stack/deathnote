@@ -238,9 +238,51 @@
 /* ===== FUSION STYLE - Card Active Press ===== */
 .card-active {
   transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 .card-active:active {
   transform: scale(0.96);
+}
+
+/* ===== FUSION STYLE - Fusion Card ===== */
+.fusion-card {
+  display: block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fusion-card:active {
+  opacity: 0.8;
+}
+
+/* ===== FUSION STYLE - List Item Fusion ===== */
+.list-item-fusion {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.list-item-fusion:active {
+  opacity: 0.8;
+}
+
+/* ===== FUSION STYLE - Rank Item Fusion ===== */
+.rank-item-fusion {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.rank-item-fusion:active {
+  opacity: 0.8;
+}
+
+/* ===== FUSION STYLE - Category Card ===== */
+.category-card {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.category-card:active {
+  opacity: 0.8;
 }
 
 /* ===== FUSION STYLE - Slide Up Panel ===== */
@@ -2450,6 +2492,10 @@ body {
     <button class="footer-tab  inactive" data-tab="search" onclick="switchTab('search')" aria-label="尋字">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <span>尋字</span>
+    </button>
+    <button class="footer-tab  inactive" data-tab="profile" onclick="switchTab('profile')" aria-label="我的">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span>我的</span>
     </button>
   </nav></main>
 <script>

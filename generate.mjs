@@ -131,6 +131,10 @@ function footerNav(active) {
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <span>尋字</span>
     </button>
+    <button class="footer-tab ${active==='profile'?'active':''} ${active!=='profile'?'inactive':''}" data-tab="profile" onclick="switchTab('profile')" aria-label="我的">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span>我的</span>
+    </button>
   </nav>`;
 }
 
@@ -266,35 +270,27 @@ function write(path, content) {
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">本週細讀</h3>
       </div>
       
-      <div class="list-item-fusion card-active">
-        <div class="item-cover" style="background:#d8cfc4">
+      <a href="book/${BOOKS[1].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
+        <div class="item-cover" style="background:#d8cfc4;flex-shrink:0">
           <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--text-main)">${BOOKS[1].title.slice(0,2)}</span>
         </div>
-        <div class="item-content" style="border-bottom:none;padding-bottom:var(--spacing-3)">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <h4 class="item-title">${BOOKS[1].title}</h4>
-              <p class="item-meta">${BOOKS[1].author} · ${BOOKS[1].tags[0]}</p>
-            </div>
-            <button class="item-btn item-btn-outline" onclick="window.location.href='book/${BOOKS[1].id}'">閱讀</button>
-          </div>
+        <div style="flex:1;min-width:0">
+          <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${BOOKS[1].title}</h4>
+          <p style="font-size:12px;color:var(--text-muted)">${BOOKS[1].author} · ${BOOKS[1].tags[0]}</p>
         </div>
-      </div>
+        <span class="item-btn item-btn-outline" style="flex-shrink:0">閱讀</span>
+      </a>
       
-      <div class="list-item-fusion card-active">
-        <div class="item-cover" style="background:#444a47">
+      <a href="book/${BOOKS[2]?.id || BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
+        <div class="item-cover" style="background:#444a47;flex-shrink:0">
           <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--bg-reading)">${BOOKS[2]?.title.slice(0,2) || '月度'}</span>
         </div>
-        <div class="item-content" style="border-bottom:none;padding-bottom:var(--spacing-3)">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <h4 class="item-title">${BOOKS[2]?.title || '月亮與六便士'}</h4>
-              <p class="item-meta">${BOOKS[2]?.author || '毛姆'} · ${BOOKS[2]?.tags[0] || '英國文學'}</p>
-            </div>
-            <button class="item-btn item-btn-filled">已讀</button>
-          </div>
+        <div style="flex:1;min-width:0">
+          <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${BOOKS[2]?.title || '月亮與六便士'}</h4>
+          <p style="font-size:12px;color:var(--text-muted)">${BOOKS[2]?.author || '毛姆'} · ${BOOKS[2]?.tags[0] || '英國文學'}</p>
         </div>
-      </div>
+        <span class="item-btn item-btn-filled" style="flex-shrink:0">已讀</span>
+      </a>
       
       <!-- 熱門精選 -->
       <div style="margin-top:40px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-light)">
