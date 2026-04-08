@@ -255,6 +255,49 @@ function write(path, content) {
         </div>
       </div>
     </section>
+    
+    <section class="home-section" aria-label="本週拾遺">
+      <div class="section-header">
+        <h2 class="section-title">本週拾遺</h2>
+      </div>
+      <div class="hero-books">
+        <div class="hero-book" onclick="switchView('toc', '${BOOKS[0].id}')">
+          <div class="book-cover">${BOOKS[0].title}</div>
+          <div class="book-info">
+            <h3>${BOOKS[0].title}</h3>
+            <p>${BOOKS[0].author}</p>
+          </div>
+        </div>
+        <div class="hero-book second" onclick="switchView('toc', '${BOOKS[1].id}')">
+          <div class="book-cover" style="background-color: #e3ddd5;">${BOOKS[1].title}</div>
+          <div class="book-info">
+            <h3>${BOOKS[1].title}</h3>
+            <p>${BOOKS[1].author}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <div id="toc-view" class="view">
+      <div class="view-header">
+        <button class="view-back" onclick="switchView('home')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <h2 class="view-title" id="toc-view-title"></h2>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+    
+    <div id="read-view" class="view">
+      <div class="view-header">
+        <button class="view-back" onclick="switchView('toc')">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <h2 class="view-title" id="read-view-title"></h2>
+      </div>
+      <div class="reader-content" id="read-content"></div>
+    </div>
+    
     <section class="home-section" aria-label="熱門精選">
       <div class="section-header">
         <h2 class="section-title">🔥 熱門精選</h2>
@@ -353,6 +396,48 @@ function write(path, content) {
     ${footerNav('home')}
   </main>
   <script>
+  var booksData = ${JSON.stringify(BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, chapters: b._chapters || [] })))};
+  
+  function switchView(view, bookId) {
+    document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
+    if (view === 'home') {
+      document.querySelectorAll('.home-section').forEach(function(el){el.style.display = ''});
+      return;
+    }
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
+    
+    if (view === 'toc' && bookId) {
+      var book = booksData.find(function(b){return b.id === bookId});
+      if (book) {
+        document.getElementById('toc-view-title').textContent = book.title;
+        var tocList = document.getElementById('toc-list');
+        tocList.innerHTML = book.chapters.map(function(ch, i) {
+          return '<li class="toc-item" onclick="switchView(\'read\', \'' + book.id + '\', \'' + ch.id + '\')">' +
+            '<span class="toc-chapter">' + (i + 1) + '</span>' +
+            '<span class="toc-title">' + ch.title + '</span>' +
+          '</li>';
+        }).join('');
+        document.getElementById('toc-view').classList.add('active');
+      }
+    }
+    
+    if (view === 'read' && bookId) {
+      var book = booksData.find(function(b){return b.id === bookId});
+      if (book && book.chapters.length > 0) {
+        var chapterId = arguments[2] || book.chapters[0].id;
+        var chapter = book.chapters.find(function(ch){return ch.id === chapterId});
+        if (chapter) {
+          document.getElementById('read-view-title').textContent = chapter.title;
+          var content = chapter.content.split('\\n\\n').map(function(p) {
+            return '<p>' + p + '</p>';
+          }).join('');
+          document.getElementById('read-content').innerHTML = '<h1>' + chapter.title + '</h1>' + content;
+          document.getElementById('read-view').classList.add('active');
+        }
+      }
+    }
+  }
+  
   function switchRank(tab){
     document.querySelectorAll('.rank-list').forEach(function(el){el.classList.add('hidden')});
     document.getElementById('rank-'+tab).classList.remove('hidden');
