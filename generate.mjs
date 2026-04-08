@@ -606,6 +606,11 @@ function write(path, content) {
     }
   }
   
+  function toggleDarkMode() {
+    var isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+  }
+  
   function switchView(view, bookId) {
     document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
     if (view === 'home') {
