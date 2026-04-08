@@ -235,8 +235,7 @@ function write(path, content) {
 
   const body = headerHTML() + `<div class="app-container">
   <main class="page home-page">
-    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="${SITE.name}">${SITE.name} - ${SITE.tagline}</h1>
-    <section class="home-hero">
+    <div id="home-content" class="tab-content">
       <div class="hero-bg"></div>
       <div class="hero-particles">
         <div class="hero-particle"></div><div class="hero-particle"></div>
@@ -397,6 +396,80 @@ function write(path, content) {
         </a>`).join('')}
       </div>
     </section>
+    </div>
+    
+    <div id="books-content" class="tab-content hidden">
+      <section class="home-hero" style="min-height:200px;padding:var(--spacing-8) var(--spacing-6)">
+        <div class="hero-content">
+          <div class="hero-badge">📚 我的書閣</div>
+          <p style="color:var(--text-muted);font-size:14px;margin-top:8px">${BOOKS.length} 本作品</p>
+        </div>
+      </section>
+      <section class="home-section" aria-label="全部作品">
+        <div class="book-grid" style="padding:0 var(--spacing-4)">
+          ${BOOKS.map(b=>`<a href="book/${b.id}" class="book-card btn-press">
+            ${coverHTML(b,80,120,10,false,true,false)}
+            <div class="book-card-info">
+              <div class="book-card-title">${b.title}</div>
+              <div class="book-card-author">${b.author}</div>
+              <div class="book-card-meta">
+                <span style="color:${b.color}">★ ${b.rating}</span>
+                <span>${b.chapters}章</span>
+              </div>
+            </div>
+          </a>`).join('')}
+        </div>
+      </section>
+    </div>
+    
+    <div id="profile-content" class="tab-content hidden">
+      <section class="home-hero" style="min-height:200px;padding:var(--spacing-8) var(--spacing-6)">
+        <div class="hero-content">
+          <div class="hero-avatar" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--color-primary-dark));display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px">👤</div>
+          <div class="hero-badge">書蟲</div>
+          <p style="color:var(--text-muted);font-size:14px;margin-top:8px">享受閱讀的每一刻</p>
+        </div>
+      </section>
+      <section class="home-section" aria-label="設定">
+        <div class="settings-list">
+          <div class="settings-item" onclick="alert('書籤功能開發中')">
+            <span>📌</span><span>我的書籤</span><span style="color:var(--text-muted)">0</span>
+          </div>
+          <div class="settings-item" onclick="alert('閱讀記錄功能開發中')">
+            <span>📖</span><span>閱讀記錄</span>
+          </div>
+          <div class="settings-item" onclick="alert('收藏功能開發中')">
+            <span>❤️</span><span>我的收藏</span><span style="color:var(--text-muted)">0</span>
+          </div>
+        </div>
+      </section>
+      <section class="home-section" aria-label="偏好設定">
+        <div class="settings-list">
+          <div class="settings-item">
+            <span>🌙</span><span>深色模式</span>
+            <label class="toggle"><input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()"><span class="toggle-slider"></span></label>
+          </div>
+          <div class="settings-item">
+            <span>🔤</span><span>字體大小</span>
+            <span style="color:var(--text-muted);font-size:12px">中</span>
+          </div>
+        </div>
+      </section>
+      <section class="home-section" aria-label="關於">
+        <div class="settings-list">
+          <a href="legal/privacy" class="settings-item">
+            <span>📜</span><span>隱私政策</span>
+          </a>
+          <a href="legal/terms" class="settings-item">
+            <span>📋</span><span>使用條款</span>
+          </a>
+          <div class="settings-item">
+            <span>ℹ️</span><span>版本</span><span style="color:var(--text-muted)">1.0.0</span>
+          </div>
+        </div>
+      </section>
+    </div>
+    
     ${footerNav('home')}
   </main></div>
   <script>
@@ -471,22 +544,21 @@ function write(path, content) {
 
 // ===== SEARCH =====
 (function() {
-  const body = `<main class="page">
-    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="搜尋小說">搜尋小說</h1>
-    <div class="search-header"><div class="search-bar">
-      <button class="btn-press" onclick="window.location.href='/'" aria-label="返回首頁">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-      <div class="search-icon-wrap">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input class="search-input" type="search" placeholder="搜尋小說、作者、關鍵字..." id="search-input" oninput="doSearch(this.value)" aria-label="搜尋小說">
-      </div></div></div>
+const body = `<div class="app-container"><main class="page">
+    ${backHeader('搜尋')}
+    <div class="search-hero">
+      <div class="search-box">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="search" id="search-input" placeholder="搜尋小說、作者..." oninput="doSearch(this.value)" aria-label="搜尋">
+      </div>
+    </div>
     <div id="hot-keywords" class="hot-section">
       <div class="hot-title">熱門搜尋</div>
       <div class="hot-tags">${HOT_KEYWORDS.map(kw=>`<button class="hot-tag btn-press" onclick="searchKW('${kw}')" aria-label="搜尋${kw}">${kw}</button>`).join('')}</div>
     </div>
     <div id="search-results" class="results-section hidden"></div>
     ${footerNav('search')}
-  </main>
+  </main></div>
   <script>
   var booksData=${JSON.stringify(BOOKS.map(b=>({id:b.id,title:b.title,author:b.author,tags:b.tags,color:b.color,rating:b.rating})))};
   function searchKW(kw){document.getElementById('search-input').value=kw;doSearch(kw)}
@@ -512,7 +584,7 @@ function write(path, content) {
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
   const catBooks = BOOKS.filter(b => b.category === cat.id);
-  const body = `<main class="page">${backHeader(cat.name+'小說')}
+  const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說')}
     ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說'}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
       `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press">${coverMini(b,80,112)}
@@ -522,7 +594,7 @@ CATEGORIES.forEach(cat => {
         <div class="cat-book-meta"><span>${b.words.toLocaleString()} 字</span>
         <span style="color:${b.color};font-weight:700">${b.rating} 分</span></div></div></a>`
     ).join('') + adHTML() : '<div style="text-align:center;padding:64px 0;color:var(--color-text-tertiary)"><p style="font-size:32px;margin-bottom:8px" aria-hidden="true">📭</p><p>此分類暫無作品</p></div>'}</div>
-  </main>`;
+  </main></div>`;
 
   const catJsonLd = {
     "@context":"https://schema.org","@type":"CollectionPage","name":`${cat.name}小說`,
@@ -555,7 +627,7 @@ BOOKS.forEach(book => {
       }).join('')
     }</select>` : '';
 
-  const body = `<main class="page">${backHeader(book.title)}
+  const body = `<div class="app-container"><main class="page">${backHeader(book.title)}
     ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat?cat.name:'分類',url:`${SITE.base}/category/${book.category}`},{label:book.title}])}
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:${book.color}" aria-hidden="true"></div>
@@ -581,7 +653,7 @@ BOOKS.forEach(book => {
       <a href="${SITE.base}/book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
       <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('${book.id}')" aria-label="加入書籤">加入書籤</button>
     </div>
-  </main>
+  </main></div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="${SITE.base}/book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
@@ -600,7 +672,7 @@ BOOKS.forEach(book => {
       "isPartOf":{"@type":"Book","name":book.title}
     };
 
-    const body = `<div class="reader-page">
+    const body = `<div class="app-container"><div class="reader-page">
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:${book.color}"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
@@ -674,7 +746,7 @@ BOOKS.forEach(book => {
             <div class="tts-label"><span>音高</span><span id="tts-pitch-val">1.0</span></div>
             <input type="range" min="0.5" max="2" step="0.1" value="1" id="tts-pitch" oninput="setTTSPitch(this.value)" style="margin:8px 0" aria-label="調整朗讀音高">
           </div></div></div></div>
-    </div></main></div>
+    </div></main></div></div>
     <script>
     (function(){
       var uiVisible=true;
