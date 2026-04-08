@@ -725,13 +725,18 @@ body {
 }
 
 .app-container {
-  max-width: 480px;
+  max-width: 400px;
   margin: 0 auto;
-  min-height: 100vh;
-  background: var(--bg-outer);
+  min-height: 100dvh;
+  background: var(--bg-app);
   position: relative;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 @media (min-width: 480px) {
   .app-container {
@@ -817,16 +822,15 @@ body {
 }
 
 .footer-nav {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 20;
-  background: linear-gradient(to top, var(--bg-base) 0%, transparent 100%);
+  padding: 12px 32px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   display: flex;
   justify-content: space-around;
-  padding: var(--spacing-2) 0;
-  padding-bottom: calc(var(--spacing-2) + env(safe-area-inset-bottom));
   transition: transform var(--t-normal);
 }
 

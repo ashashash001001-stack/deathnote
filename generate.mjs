@@ -233,9 +233,9 @@ function write(path, content) {
   const totalWords = BOOKS.reduce((s,b)=>s+b.words,0);
   const totalChapters = BOOKS.reduce((s,b)=>s+b.chapters,0);
 
-  const body = headerHTML() + `<div class="app-container">
-  <main class="page home-page">
-    <div id="home-content" class="tab-content" style="padding: 0 var(--spacing-6); padding-top: var(--spacing-12);">
+  const body = `<div class="app-container" style="max-width:400px;margin:0 auto;min-height:100dvh;background:var(--bg-app);position:relative;overflow:hidden;display:flex;flex-direction:column">
+  <main id="main-scroll" class="hide-scrollbar" style="flex:1;overflow-y:auto;padding-bottom:80px;-webkit-overflow-scrolling:touch">
+    <div id="home-content" class="tab-content" style="padding:48px 24px 0">
       <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">${new Date().toLocaleDateString('zh-HK', {month:'short',day:'numeric',weekday:'short'})}</p>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
         <h1 style="font-family:var(--font-serif);font-size:36px;font-weight:700;letter-spacing:0.1em;color:var(--text-main)">拾遺</h1>
@@ -319,102 +319,7 @@ function write(path, content) {
       <div class="reader-content" id="read-content"></div>
     </div>
     
-    <section class="home-section" aria-label="熱門精選">
-      <div class="section-header">
-        <h2 class="section-title">🔥 熱門精選</h2>
-      </div>
-      <div class="featured-scroll">
-        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="featured-card btn-press">
-          <div class="book-cover-wrapper">
-            ${coverHTML(b,160,240,14,false,true,true)}
-            <span class="status-badge ${b.status==='completed'?'status-done':'status-ongoing'}">${b.status==='completed'?'完結':'連載'}</span>
-          </div>
-          <div class="featured-info">
-            <div class="featured-title">${b.title}</div>
-            <div class="featured-meta">
-              <span class="featured-rating" style="color:${b.color}">★ ${b.rating}</span>
-              <span class="featured-stat">${b.chapters}章</span>
-            </div>
-          </div>
-        </a>`).join('')}
-      </div>
-    </section>
-    <div class="section-divider"></div>
-    <section class="home-section" aria-label="排行榜">
-      <div class="section-header">
-        <h2 class="section-title">🏆 排行榜</h2>
-      </div>
-      <div class="rank-tabs" role="tablist">
-        <button class="rank-tab active" data-tab="all" onclick="switchRank('all')" role="tab" aria-selected="true">總榜</button>
-        <button class="rank-tab" data-tab="new" onclick="switchRank('new')" role="tab" aria-selected="false">新書</button>
-        <button class="rank-tab" data-tab="done" onclick="switchRank('done')" role="tab" aria-selected="false">完結</button>
-      </div>
-      <div id="rank-all" role="tabpanel" class="rank-list">
-        ${all.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
-          <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
-          ${coverMini(b,36,36)}
-          <div class="rank-info">
-            <div class="rank-title">${b.title}</div>
-            <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
-          </div>
-          <div class="rank-score" style="color:${b.color}">${b.rating}</div>
-        </a>`).join('')}
-      </div>
-      <div id="rank-new" class="hidden rank-list" role="tabpanel">
-        ${newest.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
-          <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
-          ${coverMini(b,36,36)}
-          <div class="rank-info">
-            <div class="rank-title">${b.title}</div>
-            <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
-          </div>
-          <div class="rank-score" style="color:${b.color}">${b.rating}</div>
-        </a>`).join('')}
-      </div>
-      <div id="rank-done" class="hidden rank-list" role="tabpanel">
-        ${done.slice(0,10).map((b,i)=>`<a href="book/${b.id}" class="rank-item btn-press">
-          <span class="rank-num ${i<3?'rank-top':''}">${i+1}</span>
-          ${coverMini(b,36,36)}
-          <div class="rank-info">
-            <div class="rank-title">${b.title}</div>
-            <div class="rank-sub">${b.author} · ${b.tags[0]}</div>
-          </div>
-          <div class="rank-score" style="color:${b.color}">${b.rating}</div>
-        </a>`).join('')}
-      </div>
-    </section>
-    <div class="section-divider"></div>
-    <section class="home-section" aria-label="最新更新">
-      <div class="section-header">
-        <h2 class="section-title">✨ 最新更新</h2>
-      </div>
-      <div style="padding:0 var(--spacing-lg)">
-        ${BOOKS.filter(b=>b.status==='ongoing').slice(0,4).map(b=>{
-          const ch = b._chapters ? b._chapters[b._chapters.length-1] : null;
-          return `<a href="book/${b.id}/${ch?ch.id:''}" class="update-item btn-press" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-border-light)">
-            ${coverMini(b,40,52)}
-            <div style="flex:1;min-width:0">
-              <div style="font-size:14px;font-weight:600" class="truncate">${b.title}</div>
-              <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:2px">${ch?ch.title:'新章節'} · ${b.updated}</div>
-            </div>
-            <span style="font-size:10px;padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);color:var(--accent-scifi);font-weight:600;flex-shrink:0">連載中</span>
-          </a>`;
-        }).join('')}
-      </div>
-    </section>
-    <div class="section-divider"></div>
-    <section class="home-section home-section-last" aria-label="分類題材">
-      <div class="section-header">
-        <h2 class="section-title">📚 分類題材</h2>
-      </div>
-      <div class="bento-grid">
-        ${CATEGORIES.map((c,i)=>`<a href="category/${c.id}" class="bento-item btn-press${i===0?' bento-lg':''}${i===4?' bento-md':''}" style="--cat-color:${c.color}" aria-label="${c.name}小說">
-          <span class="bento-icon">${c.icon}</span>
-          <span class="bento-name">${c.name}</span>
-        </a>`).join('')}
-      </div>
-    </section>
-    </div>
+    
     
     <div id="books-content" class="tab-content hidden">
       <section class="home-hero" style="min-height:200px;padding:var(--spacing-8) var(--spacing-6)">
@@ -509,8 +414,6 @@ function write(path, content) {
         </div>
       </div>
     </div>
-    
-    <div id="main-scroll" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none" onscroll="this.style.scrollbarWidth=='none'?this.style.scrollbarWidth='auto':null">
     
     ${footerNav('home')}
   </main></div>
