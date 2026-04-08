@@ -610,35 +610,6 @@ function write(path, content) {
       }).join('');
     }
   }
-        '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> 返回</button>' +
-        '<h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">📌 我的書籤</h3>' +
-        '<div id="bookmarks-list" class="settings-list"></div>' +
-        '<div id="bookmarks-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">' +
-        '<p style="font-size:48px;margin-bottom:12px">📌</p><p>尚無書籤</p><p style="font-size:12px;margin-top:8px">在閱讀頁面中點擊章節即可加入書籤</p></div></div>';
-      document.getElementById('profile-content').appendChild(section);
-    } else {
-      section.style.display = '';
-    }
-    
-    var bms = getBookmarks();
-    var list = document.getElementById('bookmarks-list');
-    var empty = document.getElementById('bookmarks-empty');
-    
-    var bmsArray = Object.entries(bms).map(function(e) { return e[1]; }).filter(function(b) { return b; });
-    
-    if (bmsArray.length === 0) {
-      list.innerHTML = '';
-      empty.style.display = '';
-    } else {
-      empty.style.display = 'none';
-      list.innerHTML = bmsArray.map(function(bm) {
-        var book = booksData.find(function(x) { return x.id === bm.bookId; });
-        var chapter = chaptersData.find(function(c) { return c.bookId === bm.bookId && c.id === bm.chapterId; });
-        if (!book || !chapter) return '';
-        return '<a href="book/' + bm.bookId + '/' + bm.chapterId + '" class="settings-item"><span>📌</span><span>' + book.title + ' - ' + chapter.title + '</span></a>';
-      }).join('');
-    }
-  }
   
   function backToSettings() {
     document.getElementById('history-section').style.display = 'none';
