@@ -32,16 +32,21 @@
 
 :root {
   /* Background Colors (Warm Paper & Earth Tones) */
-  --bg-outer: #e9e6df;
+  --bg-outer: #d8d4cd;
   --bg-base: #f7f5f0;
+  --bg-card: #ffffff;
   --bg-reading: #f2ebd9;
   
   /* Text Colors (Reduced contrast for eye protection) */
+  --text-main: #3b3a37;
   --text-dark: #3b3a37;
   --text-muted: #858178;
+  --text-sub: #858178;
   
   /* Accent Color (Dried leaf/earth gold) */
   --accent: #a39171;
+  --accent-hover: #8b7a5d;
+  --accent-light: #c4b8a4;
   
   /* Legacy mappings for compatibility */
   --color-primary: #a39171;
@@ -50,11 +55,16 @@
   
   --color-bg: var(--bg-outer);
   --color-surface: var(--bg-base);
-  --color-surface-glass: rgba(247, 245, 240, 0.95);
+  --color-surface-glass: rgba(247, 245, 240, 0.85);
   
   --color-text-primary: var(--text-dark);
   --color-text-secondary: var(--text-muted);
   --color-text-tertiary: #a8a49c;
+  
+  /* Warm Border Colors */
+  --border-light: #e5e0d8;
+  --border-medium: #d2c9b8;
+  --border-dark: #c4b8a4;
   
   /* Category Accent Colors */
   --accent-suspense: #5c5c5c;
@@ -186,6 +196,328 @@
   
   --reader-bg: var(--bg-reading);
   --reader-text: var(--text-dark);
+}
+
+/* ===== TAB CONTENT SYSTEM ===== */
+.tab-content {
+  display: block;
+  animation: fadeIn var(--t-silent) forwards;
+}
+.tab-content.hidden {
+  display: none;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== FUSION STYLE - Book Spine Vertical Text ===== */
+.book-spine {
+  writing-mode: vertical-rl;
+  letter-spacing: 8px;
+  position: relative;
+}
+.book-spine::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ===== FUSION STYLE - Glass Warm Effect ===== */
+.glass-warm {
+  background: rgba(247, 245, 240, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(163, 145, 113, 0.15);
+}
+
+/* ===== FUSION STYLE - Card Active Press ===== */
+.card-active {
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s;
+}
+.card-active:active {
+  transform: scale(0.96);
+}
+
+/* ===== FUSION STYLE - Slide Up Panel ===== */
+.slide-up {
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.slide-up.active {
+  transform: translateY(0);
+}
+
+/* ===== FUSION STYLE - Hero Card ===== */
+.hero-card-fusion {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(163, 145, 113, 0.15);
+  overflow: hidden;
+  cursor: pointer;
+}
+.hero-card-fusion .card-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ebe6df 0%, #e1d9ce 100%);
+}
+.hero-card-fusion .card-content {
+  position: relative;
+  z-index: 10;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hero-card-fusion .card-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.hero-card-fusion .card-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-main);
+}
+.hero-card-fusion .card-book {
+  position: absolute;
+  bottom: 80px;
+  right: -10px;
+  width: 140px;
+  height: 200px;
+  background: #f8f6f2;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: rotate(-4deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e0d8;
+}
+.hero-card-fusion .card-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hero-card-fusion .card-footer-title {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+.hero-card-fusion .card-footer-author {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.hero-card-fusion .card-action {
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.hero-card-fusion .card-action:hover {
+  background: var(--accent-hover);
+}
+
+/* ===== FUSION STYLE - Reading Text ===== */
+.reading-text p {
+  text-indent: 2em;
+  margin-bottom: 1.5em;
+  line-height: 2.2;
+  letter-spacing: 1.5px;
+}
+.reading-text p:first-of-type::first-letter {
+  font-size: 2.5em;
+  font-weight: 700;
+  float: left;
+  margin-right: 4px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+/* ===== FUSION STYLE - List Item ===== */
+.list-item-fusion {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+.list-item-fusion .item-cover {
+  width: 60px;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-medium);
+  flex-shrink: 0;
+}
+.list-item-fusion .item-content {
+  flex: 1;
+}
+.list-item-fusion .item-title {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.list-item-fusion .item-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.list-item-fusion .item-btn {
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.list-item-fusion .item-btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+.list-item-fusion .item-btn-outline:hover {
+  background: var(--accent);
+  color: white;
+}
+.list-item-fusion .item-btn-filled {
+  background: var(--bg-base);
+  border: 1px solid var(--border-medium);
+  color: var(--text-muted);
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-4);
+  padding-bottom: var(--spacing-6);
+}
+.book-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-base);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--t-normal);
+}
+.book-card:active {
+  transform: scale(0.97);
+}
+.book-card-info {
+  padding: var(--spacing-2);
+}
+.book-card-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.book-card-author {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.book-card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: var(--spacing-1);
+}
+
+.settings-list {
+  background: var(--bg-base);
+  border-radius: var(--radius-lg);
+  margin: 0 var(--spacing-4);
+  overflow: hidden;
+}
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  color: var(--text-dark);
+  font-size: var(--text-base);
+  border-bottom: 1px solid var(--color-border-light);
+  cursor: pointer;
+  transition: background var(--t-fast);
+  text-decoration: none;
+}
+.settings-item:last-child {
+  border-bottom: none;
+}
+.settings-item:hover {
+  background: rgba(0,0,0,0.02);
+}
+.settings-item:active {
+  background: rgba(0,0,0,0.04);
+}
+.settings-item span:first-child {
+  font-size: 18px;
+}
+.settings-item span:nth-child(2) {
+  flex: 1;
+}
+
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 28px;
+}
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--color-border-strong);
+  border-radius: 28px;
+  transition: all var(--t-normal);
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: all var(--t-normal);
+  box-shadow: var(--shadow-xs);
+}
+.toggle input:checked + .toggle-slider {
+  background: var(--accent);
+}
+.toggle input:checked + .toggle-slider::before {
+  transform: translateX(20px);
 }
 
 /* ===== SPA VIEW SYSTEM ===== */
@@ -404,16 +736,39 @@ html {
 }
 body {
   font-family: var(--font-sans);
-  background: var(--bg-outer);
+  background: #d8d4cd;
   color: var(--text-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding: 0;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
+}
+
+.app-container {
+  max-width: 400px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--bg-app);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (min-width: 480px) {
+  .app-container {
+    min-height: 100vh;
+    border-radius: 24px;
+    overflow: hidden;
+    margin: 8px auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .btn-press {
@@ -490,18 +845,61 @@ body {
 }
 
 .footer-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 12px 32px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  justify-content: space-around;
+  transition: transform var(--t-normal);
+}
+
+/* Fusion Style Bottom Nav */
+.footer-nav-fusion {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 20;
-  background: linear-gradient(to top, var(--bg-base) 0%, transparent 100%);
+  padding: 12px 32px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
   display: flex;
   justify-content: space-around;
-  padding: var(--spacing-2) 0;
-  padding-bottom: calc(var(--spacing-2) + env(safe-area-inset-bottom));
-  transition: transform var(--t-normal);
+  align-items: center;
 }
+.footer-nav-fusion .nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 16px;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s;
+}
+.footer-nav-fusion .nav-btn svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
+  transition: transform 0.2s;
+}
+.footer-nav-fusion .nav-btn span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.footer-nav-fusion .nav-btn:active svg {
+  transform: scale(0.85);
+}
+.footer-nav-fusion .nav-btn.inactive {
+  color: var(--text-muted);
+}
+.footer-nav-fusion .nav-btn.active {
+  color: var(--accent);
+}
+
 .footer-nav-item {
   display: flex;
   flex-direction: column;
@@ -527,6 +925,51 @@ body {
   color: var(--accent);
 }
 .footer-nav-item:active {
+  transform: scale(0.95);
+}
+
+/* Tab Navigation (App-style) */
+.footer-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all var(--t-normal);
+  min-width: 64px;
+  min-height: 44px;
+}
+.footer-tab svg {
+  width: 22px;
+  height: 22px;
+  transition: transform var(--t-fast);
+}
+.footer-tab span {
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+.footer-tab:hover {
+  color: var(--accent);
+  background: rgba(163, 145, 113, 0.08);
+}
+.footer-tab.active {
+  color: var(--accent);
+}
+.footer-tab.active svg {
+  transform: scale(1.1);
+}
+.footer-tab.inactive {
+  color: var(--text-muted);
+}
+.footer-tab:active {
   transform: scale(0.95);
 }
 
@@ -1990,7 +2433,7 @@ body {
 
 </head>
 <body>
-<main class="page"><div class="cat-header"><div class="cat-header-inner">
+<div class="app-container"><main class="page"><div class="cat-header"><div class="cat-header-inner">
     <button class="btn-press" onclick="history.back()" aria-label="返回上一頁">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
     <h1>社畜求生記</h1></div></div>
@@ -2027,7 +2470,7 @@ body {
       <a href="/deathnote/book/office-survival/ch-1" class="btn-primary btn-press" style="background:#F59E0B" aria-label="開始閱讀 社畜求生記">開始閱讀</a>
       <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('office-survival')" aria-label="加入書籤">加入書籤</button>
     </div>
-  </main>
+  </main></div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：又改需求","words":297}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="/deathnote/book/office-survival/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
