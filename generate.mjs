@@ -119,14 +119,18 @@ function rankBadge(i) { return i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'ran
 
 function footerNav(active) {
   return `<nav class="footer-nav" role="navigation" aria-label="底部導航">
-    <a href="/" class="footer-nav-item${active==='home'?' active':''}" data-nav="home" aria-label="首頁">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>首頁</a>
-    <a href="/search" class="footer-nav-item${active==='search'?' active':''}" data-nav="search" aria-label="搜尋">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>搜尋</a>
-    <a href="/legal/privacy" class="footer-nav-item${active==='privacy'?' active':''}" data-nav="privacy" aria-label="隱私權政策">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>隱私</a>
-    <a href="/legal/terms" class="footer-nav-item${active==='terms'?' active':''}" data-nav="terms" aria-label="使用條款">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>條款</a>
+    <button class="footer-tab ${active==='home'?'active':''}" data-tab="home" onclick="switchTab('home')" aria-label="首頁">
+      <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+      <span>首頁</span>
+    </button>
+    <button class="footer-tab ${active==='books'?'active':''}" data-tab="books" onclick="switchTab('books')" aria-label="書閣">
+      <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332-.477 4.5-1.252m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.252v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.252"/></svg>
+      <span>書閣</span>
+    </button>
+    <button class="footer-tab ${active==='profile'?'active':''}" data-tab="profile" onclick="switchTab('profile')" aria-label="我的">
+      <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h4a7 7 0 007-7z"/></svg>
+      <span>我的</span>
+    </button>
   </nav>`;
 }
 
@@ -229,7 +233,7 @@ function write(path, content) {
   const totalWords = BOOKS.reduce((s,b)=>s+b.words,0);
   const totalChapters = BOOKS.reduce((s,b)=>s+b.chapters,0);
 
-  const body = headerHTML() + `
+  const body = headerHTML() + `<div class="app-container">
   <main class="page home-page">
     <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)" aria-label="${SITE.name}">${SITE.name} - ${SITE.tagline}</h1>
     <section class="home-hero">
@@ -394,10 +398,19 @@ function write(path, content) {
       </div>
     </section>
     ${footerNav('home')}
-  </main>
+  </main></div>
   <script>
   var booksData = ${JSON.stringify(BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, chapters: b._chapters || [] })))};
   
+  function switchTab(tab) {
+    document.querySelectorAll('.footer-tab').forEach(function(el){el.classList.remove('active')});
+    var btn = document.querySelector('.footer-tab[data-tab="'+tab+'"]');
+    if(btn){btn.classList.add('active')}
+    document.querySelectorAll('.tab-content').forEach(function(el){el.classList.add('hidden')});
+    var content = document.getElementById(tab+'-content');
+    if(content){content.classList.remove('hidden')}
+  }
+
   function switchView(view, bookId) {
     document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
     if (view === 'home') {
