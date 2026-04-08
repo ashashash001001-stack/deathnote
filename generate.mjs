@@ -619,7 +619,7 @@ function write(path, content) {
         document.getElementById('toc-view-title').textContent = book.title;
         var tocList = document.getElementById('toc-list');
         tocList.innerHTML = book.chapters.map(function(ch, i) {
-          return '<li class="toc-item" onclick="switchView(\'read\', \'' + book.id + '\', \'' + ch.id + '\')">' +
+          return '<li class="toc-item" onclick="switchView(&quot;read&quot;, &quot;' + book.id + '&quot;, &quot;' + ch.id + '&quot;)">' +
             '<span class="toc-chapter">' + (i + 1) + '</span>' +
             '<span class="toc-title">' + ch.title + '</span>' +
           '</li>';
