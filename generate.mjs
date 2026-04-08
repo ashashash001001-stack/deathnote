@@ -296,6 +296,69 @@ function write(path, content) {
         </div>
       </div>
       
+      <!-- 熱門精選 -->
+      <div style="margin-top:40px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-light)">
+        <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">🔥 熱門精選</h3>
+      </div>
+      <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none">
+        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none">
+          <div style="width:120px;height:170px;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
+            <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
+            <span style="position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
+          </div>
+          <p style="font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
+          <p style="font-size:11px;color:var(--text-muted)">${b.author}</p>
+        </a>`).join('')}
+      </div>
+      
+      <!-- 排行榜 -->
+      <div style="margin-top:40px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-light)">
+        <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">🏆 排行榜</h3>
+      </div>
+      <div style="margin-bottom:16px">
+        ${all.slice(0,5).map((b,i)=>`<a href="book/${b.id}" class="rank-item-fusion card-active" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-light);text-decoration:none">
+          <span style="font-family:var(--font-serif);font-size:20px;font-weight:700;color:${i<3?b.color:'var(--text-muted)'};width:28px;text-align:center">${i+1}</span>
+          <div style="width:44px;height:60px;background:${b.color}20;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-light);flex-shrink:0">
+            <span class="book-spine" style="font-size:9px;color:${b.color}">${b.title.slice(0,2)}</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <p style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
+            <p style="font-size:12px;color:var(--text-muted)">${b.author}</p>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:${b.color}">★ ${b.rating}</span>
+        </a>`).join('')}
+      </div>
+      
+      <!-- 最新更新 -->
+      <div style="margin-top:40px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-light)">
+        <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">✨ 最新更新</h3>
+      </div>
+      <div style="margin-bottom:16px">
+        ${BOOKS.filter(b=>b.status==='ongoing').slice(0,4).map(b=>{
+          const ch = b._chapters ? b._chapters[b._chapters.length-1] : null;
+          return `<a href="book/${b.id}/${ch?ch.id:''}" class="list-item-fusion card-active" style="text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border-light)">
+          <div style="width:48px;height:64px;background:${b.color}20;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-light);flex-shrink:0">
+            <span class="book-spine" style="font-size:9px;color:${b.color}">${b.title.slice(0,2)}</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <p style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
+            <p style="font-size:12px;color:var(--text-muted)">${ch?ch.title:'新章節'} · ${b.updated}</p>
+          </div>
+          <span style="font-size:10px;padding:4px 10px;border-radius:999px;background:rgba(59,130,246,.12);color:#3B82F6;font-weight:600;flex-shrink:0">連載中</span>
+        </a>`}).join('')}
+      </div>
+      
+      <!-- 分類題材 -->
+      <div style="margin-top:40px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-light)">
+        <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">📚 分類題材</h3>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+        ${CATEGORIES.slice(0,4).map(c=>`<a href="category/${c.id}" class="category-card card-active" style="padding:20px;background:${c.color}10;border:1px solid var(--border-light);border-radius:16px;text-decoration:none;text-align:center">
+          <p style="font-size:28px;margin-bottom:8px">${c.icon}</p>
+          <p style="font-family:var(--font-serif);font-size:16px;font-weight:700;color:var(--text-main)">${c.name}</p>
+        </a>`).join('')}
+      </div>
+      
       <div style="height:var(--spacing-16)"></div>
     </div>
     
