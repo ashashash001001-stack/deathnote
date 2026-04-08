@@ -118,18 +118,18 @@ function tagHTML(book) {
 function rankBadge(i) { return i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other'; }
 
 function footerNav(active) {
-  return `<nav class="footer-nav" role="navigation" aria-label="底部導航">
-    <button class="footer-tab ${active==='home'?'active':''}" data-tab="home" onclick="switchTab('home')" aria-label="首頁">
-      <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
-      <span>首頁</span>
+  return `<nav class="footer-nav glass-warm" role="navigation" aria-label="底部導航" style="padding:12px 32px;padding-bottom:calc(12px + env(safe-area-inset-bottom))">
+    <button class="footer-tab ${active==='home'?'active':''} ${active!=='home'?'inactive':''}" data-tab="home" onclick="switchTab('home')" aria-label="拾遺">
+      <svg width="24" height="24" fill="${active==='home'?'currentColor':'none'}" stroke="${active==='home'?'none':'currentColor'}" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+      <span>拾遺</span>
     </button>
-    <button class="footer-tab ${active==='books'?'active':''}" data-tab="books" onclick="switchTab('books')" aria-label="書閣">
-      <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332-.477 4.5-1.252m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.252v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.252"/></svg>
+    <button class="footer-tab ${active==='books'?'active':''} ${active!=='books'?'inactive':''}" data-tab="books" onclick="switchTab('books')" aria-label="書閣">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
       <span>書閣</span>
     </button>
-    <button class="footer-tab ${active==='profile'?'active':''}" data-tab="profile" onclick="switchTab('profile')" aria-label="我的">
-      <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h4a7 7 0 007-7z"/></svg>
-      <span>我的</span>
+    <button class="footer-tab ${active==='search'?'active':''} ${active!=='search'?'inactive':''}" data-tab="search" onclick="switchTab('search')" aria-label="尋字">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <span>尋字</span>
     </button>
   </nav>`;
 }
@@ -235,51 +235,69 @@ function write(path, content) {
 
   const body = headerHTML() + `<div class="app-container">
   <main class="page home-page">
-    <div id="home-content" class="tab-content">
-      <div class="hero-bg"></div>
-      <div class="hero-particles">
-        <div class="hero-particle"></div><div class="hero-particle"></div>
-        <div class="hero-particle"></div><div class="hero-particle"></div>
-        <div class="hero-particle"></div><div class="hero-particle"></div>
-        <div class="hero-particle"></div><div class="hero-particle"></div>
-      </div>
-      <div class="hero-content">
-        <div class="hero-badge">📖 沉浸閱讀，從這裡開始</div>
-        <a href="search" class="hero-search-btn btn-press">
-          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <span>搜尋小說、作者...</span>
-        </a>
-        <div class="hero-stats">
-          <div class="hero-stat glass-card"><span class="hero-stat-num" style="font-variant-numeric:tabular-nums">${BOOKS.length}</span><span class="hero-stat-label">作品</span></div>
-          <div class="hero-stat-divider"></div>
-          <div class="hero-stat glass-card"><span class="hero-stat-num" style="font-variant-numeric:tabular-nums">${(totalWords/10000).toFixed(0)}萬</span><span class="hero-stat-label">字數</span></div>
-          <div class="hero-stat-divider"></div>
-          <div class="hero-stat glass-card"><span class="hero-stat-num" style="font-variant-numeric:tabular-nums">${totalChapters}</span><span class="hero-stat-label">章節</span></div>
+    <div id="home-content" class="tab-content" style="padding: 0 var(--spacing-6); padding-top: var(--spacing-12);">
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">${new Date().toLocaleDateString('zh-HK', {month:'short',day:'numeric',weekday:'short'})}</p>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
+        <h1 style="font-family:var(--font-serif);font-size:36px;font-weight:700;letter-spacing:0.1em;color:var(--text-main)">拾遺</h1>
+        <div style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer">
+          <svg width="16" height="16" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
         </div>
       </div>
-    </section>
-    
-    <section class="home-section" aria-label="本週拾遺">
-      <div class="section-header">
-        <h2 class="section-title">本週拾遺</h2>
-      </div>
-      <div class="hero-books">
-        <div class="hero-book" onclick="switchView('toc', '${BOOKS[0].id}')">
-          <div class="book-cover">${BOOKS[0].title}</div>
-          <div class="book-info">
-            <h3>${BOOKS[0].title}</h3>
-            <p>${BOOKS[0].author}</p>
+      
+      <div class="hero-card-fusion card-active" onclick="openDetailSlide()">
+        <div class="card-bg"></div>
+        <div class="card-content">
+          <p class="card-label">主編推薦</p>
+          <h2 class="card-title">在喧囂中<br>尋找內心寧靜</h2>
+          <div class="card-book">
+            <span class="book-spine" style="font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--text-main)">${BOOKS[0].title.slice(0,2)}</span>
           </div>
-        </div>
-        <div class="hero-book second" onclick="switchView('toc', '${BOOKS[1].id}')">
-          <div class="book-cover" style="background-color: #e3ddd5;">${BOOKS[1].title}</div>
-          <div class="book-info">
-            <h3>${BOOKS[1].title}</h3>
-            <p>${BOOKS[1].author}</p>
+          <div class="card-footer glass-warm">
+            <div>
+              <p class="card-footer-title">${BOOKS[0].title}</p>
+              <p class="card-footer-author">${BOOKS[0].author}</p>
+            </div>
+            <button class="card-action" onclick="event.stopPropagation();window.location.href='book/${BOOKS[0].id}'">收藏</button>
           </div>
         </div>
       </div>
-    </section>
+      
+      <div style="margin-top:var(--spacing-10);margin-bottom:var(--spacing-3);padding-bottom:var(--spacing-3);border-bottom:1px solid var(--border-light)">
+        <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">本週細讀</h3>
+      </div>
+      
+      <div class="list-item-fusion card-active">
+        <div class="item-cover" style="background:#d8cfc4">
+          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--text-main)">${BOOKS[1].title.slice(0,2)}</span>
+        </div>
+        <div class="item-content" style="border-bottom:none;padding-bottom:var(--spacing-3)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h4 class="item-title">${BOOKS[1].title}</h4>
+              <p class="item-meta">${BOOKS[1].author} · ${BOOKS[1].tags[0]}</p>
+            </div>
+            <button class="item-btn item-btn-outline" onclick="window.location.href='book/${BOOKS[1].id}'">閱讀</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="list-item-fusion card-active">
+        <div class="item-cover" style="background:#444a47">
+          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--bg-reading)">${BOOKS[2]?.title.slice(0,2) || '月度'}</span>
+        </div>
+        <div class="item-content" style="border-bottom:none;padding-bottom:var(--spacing-3)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h4 class="item-title">${BOOKS[2]?.title || '月亮與六便士'}</h4>
+              <p class="item-meta">${BOOKS[2]?.author || '毛姆'} · ${BOOKS[2]?.tags[0] || '英國文學'}</p>
+            </div>
+            <button class="item-btn item-btn-filled">已讀</button>
+          </div>
+        </div>
+      </div>
+      
+      <div style="height:var(--spacing-16)"></div>
+    </div>
     
     <div id="toc-view" class="view">
       <div class="view-header">
@@ -470,6 +488,30 @@ function write(path, content) {
       </section>
     </div>
     
+    <div id="detail-slide" class="slide-up" style="background:var(--bg-reading);position:fixed;inset:0;z-index:50;overflow-y:auto">
+      <div style="position:sticky;top:0;width:100%;display:flex;justify-content:flex-end;padding:20px;z-index:10;background:linear-gradient(to bottom, var(--bg-reading) 60%, transparent)">
+        <button onclick="closeDetailSlide()" style="width:36px;height:36px;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text-main);border:none;cursor:pointer">✕</button>
+      </div>
+      <div style="padding:0 32px 48px;margin-top:-16px">
+        <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border-light)">
+          <div style="width:110px;height:160px;background:#f8f6f2;box-shadow:0 8px 24px rgba(0,0,0,0.1);margin-bottom:24px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-light)">
+            <span class="book-spine" style="font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--text-main)">${BOOKS[0].title.slice(0,2)}</span>
+          </div>
+          <h1 style="font-family:var(--font-serif);font-size:28px;font-weight:700;letter-spacing:0.1em;margin-bottom:12px">${BOOKS[0].title}</h1>
+          <p style="letter-spacing:0.2em;font-size:14px;color:var(--accent)">${BOOKS[0].author}</p>
+        </div>
+        <div class="reading-text" style="font-family:var(--font-serif);font-size:17px;text-align:justify;color:var(--text-main)">
+          <p>${BOOKS[0].synopsis || '在喧囂的都市中，我們常常忘記了內心的聲音。這本書帶領讀者走進一段尋找自我的旅程，在文字的海洋裡重新發現生活的意義。'}</p>
+          <p>每一個故事都是一盞燈，照亮我們前行的道路。讓我們在閱讀中找到平靜，在文字裡尋獲力量。</p>
+          <div style="margin-top:48px;text-align:center">
+            <button onclick="window.location.href='book/${BOOKS[0].id}'" style="font-family:var(--font-serif);font-weight:700;font-size:15px;padding:12px 32px;border-radius:999px;background:var(--text-main);color:var(--bg-base);border:none;cursor:pointer;letter-spacing:0.1em">進入靜默閱讀</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="main-scroll" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none" onscroll="this.style.scrollbarWidth=='none'?this.style.scrollbarWidth='auto':null">
+    
     ${footerNav('home')}
   </main></div>
   <script>
@@ -482,7 +524,11 @@ function write(path, content) {
     document.querySelectorAll('.tab-content').forEach(function(el){el.classList.add('hidden')});
     var content = document.getElementById(tab+'-content');
     if(content){content.classList.remove('hidden')}
+    document.getElementById('main-scroll').scrollTop = 0;
   }
+  
+  function openDetailSlide() { document.getElementById('detail-slide').classList.add('active'); }
+  function closeDetailSlide() { document.getElementById('detail-slide').classList.remove('active'); }
 
   function switchView(view, bookId) {
     document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
