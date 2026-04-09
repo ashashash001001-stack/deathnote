@@ -212,15 +212,36 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
 }
 
 function fixPaths(html) {
+  // Handle paths with base prefix (e.g., /deathnote/book/xxx)
+  const base = SITE.base.replace(/^\//, ''); // remove leading slash
   return html
-    .replace(/href="\/book\//g,'href="book/').replace(/href="\/category\//g,'href="category/')
-    .replace(/href="\/search"/g,'href="search"').replace(/href="\/legal\//g,'href="legal/')
-    .replace(/href="\/manifest.json"/g,'href="manifest.json"').replace(/href="\/sw.js"/g,'href="sw.js"')
-    .replace(/href="\/sitemap.xml"/g,'href="sitemap.xml"').replace(/href="\/robots.txt"/g,'href="robots.txt"')
-    .replace(/href="\/"/g,'href="./"').replace(/location\.href='\/search'/g,"location.href='search'")
-    .replace(/location\.href='\/'/g,"location.href='./'").replace(/register\('\/sw.js'\)/g,"register('sw.js')")
+    .replace(new RegExp(`href="/${base}/book/`, 'g'), 'href="book/')
+    .replace(new RegExp(`href="/${base}/category/`, 'g'), 'href="category/')
+    .replace(new RegExp(`href="/${base}/search"`, 'g'), 'href="search"')
+    .replace(new RegExp(`href="/${base}/legal/`, 'g'), 'href="legal/')
+    // Handle paths without base prefix
+    .replace(/href="\/book\//g,'href="book/')
+    .replace(/href="\/category\//g,'href="category/')
+    .replace(/href="\/search"/g,'href="search"')
+    .replace(/href="\/legal\//g,'href="legal/')
+    .replace(/href="\/manifest.json"/g,'href="manifest.json"')
+    .replace(/href="\/sw.js"/g,'href="sw.js"')
+    .replace(/href="\/sitemap.xml"/g,'href="sitemap.xml"')
+    .replace(/href="\/robots.txt"/g,'href="robots.txt"')
+    .replace(/href="\/"/g,'href="./"')
+    // Handle location.href with base
+    .replace(new RegExp(`location\\.href='/${base}/search'`, 'g'), "location.href='search'")
+    .replace(new RegExp(`location\\.href='/${base}/'`, 'g'), "location.href='./'")
+    .replace(/location\.href='\/search'/g,"location.href='search'")
+    .replace(/location\.href='\/'/g,"location.href='./'")
+    // Handle onclick with base
+    .replace(new RegExp(`onclick="window\\.location\\.href='/${base}/search'"`, 'g'), "onclick=\"window.location.href='search'\"")
+    .replace(new RegExp(`onclick="window\\.location\\.href='/${base}/'"`, 'g'), "onclick=\"window.location.href='./'\"")
     .replace(/onclick="window\.location\.href='\/search'"/g,"onclick=\"window.location.href='search'\"")
-    .replace(/onclick="window\.location\.href='\/'"/g,"onclick=\"window.location.href='./'\"");
+    .replace(/onclick="window\.location\.href='\/'"/g,"onclick=\"window.location.href='./'\"")
+    // Fix service worker registration
+    .replace(new RegExp(`register\\('/${base}/sw.js'\\)`, 'g'), "register('sw.js')")
+    .replace(/register\('\/sw.js'\)/g,"register('sw.js')");
 }
 
 function write(path, content) {

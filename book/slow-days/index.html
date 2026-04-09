@@ -2661,7 +2661,7 @@ html {
     <button class="btn-press" onclick="history.back()" aria-label="返回上一頁">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
     <h1>慢時光咖啡館</h1></div></div>
-    <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="//" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="//category/healing" style="color:var(--color-text-secondary)">療癒</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 慢時光咖啡館</span></nav>
+    <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="//" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="category/healing" style="color:var(--color-text-secondary)">療癒</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 慢時光咖啡館</span></nav>
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#A3B18A" aria-hidden="true"></div>
       <div class="detail-hero-content">
@@ -2691,7 +2691,7 @@ html {
     <div class="toc-list-wrap"><div id="toc-list"></div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="//book/slow-days/" class="btn-primary btn-press" style="background:#A3B18A" aria-label="開始閱讀 慢時光咖啡館">開始閱讀</a>
+      <a href="book/slow-days/" class="btn-primary btn-press" style="background:#A3B18A" aria-label="開始閱讀 慢時光咖啡館">開始閱讀</a>
       <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="slow-days" data-book-title="慢時光咖啡館" aria-label="收藏">收藏</button>
     </div>
   </main></div>
@@ -2742,7 +2742,7 @@ html {
   })();
   
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,0);var sl=[].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="//book/slow-days/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,0);var sl=[].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="book/slow-days/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='slow-days'});h.unshift({id:'slow-days',title:'慢時光咖啡館',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
