@@ -578,6 +578,9 @@ function write(path, content) {
     var content = document.getElementById(tab+'-content');
     if(content){content.classList.remove('hidden')}
     document.getElementById('main-scroll').scrollTop = 0;
+    // Show footer nav when switching tabs
+    var footerNav = document.querySelector('.footer-nav');
+    if(footerNav){footerNav.style.display = ''}
     if (tab === 'profile') {
       backToSettings();
       updateCounts();
@@ -589,15 +592,36 @@ function write(path, content) {
     localStorage.setItem('darkMode', isDark);
   }
   
+  // Track previous tab for back navigation
+  var previousTab = 'home';
+  
   function switchView(view, bookId) {
     document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
+    
     if (view === 'home') {
+      // Restore tab content and footer nav
+      document.querySelectorAll('.tab-content').forEach(function(el){el.classList.remove('hidden')});
+      var footerNav = document.querySelector('.footer-nav');
+      if(footerNav){footerNav.style.display = ''}
       document.querySelectorAll('.home-section').forEach(function(el){el.style.display = ''});
+      // Switch to previous tab
+      switchTab(previousTab);
       return;
     }
+    
+    // Hide tab content and footer nav when entering toc/read
+    document.querySelectorAll('.tab-content').forEach(function(el){el.classList.add('hidden')});
+    var footerNav = document.querySelector('.footer-nav');
+    if(footerNav){footerNav.style.display = 'none'}
     document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
     
     if (view === 'toc' && bookId) {
+      // Save current tab before entering toc
+      var currentTab = document.querySelector('.footer-tab.active');
+      if(currentTab){
+        previousTab = currentTab.getAttribute('data-tab') || 'home';
+      }
+      
       var book = booksData.find(function(b){return b.id === bookId});
       if (book) {
         document.getElementById('toc-view-title').textContent = book.title;
@@ -627,20 +651,6 @@ function write(path, content) {
         }
       }
     }
-  }
-  
-  function switchRank(tab){
-    document.querySelectorAll('.rank-list').forEach(function(el){el.classList.add('hidden')});
-    document.getElementById('rank-'+tab).classList.remove('hidden');
-    document.querySelectorAll('.rank-tab').forEach(function(el){el.classList.remove('active');el.setAttribute('aria-selected','false')});
-    var btn=document.querySelector('.rank-tab[data-tab="'+tab+'"]');
-    if(btn){btn.classList.add('active');btn.setAttribute('aria-selected','true')}
-  }
-  if('IntersectionObserver' in window){
-    var observer=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
-    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
   }
   <\/script>`;
 

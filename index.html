@@ -2660,7 +2660,7 @@ html {
 <div class="app-container" style="max-width:430px;margin:0 auto;min-height:100dvh;background:var(--bg-app);position:relative;overflow:hidden;display:flex;flex-direction:column">
   <main id="main-scroll" class="hide-scrollbar" style="flex:1;overflow-y:auto;padding-bottom:100px;-webkit-overflow-scrolling:touch">
     <div id="home-content" class="tab-content" style="padding:48px 24px 0">
-      <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">4月9日 週四</p>
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">4月10日 週五</p>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
         <h1 style="font-family:var(--font-serif);font-size:36px;font-weight:700;letter-spacing:0.1em;color:var(--text-main)">拾遺</h1>
         <button onclick="switchTab('profile')" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base)">
@@ -3303,6 +3303,9 @@ html {
     var content = document.getElementById(tab+'-content');
     if(content){content.classList.remove('hidden')}
     document.getElementById('main-scroll').scrollTop = 0;
+    // Show footer nav when switching tabs
+    var footerNav = document.querySelector('.footer-nav');
+    if(footerNav){footerNav.style.display = ''}
     if (tab === 'profile') {
       backToSettings();
       updateCounts();
@@ -3314,15 +3317,36 @@ html {
     localStorage.setItem('darkMode', isDark);
   }
   
+  // Track previous tab for back navigation
+  var previousTab = 'home';
+  
   function switchView(view, bookId) {
     document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
+    
     if (view === 'home') {
+      // Restore tab content and footer nav
+      document.querySelectorAll('.tab-content').forEach(function(el){el.classList.remove('hidden')});
+      var footerNav = document.querySelector('.footer-nav');
+      if(footerNav){footerNav.style.display = ''}
       document.querySelectorAll('.home-section').forEach(function(el){el.style.display = ''});
+      // Switch to previous tab
+      switchTab(previousTab);
       return;
     }
+    
+    // Hide tab content and footer nav when entering toc/read
+    document.querySelectorAll('.tab-content').forEach(function(el){el.classList.add('hidden')});
+    var footerNav = document.querySelector('.footer-nav');
+    if(footerNav){footerNav.style.display = 'none'}
     document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
     
     if (view === 'toc' && bookId) {
+      // Save current tab before entering toc
+      var currentTab = document.querySelector('.footer-tab.active');
+      if(currentTab){
+        previousTab = currentTab.getAttribute('data-tab') || 'home';
+      }
+      
       var book = booksData.find(function(b){return b.id === bookId});
       if (book) {
         document.getElementById('toc-view-title').textContent = book.title;
@@ -3352,20 +3376,6 @@ html {
         }
       }
     }
-  }
-  
-  function switchRank(tab){
-    document.querySelectorAll('.rank-list').forEach(function(el){el.classList.add('hidden')});
-    document.getElementById('rank-'+tab).classList.remove('hidden');
-    document.querySelectorAll('.rank-tab').forEach(function(el){el.classList.remove('active');el.setAttribute('aria-selected','false')});
-    var btn=document.querySelector('.rank-tab[data-tab="'+tab+'"]');
-    if(btn){btn.classList.add('active');btn.setAttribute('aria-selected','true')}
-  }
-  if('IntersectionObserver' in window){
-    var observer=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
-    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
   }
   </script>
 <script>
