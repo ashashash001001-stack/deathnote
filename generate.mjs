@@ -195,10 +195,10 @@ function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, o
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc||SITE.description}">
-<base href="${SITE.base}/">
+<base href="./">
 <title>${title}</title>
-<link rel="icon" href="${SITE.base}/favicon.svg">
-<link rel="manifest" href="${SITE.base}/manifest.json">
+<link rel="icon" href="favicon.svg">
+<link rel="manifest" href="manifest.json">
 <style>${css}</style>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
 ${siteJsonLd ? `<script type="application/ld+json">${JSON.stringify(siteJsonLd)}</script>` : ''}
