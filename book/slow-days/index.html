@@ -18,10 +18,10 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="慢時光咖啡館 - DeathNote">
 <meta name="twitter:description" content="在台北巷弄深處，有一家沒有招牌的咖啡館。老闆娘不趕時間，只做一杯好咖啡。每個推開那扇木門的客人，都帶著一段故事。有人剛失戀，有人辭了工作，有人只是想找個安靜的角落。而一杯咖啡的時間，往往就是重新出發的起點。">
-<base href="/deathnote/">
+<base href="//">
 <title>慢時光咖啡館 - DeathNote</title>
-<link rel="icon" href="/deathnote/favicon.svg">
-<link rel="manifest" href="/deathnote/manifest.json">
+<link rel="icon" href="//favicon.svg">
+<link rel="manifest" href="//manifest.json">
 <style>/* ═══════════════════════════════════════════════════════════
    ZEN & ELEGANT BOOKSTORE DESIGN SYSTEM
    Japanese Wabi-Sabi / Zen Aesthetic
@@ -2661,7 +2661,7 @@ html {
     <button class="btn-press" onclick="history.back()" aria-label="返回上一頁">
       <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
     <h1>慢時光咖啡館</h1></div></div>
-    <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="/deathnote/" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="/deathnote/category/healing" style="color:var(--color-text-secondary)">療癒</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 慢時光咖啡館</span></nav>
+    <nav style="padding:8px 16px;font-size:12px;color:var(--color-text-secondary)" aria-label="breadcrumb"><span style=""><a href="//" style="color:var(--color-text-secondary)">DeathNote</a></span><span style=""> › <a href="//category/healing" style="color:var(--color-text-secondary)">療癒</a></span><span style="color:var(--color-text-primary);font-weight:500"> › 慢時光咖啡館</span></nav>
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:#A3B18A" aria-hidden="true"></div>
       <div class="detail-hero-content">
@@ -2691,20 +2691,61 @@ html {
     <div class="toc-list-wrap"><div id="toc-list"></div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="/deathnote/book/slow-days/" class="btn-primary btn-press" style="background:#A3B18A" aria-label="開始閱讀 慢時光咖啡館">開始閱讀</a>
-      <button class="btn-secondary btn-press" id="bookmark-btn" onclick="event.preventDefault();toggleFavorite('slow-days', '慢時光咖啡館')" aria-label="收藏">收藏</button>
+      <a href="//book/slow-days/" class="btn-primary btn-press" style="background:#A3B18A" aria-label="開始閱讀 慢時光咖啡館">開始閱讀</a>
+      <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="slow-days" data-book-title="慢時光咖啡館" aria-label="收藏">收藏</button>
     </div>
   </main></div>
   <script>
+  // Favorites functions - ensure these are available globally
+  function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+  function saveFavorites(favs) { localStorage.setItem('favorites', JSON.stringify(favs)); }
+  window.getFavorites = getFavorites;
+  
+  window.toggleFavorite = function(bookId, bookTitle) {
+    try {
+      var favs = getFavorites();
+      var idx = favs.findIndex(function(f){return f.id === bookId});
+      var btn = document.querySelector('.fav-toggle-btn');
+      if (idx > -1) {
+        favs.splice(idx, 1);
+        saveFavorites(favs);
+        if (btn) { btn.textContent = '收藏'; btn.style.color = ''; }
+      } else {
+        favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+        saveFavorites(favs);
+        if (btn) { btn.textContent = '已收藏'; btn.style.color = '#e74c3c'; }
+      }
+    } catch(e) { console.error('toggleFavorite error:', e); }
+  };
+  
+  // Initialize immediately (script runs after body is parsed)
+  (function() {
+    var btn = document.querySelector('.fav-toggle-btn');
+    if (btn) {
+      var bookId = btn.getAttribute('data-book-id');
+      var bookTitle = btn.getAttribute('data-book-title');
+      
+      // Click handler - use onclick for reliability
+      btn.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(bookId, bookTitle);
+      };
+      
+      // Update initial state
+      var favs = getFavorites();
+      if (favs.some(function(f){return f.id === bookId})) {
+        btn.textContent = '已收藏';
+        btn.style.color = '#e74c3c';
+      }
+    }
+  })();
+  
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,0);var sl=[].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="/deathnote/book/slow-days/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,0);var sl=[].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="//book/slow-days/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='slow-days'});h.unshift({id:'slow-days',title:'慢時光咖啡館',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
-    // Update favorite button
-    var favs = getFavorites();
-    var isFav = favs.some(function(f){return f.id === 'slow-days'});
-    var btn=document.getElementById('bookmark-btn');if(btn&&isFav){btn.textContent='已收藏';btn.style.color='#e74c3c'}
   })()
   </script>
 <script>

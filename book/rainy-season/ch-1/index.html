@@ -24,10 +24,10 @@
 <meta name="twitter:description" content="台北的雨季總是來得毫無預警。
 
 蘇晴站在捷運站門口，看著傾盆大雨，後悔自己沒有帶傘。她剛從醫院出來——母親的檢查結果不太好，需要進一步治療。她站在雨中，突然覺得自己就像這座城市一樣，被無止境的雨水淹沒">
-<base href="/deathnote/">
+<base href="//">
 <title>第一章：雨中的陌生人 - 雨季不再來 - DeathNote</title>
-<link rel="icon" href="/deathnote/favicon.svg">
-<link rel="manifest" href="/deathnote/manifest.json">
+<link rel="icon" href="//favicon.svg">
+<link rel="manifest" href="//manifest.json">
 <style>/* ═══════════════════════════════════════════════════════════
    ZEN & ELEGANT BOOKSTORE DESIGN SYSTEM
    Japanese Wabi-Sabi / Zen Aesthetic
@@ -2667,7 +2667,7 @@ html {
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#E88D9E"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
-          <a href="/deathnote/book/rainy-season" class="reader-topbar-back btn-press" aria-label="返回 雨季不再來 詳情">
+          <a href="//book/rainy-season" class="reader-topbar-back btn-press" aria-label="返回 雨季不再來 詳情">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           </a>
           <span class="reader-topbar-title">雨季不再來</span>
@@ -2700,7 +2700,7 @@ html {
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')" role="dialog" aria-modal="true" aria-label="章節目錄"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')" aria-label="關閉目錄"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="sheet-body"><a href="/deathnote/book/rainy-season/ch-1" class="toc-item btn-press"><span>第一章：雨中的陌生人</span><span>330 字</span></a></div>
+        <div class="sheet-body"><a href="//book/rainy-season/ch-1" class="toc-item btn-press"><span>第一章：雨中的陌生人</span><span>330 字</span></a></div>
       </div></div>
       <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')" role="dialog" aria-modal="true" aria-label="閱讀設定"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
@@ -2739,6 +2739,24 @@ html {
           </div></div></div></div>
     </div></main></div></div>
     <script>
+    // Favorites functions
+    function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+    function toggleFavorite(bookId, bookTitle) {
+      var favs = getFavorites();
+      var idx = favs.findIndex(function(f){return f.id === bookId});
+      var btn = document.getElementById('bookmark-btn');
+      if (idx > -1) {
+        favs.splice(idx, 1);
+        if (btn) btn.textContent = '收藏';
+        if (btn) btn.style.color = 'var(--accent)';
+      } else {
+        favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+        if (btn) btn.textContent = '已收藏';
+        if (btn) btn.style.color = '#e74c3c';
+      }
+      localStorage.setItem('favorites', JSON.stringify(favs));
+    }
+    
     (function(){
       var uiVisible=true;
       var ttsPlaying=false;

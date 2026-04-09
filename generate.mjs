@@ -20,7 +20,7 @@ const SITE = {
   tagline: '沉浸閱讀，從這裡開始',
   description: 'DeathNote 是一個沉浸式的線上小說閱讀平台，提供懸疑、療癒、科幻等多種題材的優質原創小說。',
   url: 'https://deathnote.example.com',
-  base: '/deathnote'
+  base: '/'
 };
 
 function loadBooks() {
@@ -756,19 +756,60 @@ BOOKS.forEach(book => {
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
       <a href="${SITE.base}/book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
-      <button class="btn-secondary btn-press" id="bookmark-btn" onclick="event.preventDefault();toggleFavorite('${book.id}', '${book.title}')" aria-label="收藏">收藏</button>
+      <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="${book.id}" data-book-title="${book.title}" aria-label="收藏">收藏</button>
     </div>
   </main></div>
   <script>
+  // Favorites functions - ensure these are available globally
+  function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+  function saveFavorites(favs) { localStorage.setItem('favorites', JSON.stringify(favs)); }
+  window.getFavorites = getFavorites;
+  
+  window.toggleFavorite = function(bookId, bookTitle) {
+    try {
+      var favs = getFavorites();
+      var idx = favs.findIndex(function(f){return f.id === bookId});
+      var btn = document.querySelector('.fav-toggle-btn');
+      if (idx > -1) {
+        favs.splice(idx, 1);
+        saveFavorites(favs);
+        if (btn) { btn.textContent = '收藏'; btn.style.color = ''; }
+      } else {
+        favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+        saveFavorites(favs);
+        if (btn) { btn.textContent = '已收藏'; btn.style.color = '#e74c3c'; }
+      }
+    } catch(e) { console.error('toggleFavorite error:', e); }
+  };
+  
+  // Initialize immediately (script runs after body is parsed)
+  (function() {
+    var btn = document.querySelector('.fav-toggle-btn');
+    if (btn) {
+      var bookId = btn.getAttribute('data-book-id');
+      var bookTitle = btn.getAttribute('data-book-title');
+      
+      // Click handler - use onclick for reliability
+      btn.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(bookId, bookTitle);
+      };
+      
+      // Update initial state
+      var favs = getFavorites();
+      if (favs.some(function(f){return f.id === bookId})) {
+        btn.textContent = '已收藏';
+        btn.style.color = '#e74c3c';
+      }
+    }
+  })();
+  
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="${SITE.base}/book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='${book.id}'});h.unshift({id:'${book.id}',title:'${book.title}',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
-    // Update favorite button
-    var favs = getFavorites();
-    var isFav = favs.some(function(f){return f.id === '${book.id}'});
-    var btn=document.getElementById('bookmark-btn');if(btn&&isFav){btn.textContent='已收藏';btn.style.color='#e74c3c'}
   })()
   <\/script>`;
 
@@ -859,6 +900,24 @@ BOOKS.forEach(book => {
           </div></div></div></div>
     </div></main></div></div>
     <script>
+    // Favorites functions
+    function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+    function toggleFavorite(bookId, bookTitle) {
+      var favs = getFavorites();
+      var idx = favs.findIndex(function(f){return f.id === bookId});
+      var btn = document.getElementById('bookmark-btn');
+      if (idx > -1) {
+        favs.splice(idx, 1);
+        if (btn) btn.textContent = '收藏';
+        if (btn) btn.style.color = 'var(--accent)';
+      } else {
+        favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+        if (btn) btn.textContent = '已收藏';
+        if (btn) btn.style.color = '#e74c3c';
+      }
+      localStorage.setItem('favorites', JSON.stringify(favs));
+    }
+    
     (function(){
       var uiVisible=true;
       var ttsPlaying=false;

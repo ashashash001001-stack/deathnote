@@ -24,10 +24,10 @@
 <meta name="twitter:description" content="週一早上九點，王大發剛在公司樓下的便利商店買好早餐，手機就響了。
 
 「大發啊，那個APP的首頁設計要改一下。」PM小陳的聲音從電話那頭傳來，輕鬆得像是在聊天氣，「客戶說想要一種……嗯……五彩斑斕的黑。">
-<base href="/deathnote/">
+<base href="//">
 <title>第一章：又改需求 - 社畜求生記 - DeathNote</title>
-<link rel="icon" href="/deathnote/favicon.svg">
-<link rel="manifest" href="/deathnote/manifest.json">
+<link rel="icon" href="//favicon.svg">
+<link rel="manifest" href="//manifest.json">
 <style>/* ═══════════════════════════════════════════════════════════
    ZEN & ELEGANT BOOKSTORE DESIGN SYSTEM
    Japanese Wabi-Sabi / Zen Aesthetic
@@ -2667,7 +2667,7 @@ html {
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:#F59E0B"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
-          <a href="/deathnote/book/office-survival" class="reader-topbar-back btn-press" aria-label="返回 社畜求生記 詳情">
+          <a href="//book/office-survival" class="reader-topbar-back btn-press" aria-label="返回 社畜求生記 詳情">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           </a>
           <span class="reader-topbar-title">社畜求生記</span>
@@ -2700,7 +2700,7 @@ html {
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')" role="dialog" aria-modal="true" aria-label="章節目錄"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')" aria-label="關閉目錄"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="sheet-body"><a href="/deathnote/book/office-survival/ch-1" class="toc-item btn-press"><span>第一章：又改需求</span><span>297 字</span></a></div>
+        <div class="sheet-body"><a href="//book/office-survival/ch-1" class="toc-item btn-press"><span>第一章：又改需求</span><span>297 字</span></a></div>
       </div></div>
       <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')" role="dialog" aria-modal="true" aria-label="閱讀設定"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
@@ -2739,6 +2739,24 @@ html {
           </div></div></div></div>
     </div></main></div></div>
     <script>
+    // Favorites functions
+    function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+    function toggleFavorite(bookId, bookTitle) {
+      var favs = getFavorites();
+      var idx = favs.findIndex(function(f){return f.id === bookId});
+      var btn = document.getElementById('bookmark-btn');
+      if (idx > -1) {
+        favs.splice(idx, 1);
+        if (btn) btn.textContent = '收藏';
+        if (btn) btn.style.color = 'var(--accent)';
+      } else {
+        favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+        if (btn) btn.textContent = '已收藏';
+        if (btn) btn.style.color = '#e74c3c';
+      }
+      localStorage.setItem('favorites', JSON.stringify(favs));
+    }
+    
     (function(){
       var uiVisible=true;
       var ttsPlaying=false;
