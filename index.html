@@ -3260,25 +3260,13 @@ html {
     updateCounts();
   }
   
-  function toggleBookmark(bookId, chapterId) {
-    var bms = getBookmarks();
-    var key = bookId + '-' + chapterId;
-    bms[key] = bms[key] ? null : {bookId: bookId, chapterId: chapterId, time: Date.now()};
-    Object.keys(bms).forEach(function(k){if(!bms[k]) delete bms[k]});
-    localStorage.setItem('bookmarks', JSON.stringify(bms));
-    updateCounts();
-  }
-  
   function updateCounts() {
     var favCount = getFavorites().length;
     var histCount = getHistory().length;
-    var bmCount = Object.keys(getBookmarks()).length;
     var favEl = document.getElementById('fav-count');
     var histEl = document.getElementById('history-count');
-    var bmEl = document.getElementById('bm-count');
     if (favEl) favEl.textContent = favCount;
     if (histEl) histEl.textContent = histCount;
-    if (bmEl) bmEl.textContent = bmCount;
     
     // Update favorite button state
     var favs = getFavorites();
@@ -3312,31 +3300,21 @@ html {
     document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
     document.getElementById('collection-section').style.display = '';
     var favs = getFavorites();
-    var bms = getBookmarks();
     var list = document.getElementById('collection-list');
     var empty = document.getElementById('collection-empty');
     
-    // Combine favorites and bookmarks into one list
-    var items = [];
-    
-    // Add favorites (books)
-    favs.forEach(function(f) {
-      items.push({type: 'book', id: f.id, title: f.title, time: f.time});
-    });
-    
-    // Add bookmarks (chapters)
-    Object.entries(bms).forEach(function(e) {
-      if (e[1]) {
-        var book = booksData.find(function(b){return b.id === e[1].bookId});
-        var chapter = chaptersData.find(function(c){return c.bookId === e[1].bookId && c.id === e[1].chapterId});
-        if (book && chapter) {
-          items.push({type: 'chapter', bookId: e[1].bookId, chapterId: e[1].chapterId, title: book.title + ' - ' + chapter.title, time: e[1].time});
-        }
-      }
-    });
-    
-    // Sort by time (newest first)
-    items.sort(function(a,b){return b.time - a.time});
+    if (favs.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+      // Sort by time (newest first)
+      favs.sort(function(a,b){return b.time - a.time});
+      list.innerHTML = favs.map(function(f) {
+        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+      }).join('');
+    }
+  }
     
     if (items.length === 0) {
       list.innerHTML = '';

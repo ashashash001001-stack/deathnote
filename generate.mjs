@@ -535,25 +535,13 @@ function write(path, content) {
     updateCounts();
   }
   
-  function toggleBookmark(bookId, chapterId) {
-    var bms = getBookmarks();
-    var key = bookId + '-' + chapterId;
-    bms[key] = bms[key] ? null : {bookId: bookId, chapterId: chapterId, time: Date.now()};
-    Object.keys(bms).forEach(function(k){if(!bms[k]) delete bms[k]});
-    localStorage.setItem('bookmarks', JSON.stringify(bms));
-    updateCounts();
-  }
-  
   function updateCounts() {
     var favCount = getFavorites().length;
     var histCount = getHistory().length;
-    var bmCount = Object.keys(getBookmarks()).length;
     var favEl = document.getElementById('fav-count');
     var histEl = document.getElementById('history-count');
-    var bmEl = document.getElementById('bm-count');
     if (favEl) favEl.textContent = favCount;
     if (histEl) histEl.textContent = histCount;
-    if (bmEl) bmEl.textContent = bmCount;
     
     // Update favorite button state
     var favs = getFavorites();
@@ -587,31 +575,21 @@ function write(path, content) {
     document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
     document.getElementById('collection-section').style.display = '';
     var favs = getFavorites();
-    var bms = getBookmarks();
     var list = document.getElementById('collection-list');
     var empty = document.getElementById('collection-empty');
     
-    // Combine favorites and bookmarks into one list
-    var items = [];
-    
-    // Add favorites (books)
-    favs.forEach(function(f) {
-      items.push({type: 'book', id: f.id, title: f.title, time: f.time});
-    });
-    
-    // Add bookmarks (chapters)
-    Object.entries(bms).forEach(function(e) {
-      if (e[1]) {
-        var book = booksData.find(function(b){return b.id === e[1].bookId});
-        var chapter = chaptersData.find(function(c){return c.bookId === e[1].bookId && c.id === e[1].chapterId});
-        if (book && chapter) {
-          items.push({type: 'chapter', bookId: e[1].bookId, chapterId: e[1].chapterId, title: book.title + ' - ' + chapter.title, time: e[1].time});
-        }
-      }
-    });
-    
-    // Sort by time (newest first)
-    items.sort(function(a,b){return b.time - a.time});
+    if (favs.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = '';
+    } else {
+      empty.style.display = 'none';
+      // Sort by time (newest first)
+      favs.sort(function(a,b){return b.time - a.time});
+      list.innerHTML = favs.map(function(f) {
+        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+      }).join('');
+    }
+  }
     
     if (items.length === 0) {
       list.innerHTML = '';
@@ -820,39 +798,19 @@ BOOKS.forEach(book => {
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
       <a href="${SITE.base}/book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
-      <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('${book.id}')" aria-label="加入書籤">加入書籤</button>
+      <button class="btn-secondary btn-press" id="bookmark-btn" onclick="event.preventDefault();toggleFavorite('${book.id}', '${book.title}')" aria-label="收藏">收藏</button>
     </div>
   </main></div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="${SITE.base}/book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
-  function handleBookmark(id){
-    var bms = getBookmarks();
-    // Toggle bookmark for the first chapter of the book
-    var book = booksData.find(function(b){return b.id === id});
-    if (book && book.chapters && book.chapters.length > 0) {
-      var chapterId = book.chapters[0].id;
-      var key = id + '-' + chapterId;
-      if (bms[key]) {
-        delete bms[key];
-      } else {
-        bms[key] = {bookId: id, chapterId: chapterId, time: Date.now()};
-      }
-      localStorage.setItem('bookmarks', JSON.stringify(bms));
-      var btn = document.getElementById('bookmark-btn');
-      if (btn) {
-        btn.textContent = bms[key] ? '已加入書籤' : '加入書籤';
-        btn.classList.toggle('bookmark-active', !!bms[key]);
-      }
-    }
-  }
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='${book.id}'});h.unshift({id:'${book.id}',title:'${book.title}',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
-    // Update bookmark button
-    var bms = getBookmarks();
-    var hasBookmark = Object.keys(bms).some(function(k){return k.startsWith('${book.id}-')});
-    var btn=document.getElementById('bookmark-btn');if(btn&&hasBookmark){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}
+    // Update favorite button
+    var favs = getFavorites();
+    var isFav = favs.some(function(f){return f.id === '${book.id}'});
+    var btn=document.getElementById('bookmark-btn');if(btn&&isFav){btn.textContent='已收藏';btn.style.color='#e74c3c'}
   })()
   <\/script>`;
 

@@ -2692,39 +2692,19 @@ html {
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
       <a href="/deathnote/book/midnight-bus/ch-1" class="btn-primary btn-press" style="background:#1F2937" aria-label="開始閱讀 末班公車">開始閱讀</a>
-      <button class="btn-secondary btn-press" id="bookmark-btn" onclick="handleBookmark('midnight-bus')" aria-label="加入書籤">加入書籤</button>
+      <button class="btn-secondary btn-press" id="bookmark-btn" onclick="event.preventDefault();toggleFavorite('midnight-bus', '末班公車')" aria-label="收藏">收藏</button>
     </div>
   </main></div>
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：末班車","words":222}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="/deathnote/book/midnight-bus/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
-  function handleBookmark(id){
-    var bms = getBookmarks();
-    // Toggle bookmark for the first chapter of the book
-    var book = booksData.find(function(b){return b.id === id});
-    if (book && book.chapters && book.chapters.length > 0) {
-      var chapterId = book.chapters[0].id;
-      var key = id + '-' + chapterId;
-      if (bms[key]) {
-        delete bms[key];
-      } else {
-        bms[key] = {bookId: id, chapterId: chapterId, time: Date.now()};
-      }
-      localStorage.setItem('bookmarks', JSON.stringify(bms));
-      var btn = document.getElementById('bookmark-btn');
-      if (btn) {
-        btn.textContent = bms[key] ? '已加入書籤' : '加入書籤';
-        btn.classList.toggle('bookmark-active', !!bms[key]);
-      }
-    }
-  }
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='midnight-bus'});h.unshift({id:'midnight-bus',title:'末班公車',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
-    // Update bookmark button
-    var bms = getBookmarks();
-    var hasBookmark = Object.keys(bms).some(function(k){return k.startsWith('midnight-bus-')});
-    var btn=document.getElementById('bookmark-btn');if(btn&&hasBookmark){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}
+    // Update favorite button
+    var favs = getFavorites();
+    var isFav = favs.some(function(f){return f.id === 'midnight-bus'});
+    var btn=document.getElementById('bookmark-btn');if(btn&&isFav){btn.textContent='已收藏';btn.style.color='#e74c3c'}
   })()
   </script>
 <script>
