@@ -3215,7 +3215,24 @@ html {
   // Initialize localStorage data
   function getHistory() { return JSON.parse(localStorage.getItem('browsingHistory') || '[]'); }
   function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
-  function getBookmarks() { return JSON.parse(localStorage.getItem('bookmarks') || '{}'); }
+  function getBookmarks() { 
+    // Support both old format (dn_bm array) and new format (bookmarks object)
+    var oldBm = JSON.parse(localStorage.getItem('dn_bm') || '[]');
+    var newBm = JSON.parse(localStorage.getItem('bookmarks') || '{}');
+    
+    // Convert old format to new format
+    if (oldBm.length > 0 && Object.keys(newBm).length === 0) {
+      oldBm.forEach(function(bookId) {
+        var book = booksData.find(function(b){return b.id === bookId});
+        if (book && book.chapters && book.chapters.length > 0) {
+          newBm[bookId + '-' + book.chapters[0].id] = {bookId: bookId, chapterId: book.chapters[0].id, time: Date.now()};
+        }
+      });
+      localStorage.setItem('bookmarks', JSON.stringify(newBm));
+      localStorage.removeItem('dn_bm');
+    }
+    return newBm;
+  }
   
   function addToHistory(bookId, bookTitle) {
     var history = getHistory();

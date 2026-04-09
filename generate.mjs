@@ -490,7 +490,24 @@ function write(path, content) {
   // Initialize localStorage data
   function getHistory() { return JSON.parse(localStorage.getItem('browsingHistory') || '[]'); }
   function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
-  function getBookmarks() { return JSON.parse(localStorage.getItem('bookmarks') || '{}'); }
+  function getBookmarks() { 
+    // Support both old format (dn_bm array) and new format (bookmarks object)
+    var oldBm = JSON.parse(localStorage.getItem('dn_bm') || '[]');
+    var newBm = JSON.parse(localStorage.getItem('bookmarks') || '{}');
+    
+    // Convert old format to new format
+    if (oldBm.length > 0 && Object.keys(newBm).length === 0) {
+      oldBm.forEach(function(bookId) {
+        var book = booksData.find(function(b){return b.id === bookId});
+        if (book && book.chapters && book.chapters.length > 0) {
+          newBm[bookId + '-' + book.chapters[0].id] = {bookId: bookId, chapterId: book.chapters[0].id, time: Date.now()};
+        }
+      });
+      localStorage.setItem('bookmarks', JSON.stringify(newBm));
+      localStorage.removeItem('dn_bm');
+    }
+    return newBm;
+  }
   
   function addToHistory(bookId, bookTitle) {
     var history = getHistory();
@@ -809,12 +826,33 @@ BOOKS.forEach(book => {
   <script>
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
   function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="${SITE.base}/book/${book.id}/'+ch.id+'" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
-  function handleBookmark(id){var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var i=bm.indexOf(id);if(i>-1)bm.splice(i,1);else bm.push(id);localStorage.setItem('dn_bm',JSON.stringify(bm));var btn=document.getElementById('bookmark-btn');if(btn){btn.textContent=bm.indexOf(id)>-1?'已加入書籤':'加入書籤';btn.classList.toggle('bookmark-active',bm.indexOf(id)>-1)}}
+  function handleBookmark(id){
+    var bms = getBookmarks();
+    // Toggle bookmark for the first chapter of the book
+    var book = booksData.find(function(b){return b.id === id});
+    if (book && book.chapters && book.chapters.length > 0) {
+      var chapterId = book.chapters[0].id;
+      var key = id + '-' + chapterId;
+      if (bms[key]) {
+        delete bms[key];
+      } else {
+        bms[key] = {bookId: id, chapterId: chapterId, time: Date.now()};
+      }
+      localStorage.setItem('bookmarks', JSON.stringify(bms));
+      var btn = document.getElementById('bookmark-btn');
+      if (btn) {
+        btn.textContent = bms[key] ? '已加入書籤' : '加入書籤';
+        btn.classList.toggle('bookmark-active', !!bms[key]);
+      }
+    }
+  }
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='${book.id}'});h.unshift({id:'${book.id}',title:'${book.title}',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
     // Update bookmark button
-    var bm=JSON.parse(localStorage.getItem('dn_bm')||'[]');var btn=document.getElementById('bookmark-btn');if(btn&&bm.indexOf('${book.id}')>-1){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}
+    var bms = getBookmarks();
+    var hasBookmark = Object.keys(bms).some(function(k){return k.startsWith('${book.id}-')});
+    var btn=document.getElementById('bookmark-btn');if(btn&&hasBookmark){btn.textContent='已加入書籤';btn.classList.add('bookmark-active')}
   })()
   <\/script>`;
 
