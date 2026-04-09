@@ -3288,21 +3288,6 @@ html {
       }).join('');
     }
   }
-    
-    if (items.length === 0) {
-      list.innerHTML = '';
-      empty.style.display = '';
-    } else {
-      empty.style.display = 'none';
-      list.innerHTML = items.map(function(item) {
-        if (item.type === 'book') {
-          return '<a href="book/' + item.id + '" class="settings-item"><span>❤️</span><span>' + item.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(item.time).toLocaleDateString('zh-HK') + '</span></a>';
-        } else {
-          return '<a href="book/' + item.bookId + '/' + item.chapterId + '" class="settings-item"><span>📌</span><span>' + item.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(item.time).toLocaleDateString('zh-HK') + '</span></a>';
-        }
-      }).join('');
-    }
-  }
   
   function backToSettings() {
     document.getElementById('history-section').style.display = 'none';
