@@ -367,6 +367,28 @@ export const CATEGORIES = [
 ### Q: 構建腳本執行失敗？
 **A**: 確認 Node.js 版本 `>= 18.0` 或使用 Bun。檢查 `src/data.js` 語法是否正確 (結尾逗號、引號匹配)。
 
+### Q: 內部連結出现重复路径，如 `book/xxx/book/xxx/ch-1`？
+**A**: 这是路径转换 bug。`generate.mjs` 中有后处理逻辑将 `.//` 转换为 `../`，确保相对路径正确：
+```javascript
+// generate.mjs 中的 write 函数
+html = html.replace(/\.\/\//g, '../');
+```
+如果遇到此问题，重新执行 `bun run generate.mjs` 生成静态文件。
+
+### Q: 如何确保相对路径正确？
+**A**: 遵循以下规则：
+- 页面位置 `index.html` → 正确路径 `./`
+- 页面位置 `/book/xxx/index.html` (书籍详情) → `./` 或 `category/`
+- 页面位置 `/book/xxx/ch-1/index.html` (章节页) → `../` (返回书籍目录)
+- 面包屑首页 → `../` (返回根目录)
+
+构建脚本会自动处理以下转换：
+| 原始路径 | 转换后 |
+|---|---|
+| `.//book/` | `../book/` |
+| `.//category/` | `../category/` |
+| `.//` (首页) | `../` |
+
 ---
 
 ## 📄 授權條款
