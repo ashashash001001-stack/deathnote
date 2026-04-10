@@ -242,16 +242,21 @@ function fixPaths(html) {
     .replace(new RegExp(`onclick="window\\.location\\.href='/${base}/'"`, 'g'), "onclick=\"window.location.href='./'\"")
     .replace(/onclick="window\.location\.href='\/search'"/g,"onclick=\"window.location.href='search'\"")
     .replace(/onclick="window\.location\.href='\/'"/g,"onclick=\"window.location.href='./'\"")
-    // Fix service worker registration
+// Fix service worker registration
     .replace(new RegExp(`register\\('/${base}/sw.js'\\)`, 'g'), "register('sw.js')")
-    .replace(/register\('\/sw.js'\)/g,"register('sw.js')");
+    .replace(/register\('\/sw.js'\)/g,"register('sw.js')")
+    // FIX .//book -> ../book (two dots + TWO slashes -> parent dir)  
+    .replace(/href="\.{2}\/\//g, 'href="../');
 }
 
 function write(path, content) {
   const full = join(DIST, path);
   const dir = join(DIST, path.split('/').slice(0,-1).join('/'));
   if (dir && !existsSync(dir)) mkdirSync(dir, { recursive: true });
-  writeFileSync(full, fixPaths(content));
+  let html = fixPaths(content);
+  // FIX: .// (dot, slash, slash) -> ../
+  html = html.replace(/\.\/\//g, '../');
+  writeFileSync(full, html);
 }
 
 // ===== HOME =====
