@@ -215,6 +215,9 @@ function fixPaths(html) {
   // Handle paths with base prefix (e.g., /deathnote/book/xxx)
   const base = SITE.base.replace(/^\//, ''); // remove leading slash
   return html
+    // Fix breadcrumb home links (from "/" to "./")
+    .replace(/href="\//g,'href="./')
+    // Handle paths with base prefix (e.g., /deathnote/book/xxx)
     .replace(new RegExp(`href="/${base}/book/`, 'g'), 'href="book/')
     .replace(new RegExp(`href="/${base}/category/`, 'g'), 'href="category/')
     .replace(new RegExp(`href="/${base}/search"`, 'g'), 'href="search"')
