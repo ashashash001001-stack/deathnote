@@ -53,6 +53,10 @@ function loadBooks() {
 }
 
 const BOOKS = loadBooks();
+// Published books for featured sections (only shows books with publishStatus === 'published')
+const PUBLISHED_BOOKS = BOOKS.filter(b => b.publishStatus === 'published');
+// If no published books, fall back to all books for display
+const DISPLAY_BOOKS = PUBLISHED_BOOKS.length > 0 ? PUBLISHED_BOOKS : BOOKS;
 const HOT_KEYWORDS = ['死亡筆記本','量子夢境','龍之紀元','懸疑小說','療癒系','科幻','完結推薦','新書上架'];
 
 function bookCoverSeed(book) {
@@ -254,11 +258,12 @@ function write(path, content) {
 
 // ===== HOME =====
 (function() {
-  const all = [...BOOKS].sort((a,b)=>b.rating-a.rating);
-  const newest = [...BOOKS].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const done = BOOKS.filter(b=>b.status==='completed').sort((a,b)=>b.rating-a.rating);
-  const totalWords = BOOKS.reduce((s,b)=>s+b.words,0);
-  const totalChapters = BOOKS.reduce((s,b)=>s+b.chapters,0);
+  // Use DISPLAY_BOOKS for featured sections (respects publishStatus)
+  const all = [...DISPLAY_BOOKS].sort((a,b)=>b.rating-a.rating);
+  const newest = [...DISPLAY_BOOKS].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const done = DISPLAY_BOOKS.filter(b=>b.status==='completed').sort((a,b)=>b.rating-a.rating);
+  const totalWords = DISPLAY_BOOKS.reduce((s,b)=>s+b.words,0);
+  const totalChapters = DISPLAY_BOOKS.reduce((s,b)=>s+b.chapters,0);
 
   const body = `<div class="app-container" style="max-width:430px;margin:0 auto;min-height:100dvh;background:var(--bg-app);position:relative;overflow:hidden;display:flex;flex-direction:column">
   <main id="main-scroll" class="hide-scrollbar" style="flex:1;overflow-y:auto;padding-bottom:100px;-webkit-overflow-scrolling:touch">
@@ -266,25 +271,25 @@ function write(path, content) {
       <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">${new Date().toLocaleDateString('zh-HK', {month:'short',day:'numeric',weekday:'short'})}</p>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
         <h1 style="font-family:var(--font-serif);font-size:36px;font-weight:700;letter-spacing:0.1em;color:var(--text-main)">拾遺</h1>
-        <button onclick="switchTab('profile')" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base)">
+        <button onclick="switchTab('my')" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base)">
           <svg width="16" height="16" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
         </button>
       </div>
       
-      <a href="book/${BOOKS[0].id}" class="hero-card-fusion card-active" style="display:block;text-decoration:none">
+      <a href="book/${DISPLAY_BOOKS[0].id}" class="hero-card-fusion card-active" style="display:block;text-decoration:none">
         <div class="card-bg"></div>
         <div class="card-content">
           <p class="card-label">主編推薦</p>
           <h2 class="card-title">在喧囂中<br>尋找內心寧靜</h2>
           <div class="card-book">
-            <span class="book-spine" style="font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--text-main)">${BOOKS[0].title.slice(0,2)}</span>
+            <span class="book-spine" style="font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--text-main)">${DISPLAY_BOOKS[0].title.slice(0,2)}</span>
           </div>
           <div class="card-footer glass-warm">
             <div>
-              <p class="card-footer-title">${BOOKS[0].title}</p>
-              <p class="card-footer-author">${BOOKS[0].author}</p>
+              <p class="card-footer-title">${DISPLAY_BOOKS[0].title}</p>
+              <p class="card-footer-author">${DISPLAY_BOOKS[0].author}</p>
             </div>
-            <button class="card-action" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${BOOKS[0].id}', '${BOOKS[0].title}')" id="fav-btn-${BOOKS[0].id}">收藏</button>
+            <button class="card-action" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${DISPLAY_BOOKS[0].id}', '${DISPLAY_BOOKS[0].title}')" id="fav-btn-${DISPLAY_BOOKS[0].id}">收藏</button>
           </div>
         </div>
       </a>
@@ -293,26 +298,26 @@ function write(path, content) {
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">本週細讀</h3>
       </div>
       
-      <a href="book/${BOOKS[1].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
+      <a href="book/${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
         <div class="item-cover" style="background:#d8cfc4;flex-shrink:0">
-          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--text-main)">${BOOKS[1].title.slice(0,2)}</span>
+          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--text-main)">${DISPLAY_BOOKS[1]?.title.slice(0,2) || DISPLAY_BOOKS[0].title.slice(0,2)}</span>
         </div>
         <div style="flex:1;min-width:0">
-          <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${BOOKS[1].title}</h4>
-          <p style="font-size:12px;color:var(--text-muted)">${BOOKS[1].author} · ${BOOKS[1].tags[0]}</p>
+          <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${DISPLAY_BOOKS[1]?.title || DISPLAY_BOOKS[0].title}</h4>
+          <p style="font-size:12px;color:var(--text-muted)">${DISPLAY_BOOKS[1]?.author || DISPLAY_BOOKS[0].author} · ${DISPLAY_BOOKS[1]?.tags[0] || DISPLAY_BOOKS[0].tags[0]}</p>
         </div>
-        <button class="item-btn item-btn-outline btn-press" style="flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${BOOKS[1].id}', '${BOOKS[1].title}')" id="fav-btn-${BOOKS[1].id}">收藏</button>
+        <button class="item-btn item-btn-outline btn-press" style="flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}', '${DISPLAY_BOOKS[1]?.title || DISPLAY_BOOKS[0].title}')" id="fav-btn-${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}">收藏</button>
       </a>
       
-      <a href="book/${BOOKS[2]?.id || BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
+      <a href="book/${DISPLAY_BOOKS[2]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
         <div class="item-cover" style="background:#444a47;flex-shrink:0">
-          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--bg-reading)">${BOOKS[2]?.title.slice(0,2) || '月度'}</span>
+          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--bg-reading)">${DISPLAY_BOOKS[2]?.title.slice(0,2) || DISPLAY_BOOKS[0].title.slice(0,2)}</span>
         </div>
         <div style="flex:1;min-width:0">
-          <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${BOOKS[2]?.title || '月亮與六便士'}</h4>
-          <p style="font-size:12px;color:var(--text-muted)">${BOOKS[2]?.author || '毛姆'} · ${BOOKS[2]?.tags[0] || '英國文學'}</p>
+          <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${DISPLAY_BOOKS[2]?.title || DISPLAY_BOOKS[0].title}</h4>
+          <p style="font-size:12px;color:var(--text-muted)">${DISPLAY_BOOKS[2]?.author || DISPLAY_BOOKS[0].author} · ${DISPLAY_BOOKS[2]?.tags[0] || DISPLAY_BOOKS[0].tags[0]}</p>
         </div>
-        <button class="item-btn item-btn-outline btn-press" style="flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${BOOKS[2]?.id || BOOKS[0].id}', '${BOOKS[2]?.title || '月亮與六便士'}')" id="fav-btn-${BOOKS[2]?.id || BOOKS[0].id}">收藏</button>
+        <button class="item-btn item-btn-outline btn-press" style="flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${DISPLAY_BOOKS[2]?.id || DISPLAY_BOOKS[0].id}', '${DISPLAY_BOOKS[2]?.title || DISPLAY_BOOKS[0].title}')" id="fav-btn-${DISPLAY_BOOKS[2]?.id || DISPLAY_BOOKS[0].id}">收藏</button>
       </a>
       
       <!-- 熱門精選 -->
@@ -320,7 +325,7 @@ function write(path, content) {
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">🔥 熱門精選</h3>
       </div>
       <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;touch-action:pan-x">
-        ${BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
+        ${DISPLAY_BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
           <div style="width:120px;height:170px;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
             <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
             <span style="position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
@@ -415,7 +420,7 @@ function write(path, content) {
       </section>
       <section class="home-section" aria-label="全部作品">
         <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
-          ${BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+          ${DISPLAY_BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
             <div style="width:100%;aspect-ratio:0.7;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
@@ -506,7 +511,7 @@ function write(path, content) {
     ${footerNav('home')}
   </main></div>
   <script>
-  var booksData = ${JSON.stringify(BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, color: b.color, chapters: b._chapters || [] })))};
+  var booksData = ${JSON.stringify(DISPLAY_BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, color: b.color, chapters: b._chapters || [] })))};
   var chaptersData = ${JSON.stringify(BOOKS.flatMap(b => (b._chapters || []).map(c => ({ id: c.id, bookId: b.id, title: c.title }))))};
   
   // Initialize localStorage data
@@ -706,7 +711,7 @@ function write(path, content) {
 
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
-  const catBooks = BOOKS.filter(b => b.category === cat.id);
+  const catBooks = DISPLAY_BOOKS.filter(b => b.category === cat.id);
   const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說')}
     ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說'}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
@@ -750,7 +755,7 @@ CATEGORIES.forEach(cat => {
 });
 
 // ===== BOOK DETAIL =====
-BOOKS.forEach(book => {
+DISPLAY_BOOKS.forEach(book => {
   const cat = CATEGORIES.find(c => c.id === book.category);
   const bookChapters = book._chapters || [];
 

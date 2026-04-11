@@ -1,0 +1,14 @@
+{
+  "id": "",
+  "title": "書名",
+  "author": "作者名",
+  "category": "suspense",
+  "tags": ["標籤1", "標籤2"],
+  "synopsis": "書籍簡介，建議 50-200 字。描述故事背景、主角和主要衝突。",
+  "status": "draft",
+  "rating": 8.0,
+  "color": "#8B5CF6",
+  "date": "2025-01-01",
+  "updated": "2025-01-01",
+  "imageKeywords": "關鍵詞1,關鍵詞2"
+}
