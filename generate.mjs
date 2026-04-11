@@ -106,14 +106,18 @@ function coverHTML(book, w, h, fs, showTag, showTitle = true, showSynopsis = fal
     </div>
   </div>`;
 }
-function coverMini(book, w, h) {
+function coverMini(book, w, h, showStatus = false) {
+  const width = w || 120;
+  const height = h || 170;
   const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
   const decorations = coverDecorations(seed);
-  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${w}px;height:${h}px;background:linear-gradient(135deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%))">
+  const statusBadge = showStatus ? `<span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:${book.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${book.status==='completed'?'完結':'连载'}</span>` : '';
+  const fontSize = Math.min(width, 14);
+  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${width}px;height:${height}px;background:linear-gradient(135deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%));position:relative;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;overflow:hidden;border:1px solid var(--border-light)">
     <div class="cover-decorations" style="background-image:${decorations};background-repeat:no-repeat"></div>
-    <div class="cover-content"><h2 class="cover-title" style="font-size:14px">${book.title.slice(0,2)}</h2></div>
+    <div class="cover-content" style="position:relative;display:flex;align-items:center;justify-content:center"><h2 class="cover-title" style="font-size:${fontSize}px;font-weight:700;color:${book.color||'#A39171'}">${book.title.slice(0,2)}</h2>${statusBadge}</div>
   </div>`;
 }
 function tagHTML(book) {
@@ -281,9 +285,7 @@ function write(path, content) {
         <div class="card-content">
           <p class="card-label">主編推薦</p>
           <h2 class="card-title">在喧囂中<br>尋找內心寧靜</h2>
-          <div class="card-book">
-            <span class="book-spine" style="font-family:var(--font-serif);font-size:18px;font-weight:700;color:var(--text-main)">${DISPLAY_BOOKS[0].title.slice(0,2)}</span>
-          </div>
+          <div class="card-book">${coverMini(DISPLAY_BOOKS[0], 48, 64)}</div>
           <div class="card-footer glass-warm">
             <div>
               <p class="card-footer-title">${DISPLAY_BOOKS[0].title}</p>
@@ -299,9 +301,7 @@ function write(path, content) {
       </div>
       
       <a href="book/${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
-        <div class="item-cover" style="background:#d8cfc4;flex-shrink:0">
-          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--text-main)">${DISPLAY_BOOKS[1]?.title.slice(0,2) || DISPLAY_BOOKS[0].title.slice(0,2)}</span>
-        </div>
+        ${coverMini(DISPLAY_BOOKS[1] || DISPLAY_BOOKS[0], 48, 64)}
         <div style="flex:1;min-width:0">
           <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${DISPLAY_BOOKS[1]?.title || DISPLAY_BOOKS[0].title}</h4>
           <p style="font-size:12px;color:var(--text-muted)">${DISPLAY_BOOKS[1]?.author || DISPLAY_BOOKS[0].author} · ${DISPLAY_BOOKS[1]?.tags[0] || DISPLAY_BOOKS[0].tags[0]}</p>
@@ -310,9 +310,7 @@ function write(path, content) {
       </a>
       
       <a href="book/${DISPLAY_BOOKS[2]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
-        <div class="item-cover" style="background:#444a47;flex-shrink:0">
-          <span class="book-spine" style="font-family:var(--font-serif);font-size:10px;color:var(--bg-reading)">${DISPLAY_BOOKS[2]?.title.slice(0,2) || DISPLAY_BOOKS[0].title.slice(0,2)}</span>
-        </div>
+        ${coverMini(DISPLAY_BOOKS[2] || DISPLAY_BOOKS[0], 48, 64)}
         <div style="flex:1;min-width:0">
           <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${DISPLAY_BOOKS[2]?.title || DISPLAY_BOOKS[0].title}</h4>
           <p style="font-size:12px;color:var(--text-muted)">${DISPLAY_BOOKS[2]?.author || DISPLAY_BOOKS[0].author} · ${DISPLAY_BOOKS[2]?.tags[0] || DISPLAY_BOOKS[0].tags[0]}</p>
@@ -326,10 +324,7 @@ function write(path, content) {
       </div>
       <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;touch-action:pan-x">
         ${DISPLAY_BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
-          <div style="width:120px;height:170px;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
-            <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
-            <span style="position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
-          </div>
+          ${coverMini(b, 120, 170)}
           <p style="font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
           <p style="font-size:11px;color:var(--text-muted)">${b.author}</p>
         </a>`).join('')}
@@ -342,9 +337,7 @@ function write(path, content) {
       <div style="margin-bottom:16px">
         ${all.slice(0,5).map((b,i)=>`<a href="book/${b.id}" class="rank-item-fusion card-active" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-light);text-decoration:none">
           <span style="font-family:var(--font-serif);font-size:20px;font-weight:700;color:${i<3?b.color:'var(--text-muted)'};width:28px;text-align:center">${i+1}</span>
-          <div style="width:44px;height:60px;background:${b.color}20;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-light);flex-shrink:0">
-            <span class="book-spine" style="font-size:9px;color:${b.color}">${b.title.slice(0,2)}</span>
-          </div>
+          ${coverMini(b, 44, 60)}
           <div style="flex:1;min-width:0">
             <p style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
             <p style="font-size:12px;color:var(--text-muted)">${b.author}</p>
@@ -361,9 +354,7 @@ function write(path, content) {
         ${BOOKS.filter(b=>b.status==='ongoing').slice(0,4).map(b=>{
           const ch = b._chapters ? b._chapters[b._chapters.length-1] : null;
           return `<a href="book/${b.id}/${ch?ch.id:''}" class="list-item-fusion card-active" style="text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border-light)">
-          <div style="width:48px;height:64px;background:${b.color}20;border-radius:6px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-light);flex-shrink:0">
-            <span class="book-spine" style="font-size:9px;color:${b.color}">${b.title.slice(0,2)}</span>
-          </div>
+          ${coverMini(b, 48, 64)}
           <div style="flex:1;min-width:0">
             <p style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
             <p style="font-size:12px;color:var(--text-muted)">${ch?ch.title:'新章節'} · ${b.updated}</p>
@@ -421,10 +412,7 @@ function write(path, content) {
       <section class="home-section" aria-label="全部作品">
         <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
           ${DISPLAY_BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
-            <div style="width:100%;aspect-ratio:0.7;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
-              <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
-              <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
-            </div>
+            ${coverMini(b, null, null, true)}
             <div class="book-card-info">
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">${b.author}</div>
@@ -718,7 +706,7 @@ function write(path, content) {
 CATEGORIES.forEach(cat => {
   const catBooks = DISPLAY_BOOKS.filter(b => b.category === cat.id);
   const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說 ('+catBooks.length+')')}
-    ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說'}])}
+    ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說',url:`${SITE.base}/category/${cat.id}`}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
       `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press" style="display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid var(--border-light)">${coverMini(b,60,85)}
         <div class="cat-book-info" style="flex:1;min-width:0"><div><div class="cat-book-title" style="font-size:17px;font-weight:700;font-family:var(--font-serif)">${b.title}</div>
