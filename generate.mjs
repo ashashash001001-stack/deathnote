@@ -567,7 +567,11 @@ function write(path, content) {
     } else {
       empty.style.display = 'none';
       list.innerHTML = history.slice(0, 20).map(function(h) {
-        return '<a href="book/' + h.id + '/" class="settings-item"><span>📖</span><span>' + h.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+        // Check for reading progress
+        var progress = null;
+        try { progress = JSON.parse(localStorage.getItem('dn_progress') || '{}')[h.id]; } catch(e) {}
+        var chapterInfo = progress && progress.chapter ? ' - 讀至 ' + progress.chapter : '';
+        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -587,7 +591,7 @@ function write(path, content) {
       // Sort by time (newest first)
       favs.sort(function(a,b){return b.time - a.time});
       list.innerHTML = favs.map(function(f) {
-        return '<a href="book/' + f.id + '/" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -796,11 +800,11 @@ DISPLAY_BOOKS.forEach(book => {
     ${adHTML()}
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>${tocHTML}
     <div class="toc-list-wrap"><div id="toc-list">${bookChapters.map(ch =>
-      `<a href="${ch.id}/" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
+      `<a href="./${ch.id}/" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
     ).join('')}</div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="${bookChapters.length ? bookChapters[0].id + '/' : ''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
+      <a href="./${bookChapters.length ? bookChapters[0].id + '/' : ''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
       <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="${book.id}" data-book-title="${book.title}" aria-label="收藏">收藏</button>
     </div>
   </main></div>
@@ -906,7 +910,7 @@ DISPLAY_BOOKS.forEach(book => {
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')" role="dialog" aria-modal="true" aria-label="章節目錄"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')" aria-label="關閉目錄"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="sheet-body">${bookChapters.map(c=>`<a href="../../${c.id}/" class="toc-item btn-press"><span>${c.title}</span><span>${c.words.toLocaleString()} 字</span></a>`).join('')}</div>
+        <div class="sheet-body">${bookChapters.map(c=>`<a href="../${c.id}/" class="toc-item btn-press"><span>${c.title}</span><span>${c.words.toLocaleString()} 字</span></a>`).join('')}</div>
       </div></div>
       <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')" role="dialog" aria-modal="true" aria-label="閱讀設定"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
