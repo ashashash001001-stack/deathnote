@@ -109,13 +109,16 @@ function coverHTML(book, w, h, fs, showTag, showTitle = true, showSynopsis = fal
 function coverMini(book, w, h, showStatus = false) {
   const width = w || 120;
   const height = h || 170;
-  const hue = book.color ? parseInt(book.color.slice(1), 16) % 360 : 210;
+  // Use book's color directly or fallback to category color
+  const bookColor = book.color || '#A39171';
+  const hue = parseInt(bookColor.slice(1), 16) % 360;
   const hue2 = (hue + 40) % 360;
   const seed = bookCoverSeed(book);
   const decorations = coverDecorations(seed);
   const statusBadge = showStatus ? `<span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:${book.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${book.status==='completed'?'完結':'連載'}</span>` : '';
   const titleText = book.title.slice(0,2);
-  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${width}px;height:${height}px;background:linear-gradient(135deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%));position:relative;border-radius:12px;margin-bottom:8px;overflow:hidden;border:1px solid var(--border-light)">
+  // Use actual book color for background
+  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${width}px;height:${height}px;background:${bookColor};position:relative;border-radius:12px;margin-bottom:8px;overflow:hidden;border:1px solid var(--border-light)">
     <div class="cover-decorations" style="background-image:${decorations};background-repeat:no-repeat"></div>
     <div class="cover-content" style="writing-mode:vertical-rl;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-orientation:mixed">
       <h2 class="cover-title" style="font-size:18px;font-weight:700;font-family:var(--font-serif);color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,0.3);letter-spacing:0.2em;margin:8px">${titleText}</h2>${statusBadge}
@@ -708,9 +711,9 @@ function write(path, content) {
 CATEGORIES.forEach(cat => {
   const catBooks = DISPLAY_BOOKS.filter(b => b.category === cat.id);
   const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說 ('+catBooks.length+')')}
-    ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說',url:`${SITE.base}/category/${cat.id}`}])}
+    ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:cat.name+'小說',url:`./${cat.id}`}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
-      `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press" style="display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid var(--border-light)">${coverMini(b,60,85)}
+      `<a href="./${b.id}" class="cat-book card-hover btn-press" style="display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid var(--border-light)">${coverMini(b,60,85)}
         <div class="cat-book-info" style="flex:1;min-width:0"><div><div class="cat-book-title" style="font-size:17px;font-weight:700;font-family:var(--font-serif)">${b.title}</div>
         <div class="cat-book-author" style="font-size:12px;color:var(--text-muted)">${b.author}</div>
         <div class="cat-book-tags" style="margin-top:4px">${tagHTML(b)}</div></div>
@@ -772,7 +775,7 @@ DISPLAY_BOOKS.forEach(book => {
     }</select>` : '';
 
   const body = `<div class="app-container"><main class="page">${backHeader(book.title)}
-    ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat?cat.name:'分類',url:`${SITE.base}/category/${book.category}`},{label:book.title}])}
+    ${breadcrumbHTML([{label:SITE.name,url:'../'},{label:cat?cat.name:'分類',url:`../category/${book.category}`},{label:book.title}])}
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:${book.color}" aria-hidden="true"></div>
       <div class="detail-hero-content">
