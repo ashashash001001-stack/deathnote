@@ -796,11 +796,11 @@ DISPLAY_BOOKS.forEach(book => {
     ${adHTML()}
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>${tocHTML}
     <div class="toc-list-wrap"><div id="toc-list">${bookChapters.map(ch =>
-      `<a href="${SITE.base}/book/${book.id}/${ch.id}" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
+      `<a href="${ch.id}/" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
     ).join('')}</div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="${SITE.base}book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
+      <a href="${bookChapters.length ? bookChapters[0].id + '/' : ''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
       <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="${book.id}" data-book-title="${book.title}" aria-label="收藏">收藏</button>
     </div>
   </main></div>
@@ -873,7 +873,7 @@ DISPLAY_BOOKS.forEach(book => {
       <div class="reader-progress" id="reader-progress"><div class="reader-progress-bar" id="reader-progress-bar" style="background:${book.color}"></div></div>
       <header class="reader-topbar" id="reader-topbar" role="banner">
         <div class="reader-topbar-inner">
-          <a href="${SITE.base}/book/${book.id}" class="reader-topbar-back btn-press" aria-label="返回 ${book.title} 詳情">
+          <a href="../" class="reader-topbar-back btn-press" aria-label="返回 ${book.title} 詳情">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           </a>
           <span class="reader-topbar-title">${book.title}</span>
@@ -891,7 +891,7 @@ DISPLAY_BOOKS.forEach(book => {
       </main>
       <footer class="reader-bottombar" id="reader-bottombar" role="contentinfo">
         <div class="reader-bottombar-inner">
-          ${prev ? `<a href="${SITE.base}/book/${book.id}/${prev.id}" class="nav-btn btn-press" aria-label="上一章：${prev.title}"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></a>` : '<span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>'}
+          ${prev ? `<a href="../${prev.id}/" class="nav-btn btn-press" aria-label="上一章：${prev.title}"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></a>` : '<span class="nav-btn disabled" aria-label="已是第一章"><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg><span class="nav-label">上一章</span></span>'}
           <div class="reader-bottombar-tools">
             <button type="button" class="tool-btn btn-press" id="tool-btn-toc" aria-label="開啟目錄">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>目錄</span></button>
@@ -900,13 +900,13 @@ DISPLAY_BOOKS.forEach(book => {
             <button type="button" class="tool-btn btn-press" id="tool-btn-tts" aria-label="開啟發聲朗讀">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 12h.01"/><circle cx="8" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg><span>朗讀</span></button>
           </div>
-          ${next ? `<a href="${SITE.base}/book/${book.id}/${next.id}" class="nav-btn btn-press" aria-label="下一章：${next.title}"><span class="nav-label">下一章</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>` : '<span class="nav-btn disabled" aria-label="已是最後一章"><span class="nav-label">下一章</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>'}
+          ${next ? `<a href="../${next.id}/" class="nav-btn btn-press" aria-label="下一章：${next.title}"><span class="nav-label">下一章</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>` : '<span class="nav-btn disabled" aria-label="已是最後一章"><span class="nav-label">下一章</span><svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>'}
         </div>
       </footer>
       <div class="sheet-overlay" id="toc-sheet" onclick="closeSheet('toc-sheet')" role="dialog" aria-modal="true" aria-label="章節目錄"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
         <div class="sheet-header"><h3>章節目錄</h3><button class="btn-press" onclick="closeSheet('toc-sheet')" aria-label="關閉目錄"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
-        <div class="sheet-body">${bookChapters.map(c=>`<a href="${SITE.base}/book/${book.id}/${c.id}" class="toc-item btn-press"><span>${c.title}</span><span>${c.words.toLocaleString()} 字</span></a>`).join('')}</div>
+        <div class="sheet-body">${bookChapters.map(c=>`<a href="../../${c.id}/" class="toc-item btn-press"><span>${c.title}</span><span>${c.words.toLocaleString()} 字</span></a>`).join('')}</div>
       </div></div>
       <div class="sheet-overlay" id="settings-sheet" onclick="closeSheet('settings-sheet')" role="dialog" aria-modal="true" aria-label="閱讀設定"><div class="sheet-content" onclick="event.stopPropagation()">
         <div class="sheet-handle" aria-hidden="true"></div>
