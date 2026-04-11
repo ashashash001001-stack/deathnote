@@ -882,7 +882,7 @@ DISPLAY_BOOKS.forEach(book => {
           </a>
           <span class="reader-topbar-title">${book.title}</span>
           <nav class="reader-topbar-breadcrumb" aria-label="breadcrumb">
-            <span>${book.title}</span><span> › </span><span>${ch.title}</span>
+            <a href="../">${book.title}</a><span> › </span><span>${ch.title}</span>
           </nav>
         </div>
       </header>
