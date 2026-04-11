@@ -123,15 +123,11 @@ function footerNav(active) {
       <svg width="24" height="24" fill="${active==='home'?'currentColor':'none'}" stroke="${active==='home'?'none':'currentColor'}" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
       <span>拾遺</span>
     </button>
-    <button class="footer-tab ${active==='books'?'active':''} ${active!=='books'?'inactive':''}" data-tab="books" onclick="switchTab('books')" aria-label="書閣">
+    <button class="footer-tab ${active==='shelf'?'active':''} ${active!=='shelf'?'inactive':''}" data-tab="shelf" onclick="switchTab('shelf')" aria-label="書閣">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
       <span>書閣</span>
     </button>
-    <button class="footer-tab ${active==='search'?'active':''} ${active!=='search'?'inactive':''}" data-tab="search" onclick="switchTab('search')" aria-label="尋字">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-      <span>尋字</span>
-    </button>
-    <button class="footer-tab ${active==='profile'?'active':''} ${active!=='profile'?'inactive':''}" data-tab="profile" onclick="switchTab('profile')" aria-label="我的">
+    <button class="footer-tab ${active==='my'?'active':''} ${active!=='my'?'inactive':''}" data-tab="my" onclick="switchTab('my')" aria-label="我的">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
       <span>我的</span>
     </button>
@@ -142,9 +138,6 @@ function headerHTML() {
   return `<header class="header" role="banner">
     <div class="header-inner">
       <a href="./" class="logo" aria-label="${SITE.name} 首頁">${SVG_ICON}<span class="logo-text">${SITE.name}</span></a>
-      <button class="btn-press" onclick="window.location.href='/search'" aria-label="搜尋小說">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-      </button>
     </div>
   </header>`;
 }
@@ -308,7 +301,7 @@ function write(path, content) {
           <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${BOOKS[1].title}</h4>
           <p style="font-size:12px;color:var(--text-muted)">${BOOKS[1].author} · ${BOOKS[1].tags[0]}</p>
         </div>
-        <span class="item-btn item-btn-outline" style="flex-shrink:0">閱讀</span>
+        <button class="item-btn item-btn-outline btn-press" style="flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${BOOKS[1].id}', '${BOOKS[1].title}')" id="fav-btn-${BOOKS[1].id}">收藏</button>
       </a>
       
       <a href="book/${BOOKS[2]?.id || BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
@@ -319,7 +312,7 @@ function write(path, content) {
           <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${BOOKS[2]?.title || '月亮與六便士'}</h4>
           <p style="font-size:12px;color:var(--text-muted)">${BOOKS[2]?.author || '毛姆'} · ${BOOKS[2]?.tags[0] || '英國文學'}</p>
         </div>
-        <span class="item-btn item-btn-filled" style="flex-shrink:0">已讀</span>
+        <button class="item-btn item-btn-outline btn-press" style="flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${BOOKS[2]?.id || BOOKS[0].id}', '${BOOKS[2]?.title || '月亮與六便士'}')" id="fav-btn-${BOOKS[2]?.id || BOOKS[0].id}">收藏</button>
       </a>
       
       <!-- 熱門精選 -->
@@ -410,33 +403,33 @@ function write(path, content) {
     
     
     
-    <div id="books-content" class="tab-content hidden">
-      <section class="home-hero" style="min-height:200px;padding:var(--spacing-8) var(--spacing-6)">
-        <div class="hero-content">
-          <div class="hero-badge">📚 我的書閣</div>
-          <p style="color:var(--text-muted);font-size:14px;margin-top:8px">${BOOKS.length} 本作品</p>
+    <div id="shelf-content" class="tab-content hidden">
+      <section class="home-hero" style="min-height:120px;padding:var(--spacing-6) var(--spacing-4)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <input type="search" id="shelf-search" placeholder="搜尋書名、作者..." oninput="filterShelf(this.value)" style="flex:1;padding:10px 16px;border-radius:999px;border:1px solid var(--border-medium);background:var(--bg-base);font-size:14px;outline:none">
+        </div>
+        <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px">
+          <button onclick="filterShelfCategory('')" class="cat-filter-btn active" data-cat="" style="padding:6px 14px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:white;font-size:12px;font-weight:600;white-space:nowrap">全部</button>
+          ${CATEGORIES.map(c => `<button onclick="filterShelfCategory('${c.id}')" class="cat-filter-btn" data-cat="${c.id}" style="padding:6px 14px;border-radius:999px;border:1px solid var(--border-medium);background:transparent;color:var(--text-dark);font-size:12px;white-space:nowrap">${c.name}</button>`).join('')}
         </div>
       </section>
       <section class="home-section" aria-label="全部作品">
-        <div class="book-grid" style="padding:0 var(--spacing-4)">
-          ${BOOKS.map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
-            <div style="width:120px;height:170px;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
+        <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
+          ${BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <div style="width:100%;aspect-ratio:0.7;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
-              <span style="position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
+              <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
             </div>
             <div class="book-card-info">
-              <div class="book-card-title" style="font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
+              <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">${b.author}</div>
-              <div class="book-card-meta" style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:4px">
-                <span style="color:${b.color}">★ ${b.rating}</span>
-              </div>
             </div>
           </a>`).join('')}
         </div>
       </section>
     </div>
     
-    <div id="profile-content" class="tab-content hidden">
+    <div id="my-content" class="tab-content hidden">
       <section class="home-hero" style="min-height:200px;padding:var(--spacing-8) var(--spacing-6)">
         <div class="hero-content">
           <div class="hero-avatar" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--color-primary-dark));display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px">👤</div>
@@ -610,10 +603,30 @@ function write(path, content) {
     // Show footer nav when switching tabs
     var footerNav = document.querySelector('.footer-nav');
     if(footerNav){footerNav.style.display = ''}
-    if (tab === 'profile') {
+    if (tab === 'my' || tab === 'shelf') {
       backToSettings();
       updateCounts();
     }
+  }
+  
+  function filterShelf(query) {
+    var q = query.toLowerCase();
+    document.querySelectorAll('.shelf-book').forEach(function(el) {
+      var title = el.querySelector('.book-card-title').textContent.toLowerCase();
+      var author = el.querySelector('.book-card-author').textContent.toLowerCase();
+      el.style.display = (title.indexOf(q) > -1 || author.indexOf(q) > -1) ? '' : 'none';
+    });
+  }
+  
+  function filterShelfCategory(catId) {
+    document.querySelectorAll('.cat-filter-btn').forEach(function(el) {
+      var isActive = el.getAttribute('data-cat') === catId;
+      el.style.background = isActive ? 'var(--accent)' : 'transparent';
+      el.style.color = isActive ? 'white' : 'var(--text-dark)';
+    });
+    document.querySelectorAll('.shelf-book').forEach(function(el) {
+      el.style.display = (!catId || el.getAttribute('data-cat') === catId) ? '' : 'none';
+    });
   }
   
   function toggleDarkMode() {
@@ -683,47 +696,13 @@ function write(path, content) {
   }
   <\/script>`;
 
-  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body, null, '/', true));
+  // Initialize favorite button states on page load
+  const initScript = '<script>document.addEventListener("DOMContentLoaded", updateCounts);<\/script>';
+
+  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body + initScript, null, '/', true));
 })();
 
-// ===== SEARCH =====
-(function() {
-const body = `<div class="app-container"><main class="page">
-    ${backHeader('搜尋')}
-    <div class="search-hero">
-      <div class="search-box">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input type="search" id="search-input" placeholder="搜尋小說、作者..." oninput="doSearch(this.value)" aria-label="搜尋">
-      </div>
-    </div>
-    <div id="hot-keywords" class="hot-section">
-      <div class="hot-title">熱門搜尋</div>
-      <div class="hot-tags">${HOT_KEYWORDS.map(kw=>`<button class="hot-tag btn-press" onclick="searchKW('${kw}')" aria-label="搜尋${kw}">${kw}</button>`).join('')}</div>
-    </div>
-    <div id="search-results" class="results-section hidden"></div>
-    ${footerNav('search')}
-  </main></div>
-  <script>
-  var booksData=${JSON.stringify(BOOKS.map(b=>({id:b.id,title:b.title,author:b.author,tags:b.tags,color:b.color,rating:b.rating})))};
-  function searchKW(kw){document.getElementById('search-input').value=kw;doSearch(kw)}
-  function doSearch(q){
-    var hotDiv=document.getElementById('hot-keywords');
-    var resDiv=document.getElementById('search-results');
-    if(!q.trim()){hotDiv.classList.remove('hidden');resDiv.classList.add('hidden');return}
-    hotDiv.classList.add('hidden');resDiv.classList.remove('hidden');
-    var ql=q.toLowerCase();
-    var results=booksData.filter(function(b){return b.title.toLowerCase().includes(ql)||b.author.toLowerCase().includes(ql)||b.tags.some(function(t){return t.toLowerCase().includes(ql)})});
-    resDiv.innerHTML='<div class="result-count">找到 '+results.length+' 個結果</div>'+
-    results.map(function(b){return '<a href="${SITE.base}/book/'+b.id+'" class="result-item btn-press"><div class="css-book-cover css-book-cover-mini" style="--hue:'+(b.color?parseInt(b.color.slice(1),16)%360:210)+';--hue2:'+(b.color?(parseInt(b.color.slice(1),16)%360+40)%360:250)+';width:48px;height:64px"><div class="cover-content"><h2 class="cover-title" style="font-size:12px">'+b.title.slice(0,2)+'</h2></div></div><div class="result-info"><div class="result-title">'+b.title+'</div><div class="result-author">'+b.author+'</div><div class="result-tags">'+b.tags.slice(0,2).join(' · ')+'</div></div><span style="font-size:12px;font-weight:700;color:'+b.color+'">'+b.rating+'</span></a>'}).join('')||'<p style="text-align:center;color:var(--color-text-tertiary);padding:32px 0">找不到相關結果</p>';
-  }
-  <\/script>`;
-
-  const searchJsonLd = {
-    "@context":"https://schema.org","@type":"SearchResultsPage","name":"搜尋結果",
-    "url":`${SITE.url}/search`
-  };
-  write('search/index.html', pageHTML('搜尋 - '+SITE.name, '搜尋小說、作者、關鍵字', '#F8F9FA', body, searchJsonLd, '/search'));
-})();
+// Search page removed - search now in shelf tab
 
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
@@ -731,14 +710,35 @@ CATEGORIES.forEach(cat => {
   const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說')}
     ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說'}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
-      `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press">${coverMini(b,80,112)}
-        <div class="cat-book-info"><div><div class="cat-book-title">${b.title}</div>
-        <div class="cat-book-author">${b.author}</div>
-        <div class="cat-book-tags">${tagHTML(b)}</div></div>
-        <div class="cat-book-meta"><span>${b.words.toLocaleString()} 字</span>
-        <span style="color:${b.color};font-weight:700">${b.rating} 分</span></div></div></a>`
+      `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press" style="display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid var(--border-light)">${coverMini(b,60,85)}
+        <div class="cat-book-info" style="flex:1;min-width:0"><div><div class="cat-book-title" style="font-size:17px;font-weight:700;font-family:var(--font-serif)">${b.title}</div>
+        <div class="cat-book-author" style="font-size:12px;color:var(--text-muted)">${b.author}</div>
+        <div class="cat-book-tags" style="margin-top:4px">${tagHTML(b)}</div></div>
+        <div class="cat-book-meta" style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font-size:12px;color:var(--text-muted)">${b.words.toLocaleString()} 字</span>
+        <span style="color:${b.color};font-weight:700;font-size:14px">★ ${b.rating}</span>
+        <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${b.id}','${b.title}')" id="fav-btn-${b.id}" style="padding:6px 12px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:12px;font-weight:600">收藏</button></div></div></a>`
     ).join('') + adHTML() : '<div style="text-align:center;padding:64px 0;color:var(--color-text-tertiary)"><p style="font-size:32px;margin-bottom:8px" aria-hidden="true">📭</p><p>此分類暫無作品</p></div>'}</div>
-  </main></div>`;
+  </main></div>
+  <script>
+  function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+  function toggleFavorite(bookId, bookTitle) {
+    var favs = getFavorites();
+    var idx = favs.findIndex(function(f){return f.id === bookId});
+    var btn = document.getElementById('fav-btn-' + bookId);
+    if (idx > -1) {
+      favs.splice(idx, 1);
+      if (btn) { btn.textContent = '收藏'; btn.style.color = 'var(--accent)'; }
+    } else {
+      favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+      if (btn) { btn.textContent = '已收藏'; btn.style.color = '#e74c3c'; }
+    }
+    localStorage.setItem('favorites', JSON.stringify(favs));
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    var favs = getFavorites();
+    ${catBooks.map(b => `if (favs.some(function(f){return f.id === '${b.id}'})) { var btn = document.getElementById('fav-btn-${b.id}'); if (btn) { btn.textContent = '已收藏'; btn.style.color = '#e74c3c'; } }`).join('; ')}
+  });
+  <\/script>`;
 
   const catJsonLd = {
     "@context":"https://schema.org","@type":"CollectionPage","name":`${cat.name}小說`,
