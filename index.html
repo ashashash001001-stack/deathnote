@@ -2921,7 +2921,7 @@ html {
       </section>
       <section class="home-section" aria-label="全部作品">
         <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
-          <a href="book/dragon-chronicles" class="shelf-book fusion-card card-active" data-cat="fantasy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+          <a href="book/dragon-chronicles" class="shelf-book fusion-card card-active" data-cat="fantasy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#8B5CF620;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#8B5CF6">龍之</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -2930,7 +2930,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">龍之紀元</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">蒼龍子</div>
             </div>
-          </a><a href="book/death-note" class="shelf-book fusion-card card-active" data-cat="suspense" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('dragon-chronicles','龍之紀元')" id="fav-btn-dragon-chronicles" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/death-note" class="shelf-book fusion-card card-active" data-cat="suspense" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#2C3E5020;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#2C3E50">死亡</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -2939,7 +2940,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">死亡筆記本</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">夜神月</div>
             </div>
-          </a><a href="book/spirit-blade" class="shelf-book fusion-card card-active" data-cat="fantasy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('death-note','死亡筆記本')" id="fav-btn-death-note" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/spirit-blade" class="shelf-book fusion-card card-active" data-cat="fantasy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#8B5CF620;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#8B5CF6">靈劍</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -2948,7 +2950,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">靈劍山莊</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">劍無名</div>
             </div>
-          </a><a href="book/quantum-dream" class="shelf-book fusion-card card-active" data-cat="scifi" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('spirit-blade','靈劍山莊')" id="fav-btn-spirit-blade" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/quantum-dream" class="shelf-book fusion-card card-active" data-cat="scifi" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#3B82F620;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#3B82F6">量子</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -2957,7 +2960,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">量子夢境</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">陳星河</div>
             </div>
-          </a><a href="book/silent-river" class="shelf-book fusion-card card-active" data-cat="literary" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('quantum-dream','量子夢境')" id="fav-btn-quantum-dream" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/silent-river" class="shelf-book fusion-card card-active" data-cat="literary" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#6B728020;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#6B7280">沉默</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -2966,7 +2970,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">沉默的河流</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">江遠</div>
             </div>
-          </a><a href="book/shadow-trace" class="shelf-book fusion-card card-active" data-cat="suspense" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('silent-river','沉默的河流')" id="fav-btn-silent-river" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/shadow-trace" class="shelf-book fusion-card card-active" data-cat="suspense" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#2C3E5020;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#2C3E50">暗影</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -2975,7 +2980,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">暗影追蹤</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">墨痕</div>
             </div>
-          </a><a href="book/midnight-library" class="shelf-book fusion-card card-active" data-cat="healing" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('shadow-trace','暗影追蹤')" id="fav-btn-shadow-trace" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/midnight-library" class="shelf-book fusion-card card-active" data-cat="healing" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#A3B18A20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#A3B18A">午夜</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -2984,7 +2990,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">午夜圖書館</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">林深夜</div>
             </div>
-          </a><a href="book/city-lights" class="shelf-book fusion-card card-active" data-cat="literary" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('midnight-library','午夜圖書館')" id="fav-btn-midnight-library" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/city-lights" class="shelf-book fusion-card card-active" data-cat="literary" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#6B728020;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#6B7280">城市</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -2993,7 +3000,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">城市微光</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">陳以文</div>
             </div>
-          </a><a href="book/mars-chronicle" class="shelf-book fusion-card card-active" data-cat="scifi" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('city-lights','城市微光')" id="fav-btn-city-lights" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/mars-chronicle" class="shelf-book fusion-card card-active" data-cat="scifi" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#3B82F620;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#3B82F6">火星</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -3002,7 +3010,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">火星紀事</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">陸星航</div>
             </div>
-          </a><a href="book/office-survival" class="shelf-book fusion-card card-active" data-cat="comedy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('mars-chronicle','火星紀事')" id="fav-btn-mars-chronicle" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/office-survival" class="shelf-book fusion-card card-active" data-cat="comedy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#F59E0B20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#F59E0B">社畜</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -3011,7 +3020,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">社畜求生記</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">加班王</div>
             </div>
-          </a><a href="book/slow-days" class="shelf-book fusion-card card-active" data-cat="healing" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('office-survival','社畜求生記')" id="fav-btn-office-survival" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/slow-days" class="shelf-book fusion-card card-active" data-cat="healing" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#A3B18A20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#A3B18A">慢時</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -3020,7 +3030,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">慢時光咖啡館</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">溫小禾</div>
             </div>
-          </a><a href="book/cherry-blossom" class="shelf-book fusion-card card-active" data-cat="romance" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('slow-days','慢時光咖啡館')" id="fav-btn-slow-days" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/cherry-blossom" class="shelf-book fusion-card card-active" data-cat="romance" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#E88D9E20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#E88D9E">櫻花</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -3029,7 +3040,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">櫻花樹下的約定</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">花見小路</div>
             </div>
-          </a><a href="book/rainy-season" class="shelf-book fusion-card card-active" data-cat="romance" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('cherry-blossom','櫻花樹下的約定')" id="fav-btn-cherry-blossom" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/rainy-season" class="shelf-book fusion-card card-active" data-cat="romance" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#E88D9E20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#E88D9E">雨季</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -3038,7 +3050,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">雨季不再來</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">蘇雨晴</div>
             </div>
-          </a><a href="book/roommate-chaos" class="shelf-book fusion-card card-active" data-cat="comedy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('rainy-season','雨季不再來')" id="fav-btn-rainy-season" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/roommate-chaos" class="shelf-book fusion-card card-active" data-cat="comedy" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#F59E0B20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#F59E0B">室友</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -3047,7 +3060,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">室友是奇葩</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">笑看人生</div>
             </div>
-          </a><a href="book/whispering-house" class="shelf-book fusion-card card-active" data-cat="horror" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('roommate-chaos','室友是奇葩')" id="fav-btn-roommate-chaos" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/whispering-house" class="shelf-book fusion-card card-active" data-cat="horror" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#1F293720;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#1F2937">低語</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -3056,7 +3070,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">低語之屋</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">幽冥散人</div>
             </div>
-          </a><a href="book/midnight-bus" class="shelf-book fusion-card card-active" data-cat="horror" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('whispering-house','低語之屋')" id="fav-btn-whispering-house" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/midnight-bus" class="shelf-book fusion-card card-active" data-cat="horror" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#1F293720;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#1F2937">末班</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#A3B18A;color:white;font-weight:600">完結</span>
@@ -3065,7 +3080,8 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">末班公車</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">鬼谷子</div>
             </div>
-          </a><a href="book/" class="shelf-book fusion-card card-active" data-cat="suspense" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('midnight-bus','末班公車')" id="fav-btn-midnight-bus" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+          </a><a href="book/" class="shelf-book fusion-card card-active" data-cat="suspense" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:#8B5CF620;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:#8B5CF6">書名</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:#7DB8F0;color:white;font-weight:600">連載</span>
@@ -3074,6 +3090,7 @@ html {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">書名</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">作者名</div>
             </div>
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('','書名')" id="fav-btn-" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
           </a>
         </div>
       </section>
@@ -3224,7 +3241,7 @@ html {
     } else {
       empty.style.display = 'none';
       list.innerHTML = history.slice(0, 20).map(function(h) {
-        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="book/' + h.id + '/" class="settings-item"><span>📖</span><span>' + h.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -3244,7 +3261,7 @@ html {
       // Sort by time (newest first)
       favs.sort(function(a,b){return b.time - a.time});
       list.innerHTML = favs.map(function(f) {
-        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="book/' + f.id + '/" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }

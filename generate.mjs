@@ -420,7 +420,7 @@ function write(path, content) {
       </section>
       <section class="home-section" aria-label="全部作品">
         <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
-          ${DISPLAY_BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box">
+          ${DISPLAY_BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             <div style="width:100%;aspect-ratio:0.7;background:${b.color}20;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;overflow:hidden;border:1px solid var(--border-light)">
               <span class="book-spine" style="font-family:var(--font-serif);font-size:14px;font-weight:700;color:${b.color}">${b.title.slice(0,2)}</span>
               <span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:${b.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${b.status==='completed'?'完結':'連載'}</span>
@@ -429,6 +429,7 @@ function write(path, content) {
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
               <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">${b.author}</div>
             </div>
+            <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${b.id}','${b.title}')" id="fav-btn-${b.id}" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
           </a>`).join('')}
         </div>
       </section>
@@ -566,7 +567,7 @@ function write(path, content) {
     } else {
       empty.style.display = 'none';
       list.innerHTML = history.slice(0, 20).map(function(h) {
-        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="book/' + h.id + '/" class="settings-item"><span>📖</span><span>' + h.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -586,7 +587,7 @@ function write(path, content) {
       // Sort by time (newest first)
       favs.sort(function(a,b){return b.time - a.time});
       list.innerHTML = favs.map(function(f) {
-        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="book/' + f.id + '/" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -712,7 +713,7 @@ function write(path, content) {
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
   const catBooks = DISPLAY_BOOKS.filter(b => b.category === cat.id);
-  const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說')}
+  const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說 ('+catBooks.length+')')}
     ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:cat.name+'小說'}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
       `<a href="${SITE.base}/book/${b.id}" class="cat-book card-hover btn-press" style="display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid var(--border-light)">${coverMini(b,60,85)}
@@ -799,7 +800,7 @@ DISPLAY_BOOKS.forEach(book => {
     ).join('')}</div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="${SITE.base}/book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
+      <a href="${SITE.base}book/${book.id}/${bookChapters.length?bookChapters[0].id:''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
       <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="${book.id}" data-book-title="${book.title}" aria-label="收藏">收藏</button>
     </div>
   </main></div>
