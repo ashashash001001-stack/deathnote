@@ -79,5 +79,8 @@
       }
     }
   },
-  "reload": null
+  "reload": null,
+  "messaging": {
+    "enabled": false
+  }
 }

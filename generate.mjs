@@ -114,10 +114,12 @@ function coverMini(book, w, h, showStatus = false) {
   const seed = bookCoverSeed(book);
   const decorations = coverDecorations(seed);
   const statusBadge = showStatus ? `<span style="position:absolute;top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px;background:${book.status==='completed'?'#A3B18A':'#7DB8F0'};color:white;font-weight:600">${book.status==='completed'?'完結':'连载'}</span>` : '';
-  const fontSize = Math.min(width, 14);
-  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${width}px;height:${height}px;background:linear-gradient(135deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%));position:relative;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;overflow:hidden;border:1px solid var(--border-light)">
+  const titleText = book.title.slice(0,2);
+  return `<div class="css-book-cover css-book-cover-mini" style="--hue:${hue};--hue2:${hue2};width:${width}px;height:${height}px;background:linear-gradient(135deg,hsl(${hue},75%,60%),hsl(${hue2},65%,35%));position:relative;border-radius:12px;margin-bottom:8px;overflow:hidden;border:1px solid var(--border-light)">
     <div class="cover-decorations" style="background-image:${decorations};background-repeat:no-repeat"></div>
-    <div class="cover-content" style="position:relative;display:flex;align-items:center;justify-content:center"><h2 class="cover-title" style="font-size:${fontSize}px;font-weight:700;color:${book.color||'#A39171'}">${book.title.slice(0,2)}</h2>${statusBadge}</div>
+    <div class="cover-content" style="writing-mode:vertical-rl;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-orientation:mixed">
+      <h2 class="cover-title" style="font-size:18px;font-weight:700;font-family:var(--font-serif);color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,0.3);letter-spacing:0.2em;margin:8px">${titleText}</h2>${statusBadge}
+    </div>
   </div>`;
 }
 function tagHTML(book) {
