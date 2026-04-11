@@ -1,4 +1,4 @@
-const CACHE_NAME = 'deathnote-v2';
+const CACHE_NAME = 'deathnote-v3';
 const BASE_PATH = '/deathnote';
 
 self.addEventListener('install', function(e) {
