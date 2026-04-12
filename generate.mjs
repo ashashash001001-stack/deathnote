@@ -27,6 +27,8 @@ function loadBooks() {
   const booksDir = join(CONTENT, 'books');
   const books = [];
   readdirSync(booksDir).forEach(dirName => {
+    // Skip template directories
+    if (dirName.startsWith('__')) return;
     const metaPath = join(booksDir, dirName, 'meta.json');
     if (!existsSync(metaPath)) return;
     const meta = JSON.parse(readFileSync(metaPath, 'utf-8'));
