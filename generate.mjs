@@ -291,7 +291,7 @@ function commonJS(booksData, chaptersData) {
     document.querySelectorAll('.shelf-book').forEach(function(el) {
       var title = el.querySelector('.book-card-title').textContent.toLowerCase();
       var author = el.querySelector('.book-card-author').textContent.toLowerCase();
-      el.style.display = (title.indexOf(q) > -1 || author.indexOf(q) > -1) ? '' : 'none');
+      el.style.display = (title.indexOf(q) > -1 || author.indexOf(q) > -1) ? '' : 'none';
     });
   }
   
@@ -302,7 +302,7 @@ function commonJS(booksData, chaptersData) {
       el.style.color = isActive ? 'white' : 'var(--text-dark)';
     });
     document.querySelectorAll('.shelf-book').forEach(function(el) {
-      el.style.display = (!catId || el.getAttribute('data-cat') === catId) ? '' : 'none');
+      el.style.display = (!catId || el.getAttribute('data-cat') === catId) ? '' : 'none';
     });
   }
   
@@ -418,7 +418,7 @@ ${body}
 <script>
 ${commonJSContent}
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}
 </script>
 </body></html>`;
 }
