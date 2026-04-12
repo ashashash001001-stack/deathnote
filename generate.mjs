@@ -22,6 +22,8 @@ const SITE = {
   url: 'https://deathnote.example.com',
   base: '/'
 };
+const SITE_ROOT = '/deathnote/';
+
 
 function loadBooks() {
   const booksDir = join(CONTENT, 'books');
@@ -407,8 +409,8 @@ function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, o
 <meta name="twitter:description" content="${desc||SITE.description}">
 <base href="./">
 <title>${title}</title>
-<link rel="icon" href="favicon.svg">
-<link rel="manifest" href="manifest.json">
+<link rel="icon" href="${SITE_ROOT}favicon.svg">
+<link rel="manifest" href="${SITE_ROOT}manifest.json">
 <style>${css}</style>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
 ${siteJsonLd ? `<script type="application/ld+json">${JSON.stringify(siteJsonLd)}</script>` : ''}
@@ -418,15 +420,14 @@ ${body}
 <script>
 ${commonJSContent}
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('${SITE_ROOT}sw.js'))}
 </script>
 </body></html>`;
 }
 
 function fixPaths(html, depth = 0) {
   // depth = 0 for root pages, 1 for category/book pages, 2 for chapter pages
-  const swPath = depth === 0 ? 'sw.js' : depth === 1 ? '../sw.js' : '../../sw.js';
-  const faviconPath = depth === 0 ? 'favicon.svg' : depth === 1 ? '../favicon.svg' : '../../favicon.svg';
+  
   
   // Handle paths with base prefix (e.g., /deathnote/book/xxx)
   const base = SITE.base.replace(/^\//, ''); // remove leading slash
@@ -459,11 +460,11 @@ function fixPaths(html, depth = 0) {
     .replace(/onclick="window\.location\.href='\/search'"/g,"onclick=\"window.location.href='search'\"")
     .replace(/onclick="window\.location\.href='\/'"/g,"onclick=\"window.location.href='./'\"")
 // Fix service worker registration
-    .replace(new RegExp(`register\\('/${base}/sw.js'\\)`, 'g'), `register('${swPath}')`)
-    .replace(/register\('\/sw.js'\)/g,`register('${swPath}')`)
-    .replace(/register\('sw.js'\)/g,`register('${swPath}')`)
+    .replace(new RegExp(`register\\('/${base}/sw.js'\\)`, 'g'), `register('${SITE_ROOT}sw.js')`)
+    
+    
     // Fix favicon path
-    .replace(/href="favicon\.svg"/g,`href="${faviconPath}"`)
+    
     // FIX .//book -> ../book (two dots + TWO slashes -> parent dir)  
     .replace(/href="\.{2}\/\//g, 'href="../');
 }
