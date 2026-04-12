@@ -59,6 +59,9 @@ const BOOKS = loadBooks();
 const PUBLISHED_BOOKS = BOOKS.filter(b => b.publishStatus === 'published');
 // If no published books, fall back to all books for display
 const DISPLAY_BOOKS = PUBLISHED_BOOKS.length > 0 ? PUBLISHED_BOOKS : BOOKS;
+
+const COMMON_BOOKS_DATA = DISPLAY_BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, color: b.color, chapters: b._chapters || [] }));
+const COMMON_CHAPTERS_DATA = BOOKS.flatMap(b => (b._chapters || []).map(c => ({ id: c.id, bookId: b.id, title: c.title })));
 const HOT_KEYWORDS = ['死亡筆記本','量子夢境','龍之紀元','懸疑小說','療癒系','科幻','完結推薦','新書上架'];
 
 function bookCoverSeed(book) {
@@ -138,14 +141,14 @@ function footerNav(active) {
       <svg width="24" height="24" fill="${active==='home'?'currentColor':'none'}" stroke="${active==='home'?'none':'currentColor'}" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
       <span>拾遺</span>
     </button>
-    <button class="footer-tab ${active==='shelf'?'active':''} ${active!=='shelf'?'inactive':''}" data-tab="shelf" onclick="switchTab('shelf')" aria-label="書閣">
+    <a href="./shelf.html" class="footer-tab ${active==='shelf'?'active':''} ${active!=='shelf'?'inactive':''}" aria-label="書閣">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
       <span>書閣</span>
-    </button>
-    <button class="footer-tab ${active==='my'?'active':''} ${active!=='my'?'inactive':''}" data-tab="my" onclick="switchTab('my')" aria-label="我的">
+    </a>
+    <a href="./my.html" class="footer-tab ${active==='my'?'active':''} ${active!=='my'?'inactive':''}" aria-label="我的">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
       <span>我的</span>
-    </button>
+    </a>
   </nav>`;
 }
 
@@ -164,13 +167,212 @@ function breadcrumbHTML(items) {
 function backHeader(title) {
   return `<div class="cat-header"><div class="cat-header-inner">
     <button class="btn-press" onclick="history.back()" aria-label="返回上一頁">
-      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></a>
     <h1>${title}</h1></div></div>`;
 }
 
 function adHTML() { return ''; }
 
-function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, ogType = 'website') {
+
+function commonJS(booksData, chaptersData) {
+  return `
+  var booksData = ${JSON.stringify(booksData)};
+  var chaptersData = ${JSON.stringify(chaptersData)};
+  
+  function getHistory() { return JSON.parse(localStorage.getItem('browsingHistory') || '[]'); }
+  function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
+  
+  function toggleFavorite(bookId, bookTitle) {
+    var favs = getFavorites();
+    var idx = favs.findIndex(function(f){return f.id === bookId});
+    var btn = document.getElementById('fav-btn-' + bookId);
+    if (idx > -1) {
+      favs.splice(idx, 1);
+      if (btn) btn.textContent = '收藏';
+      if (btn) btn.style.color = 'var(--accent)';
+    } else {
+      favs.unshift({id: bookId, title: bookTitle, time: Date.now()});
+      if (btn) btn.textContent = '已收藏';
+      if (btn) btn.style.color = '#e74c3c';
+    }
+    localStorage.setItem('favorites', JSON.stringify(favs));
+    updateCounts();
+  }
+  
+  function updateCounts() {
+    var favCount = getFavorites().length;
+    var histCount = getHistory().length;
+    var favEl = document.getElementById('fav-count');
+    var histEl = document.getElementById('history-count');
+    if (favEl) favEl.textContent = favCount;
+    if (histEl) histEl.textContent = histCount;
+    
+    var favs = getFavorites();
+    if (typeof booksData !== 'undefined') {
+        booksData.forEach(function(b) {
+          var btn = document.getElementById('fav-btn-' + b.id);
+          if (btn && favs.find(function(f){return f.id === b.id})) {
+            btn.textContent = '已收藏';
+            btn.style.color = '#e74c3c';
+          }
+        });
+    }
+  }
+  
+  function showHistory() {
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
+    var historySection = document.getElementById('history-section');
+    if (historySection) historySection.style.display = '';
+    var history = getHistory();
+    var list = document.getElementById('history-list');
+    var empty = document.getElementById('history-empty');
+    if (!list) return;
+    if (history.length === 0) {
+      list.innerHTML = '';
+      if (empty) empty.style.display = '';
+    } else {
+      if (empty) empty.style.display = 'none';
+      list.innerHTML = history.slice(0, 20).map(function(h) {
+        var progress = null;
+        try { progress = JSON.parse(localStorage.getItem('dn_progress') || '{}')[h.id]; } catch(e) {}
+        var chapterInfo = progress && progress.chapter ? ' - 讀至 ' + progress.chapter : '';
+        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+      }).join('');
+    }
+  }
+  
+  function showCollection() {
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
+    var collectionSection = document.getElementById('collection-section');
+    if (collectionSection) collectionSection.style.display = '';
+    var favs = getFavorites();
+    var list = document.getElementById('collection-list');
+    var empty = document.getElementById('collection-empty');
+    if (!list) return;
+    if (favs.length === 0) {
+      list.innerHTML = '';
+      if (empty) empty.style.display = '';
+    } else {
+      if (empty) empty.style.display = 'none';
+      favs.sort(function(a,b){return b.time - a.time});
+      list.innerHTML = favs.map(function(f) {
+        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+      }).join('');
+    }
+  }
+  
+  function backToSettings() {
+    var hist = document.getElementById('history-section');
+    if (hist) hist.style.display = 'none';
+    var coll = document.getElementById('collection-section');
+    if (coll) coll.style.display = 'none';
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = ''});
+  }
+  
+  function switchTab(tab) {
+    document.querySelectorAll('.footer-tab').forEach(function(el){el.classList.remove('active')});
+    var btn = document.querySelector('.footer-tab[data-tab="'+tab+'"]');
+    if(btn){btn.classList.add('active')}
+    document.querySelectorAll('.tab-content').forEach(function(el){el.classList.add('hidden')});
+    var content = document.getElementById(tab+'-content');
+    if(content){content.classList.remove('hidden')}
+    var mainScroll = document.getElementById('main-scroll');
+    if (mainScroll) mainScroll.scrollTop = 0;
+    var footerNav = document.querySelector('.footer-nav');
+    if(footerNav){footerNav.style.display = ''}
+    if (tab === 'my' || tab === 'shelf') {
+      backToSettings();
+      updateCounts();
+    }
+  }
+  
+  function filterShelf(query) {
+    var q = query.toLowerCase();
+    document.querySelectorAll('.shelf-book').forEach(function(el) {
+      var title = el.querySelector('.book-card-title').textContent.toLowerCase();
+      var author = el.querySelector('.book-card-author').textContent.toLowerCase();
+      el.style.display = (title.indexOf(q) > -1 || author.indexOf(q) > -1) ? '' : 'none');
+    });
+  }
+  
+  function filterShelfCategory(catId) {
+    document.querySelectorAll('.cat-filter-btn').forEach(function(el) {
+      var isActive = el.getAttribute('data-cat') === catId;
+      el.style.background = isActive ? 'var(--accent)' : 'transparent';
+      el.style.color = isActive ? 'white' : 'var(--text-dark)';
+    });
+    document.querySelectorAll('.shelf-book').forEach(function(el) {
+      el.style.display = (!catId || el.getAttribute('data-cat') === catId) ? '' : 'none');
+    });
+  }
+  
+  function toggleDarkMode() {
+    var isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+  }
+  
+  var previousTab = 'home';
+  
+  function switchView(view, bookId) {
+    document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active')});
+    if (view === 'home') {
+      document.querySelectorAll('.tab-content').forEach(function(el){el.classList.remove('hidden')});
+      var footerNav = document.querySelector('.footer-nav');
+      if(footerNav){footerNav.style.display = ''}
+      document.querySelectorAll('.home-section').forEach(function(el){el.style.display = ''});
+      switchTab(previousTab);
+      return;
+    }
+    document.querySelectorAll('.tab-content').forEach(function(el){el.classList.add('hidden')});
+    var footerNav = document.querySelector('.footer-nav');
+    if(footerNav){footerNav.style.display = 'none'}
+    document.querySelectorAll('.home-section').forEach(function(el){el.style.display = 'none'});
+    if (view === 'toc' && bookId) {
+      var currentTab = document.querySelector('.footer-tab.active');
+      if(currentTab){
+        previousTab = currentTab.getAttribute('data-tab') || 'home';
+      }
+      var book = booksData.find(function(b){return b.id === bookId});
+      if (book) {
+        var titleEl = document.getElementById('toc-view-title');
+        if (titleEl) titleEl.textContent = book.title;
+        var tocList = document.getElementById('toc-list');
+        if (tocList) {
+            tocList.innerHTML = book.chapters.map(function(ch, i) {
+              return '<li class="toc-item" onclick="switchView(\"read\", \"'+ book.id + '\", \"'+ ch.id + '\")">' +
+                '<span class="toc-chapter">' + (i + 1) + '</span>' +
+                '<span class="toc-title">' + ch.title + '</span>' +
+              '</li>';
+            }).join('');
+        }
+        var tocView = document.getElementById('toc-view');
+        if (tocView) tocView.classList.add('active');
+      }
+    }
+    if (view === 'read' && bookId) {
+      var book = booksData.find(function(b){return b.id === bookId});
+      if (book && book.chapters.length > 0) {
+        var chapterId = arguments[2] || book.chapters[0].id;
+        var chapter = book.chapters.find(function(ch){return ch.id === chapterId});
+        if (chapter) {
+          var readTitle = document.getElementById('read-view-title');
+          if (readTitle) readTitle.textContent = chapter.title;
+          var readContent = document.getElementById('read-content');
+          if (readContent) {
+            var content = chapter.content.split('\\n\\n').map(function(p) {
+              return '<p>' + p + '</p>';
+            }).join('');
+            readContent.innerHTML = '<h1>' + chapter.title + '</h1>' + content;
+          }
+          var readView = document.getElementById('read-view');
+          if (readView) readView.classList.add('active');
+        }
+      }
+    }
+  }
+  `
+}
+function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, ogType = 'website', commonJSContent = '') {
   const canonical = `${SITE.url}${path||'/'}`;
   const siteJsonLd = isHomepage ? {
     "@context": "https://schema.org",
@@ -214,6 +416,8 @@ ${siteJsonLd ? `<script type="application/ld+json">${JSON.stringify(siteJsonLd)}
 <body>
 ${body}
 <script>
+${commonJSContent}
+
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'))}
 </script>
 </body></html>`;
@@ -289,9 +493,9 @@ function write(path, content, depth = 0) {
       <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">${new Date().toLocaleDateString('zh-HK', {month:'short',day:'numeric',weekday:'short'})}</p>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
         <h1 style="font-family:var(--font-serif);font-size:36px;font-weight:700;letter-spacing:0.1em;color:var(--text-main)">拾遺</h1>
-        <button onclick="switchTab('my')" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base)">
+        <a href="./my.html" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base);text-decoration:none">
           <svg width="16" height="16" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-        </button>
+        </a>
       </div>
       
       <a href="book/${DISPLAY_BOOKS[0].id}" class="hero-card-fusion card-active" style="display:block;text-decoration:none">
@@ -716,6 +920,114 @@ function write(path, content, depth = 0) {
 
 // Search page removed - search now in shelf tab
 
+
+// ===== SHELF PAGE =====
+(function(){
+  const shelfBody = `<div id="shelf-content" class="tab-content">
+    <section class="home-hero" style="min-height:120px;padding:var(--spacing-6) var(--spacing-4)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <input type="search" id="shelf-search" placeholder="搜尋書名、作者..." oninput="filterShelf(this.value)" style="flex:1;padding:10px 16px;border-radius:999px;border:1px solid var(--border-medium);background:var(--bg-base);font-size:14px;outline:none">
+      </div>
+      <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px">
+        <button onclick="filterShelfCategory('')" class="cat-filter-btn active" data-cat="" style="padding:6px 14px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:white;font-size:12px;font-weight:600;white-space:nowrap">全部</button>
+        ${CATEGORIES.map(c => `<button onclick="filterShelfCategory('${c.id}')" class="cat-filter-btn" data-cat="${c.id}" style="padding:6px 14px;border-radius:999px;border:1px solid var(--border-medium);background:transparent;color:var(--text-dark);font-size:12px;white-space:nowrap">${c.name}</button>`).join('')}
+      </div>
+    </section>
+    <section class="home-section" aria-label="全部作品">
+      <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
+        ${DISPLAY_BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
+          ${coverMini(b, null, null, true)}
+          <div class="book-card-info">
+            <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
+            <div class="book-card-author" style="font-size:11px;color:var(--text-muted)">${b.author}</div>
+          </div>
+          <button class="btn-press" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${b.id}','${b.title}')" id="fav-btn-${b.id}" style="position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:14px">🤍</button>
+        </a>`).join('')}
+      </div>
+    </section>
+  </div>`;
+  
+  write(`shelf.html`, pageHTML(`書閣 - ${SITE.name}`, `瀏覽所有書籍`, ``, shelfBody, null, `/shelf.html`, false, 'shelf', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA)), 1);
+})();
+
+// ===== MY PAGE =====
+(function(){
+  const myBody = `<div id="my-content" class="tab-content">
+    <section class="home-hero" style="min-height:200px;padding:var(--spacing-8) var(--spacing-6)">
+      <div class="hero-content">
+        <div class="hero-avatar" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--color-primary-dark));display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px">👤</div>
+        <div class="hero-badge">書蟲</div>
+        <p style="color:var(--text-muted);font-size:14px;margin-top:8px">享受閱讀的每一刻</p>
+      </div>
+    </section>
+    <section class="home-section" aria-label="設定">
+      <div class="settings-list">
+        <div class="settings-item" onclick="showHistory()">
+          <span>📖</span><span>閱讀記錄</span><span style="color:var(--text-muted)" id="history-count">0</span>
+        </div>
+        <div class="settings-item" onclick="showCollection()">
+          <span>❤️</span><span>我的收藏</span><span style="color:var(--text-muted)" id="fav-count">0</span>
+        </div>
+      </div>
+    </section>
+    <section class="home-section" aria-label="瀏覽歷史" id="history-section">
+      <div style="margin-bottom:16px;padding:0 4px">
+        <button onclick="backToSettings()" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;margin-bottom:16px;padding:0">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          返回
+        </button>
+        <h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">📖 瀏覽記錄</h3>
+        <div id="history-list" class="settings-list"></div>
+        <div id="history-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">
+          <p style="font-size:48px;margin-bottom:12px">📚</p>
+          <p>尚無瀏覽記錄</p>
+        </div>
+      </div>
+    </section>
+    <section class="home-section" aria-label="我的收藏" id="collection-section">
+      <div style="margin-bottom:16px;padding:0 4px">
+        <button onclick="backToSettings()" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;margin-bottom:16px;padding:0">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          返回
+        </button>
+        <h3 style="font-family:var(--font-serif);font-size:18px;font-weight:700;letter-spacing:0.05em;margin-bottom:16px">❤️ 我的收藏</h3>
+        <div id="collection-list" class="settings-list"></div>
+        <div id="collection-empty" style="text-align:center;padding:40px 20px;color:var(--text-muted)">
+          <p style="font-size:48px;margin-bottom:12px">💝</p>
+          <p>尚無收藏書籍</p>
+          <p style="font-size:12px;margin-top:8px">在首頁點擊收藏按鈕即可加入</p>
+        </div>
+      </div>
+    </section>
+    <section class="home-section" aria-label="偏好設定">
+      <div class="settings-list">
+        <div class="settings-item">
+          <span>🌙</span><span>深色模式</span>
+          <label class="toggle"><input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-item">
+          <span>🔤</span><span>字體大小</span>
+          <span style="color:var(--text-muted);font-size:12px">中</span>
+        </div>
+      </div>
+    </section>
+    <section class="home-section" aria-label="關於">
+      <div class="settings-list">
+        <a href="legal/privacy" class="settings-item">
+          <span>📜</span><span>隱私政策</span>
+        </a>
+        <a href="legal/terms" class="settings-item">
+          <span>📋</span><span>使用條款</span>
+        </a>
+        <div class="settings-item">
+          <span>ℹ️</span><span>版本</span><span style="color:var(--text-muted)">1.0.0</span>
+        </div>
+      </div>
+    </section>
+  </div>`;
+  
+  write(`my.html`, pageHTML(`我的 - ${SITE.name}`, `我的設定、收藏與瀏覽記錄`, ``, myBody, null, `/my.html`, false, 'my', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA)), 1);
+})();
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
   const catBooks = DISPLAY_BOOKS.filter(b => b.category === cat.id);
@@ -1157,7 +1469,7 @@ DISPLAY_BOOKS.forEach(book => {
     })();
     <\/script>`;
 
-    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`, false, 'article'), 2);
+    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`, false, 'article', false, 'article', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA)), 2);
   });
 });
 
