@@ -711,9 +711,9 @@ function write(path, content) {
 CATEGORIES.forEach(cat => {
   const catBooks = DISPLAY_BOOKS.filter(b => b.category === cat.id);
   const body = `<div class="app-container"><main class="page">${backHeader(cat.name+'小說 ('+catBooks.length+')')}
-    ${breadcrumbHTML([{label:SITE.name,url:'./'},{label:cat.name+'小說',url:`./${cat.id}`}])}
+    ${breadcrumbHTML([{label:SITE.name,url:'../'},{label:cat.name+'小說',url:`../category/${cat.id}/`}])}
     <div class="cat-list">${catBooks.length ? catBooks.map(b =>
-      `<a href="./${b.id}" class="cat-book card-hover btn-press" style="display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid var(--border-light)">${coverMini(b,60,85)}
+      `<a href="../book/${b.id}/" class="cat-book card-hover btn-press" style="display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid var(--border-light)">${coverMini(b,60,85)}
         <div class="cat-book-info" style="flex:1;min-width:0"><div><div class="cat-book-title" style="font-size:17px;font-weight:700;font-family:var(--font-serif)">${b.title}</div>
         <div class="cat-book-author" style="font-size:12px;color:var(--text-muted)">${b.author}</div>
         <div class="cat-book-tags" style="margin-top:4px">${tagHTML(b)}</div></div>
@@ -775,7 +775,7 @@ DISPLAY_BOOKS.forEach(book => {
     }</select>` : '';
 
   const body = `<div class="app-container"><main class="page">${backHeader(book.title)}
-    ${breadcrumbHTML([{label:SITE.name,url:'../'},{label:cat?cat.name:'分類',url:`../category/${book.category}`},{label:book.title}])}
+    ${breadcrumbHTML([{label:SITE.name,url:'../'},{label:cat?cat.name:'分類',url:`../category/${book.category}/`},{label:book.title}])}
     <div class="detail-hero">
       <div class="detail-hero-bg" style="background:${book.color}" aria-hidden="true"></div>
       <div class="detail-hero-content">
