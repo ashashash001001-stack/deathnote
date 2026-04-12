@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 const DIST = '.';
 const CONTENT = 'content';
-const KEEP = new Set(['.git','.gitignore','.gitattributes','.opencode','.sisyphus','opencode.jsonc','node_modules','src','generate.mjs','migrate-content.mjs','manifest.json','sw.js','robots.txt','README.md','package.json','bun.lock','package-lock.json','CNAME','content','docs']);
+const KEEP = new Set(['.git','.gitignore','.gitattributes','.opencode','.sisyphus','opencode.jsonc','node_modules','src','generate.mjs','migrate-content.mjs','manifest.json','sw.js','robots.txt','README.md','package.json','bun.lock','package-lock.json','CNAME','content','docs','favicon.svg']);
 
 if (existsSync(DIST)) {
   readdirSync(DIST).forEach(e => {
@@ -219,7 +219,11 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
 </body></html>`;
 }
 
-function fixPaths(html) {
+function fixPaths(html, depth = 0) {
+  // depth = 0 for root pages, 1 for category/book pages, 2 for chapter pages
+  const swPath = depth === 0 ? 'sw.js' : depth === 1 ? '../sw.js' : '../../sw.js';
+  const faviconPath = depth === 0 ? 'favicon.svg' : depth === 1 ? '../favicon.svg' : '../../favicon.svg';
+  
   // Handle paths with base prefix (e.g., /deathnote/book/xxx)
   const base = SITE.base.replace(/^\//, ''); // remove leading slash
   return html
@@ -251,17 +255,20 @@ function fixPaths(html) {
     .replace(/onclick="window\.location\.href='\/search'"/g,"onclick=\"window.location.href='search'\"")
     .replace(/onclick="window\.location\.href='\/'"/g,"onclick=\"window.location.href='./'\"")
 // Fix service worker registration
-    .replace(new RegExp(`register\\('/${base}/sw.js'\\)`, 'g'), "register('sw.js')")
-    .replace(/register\('\/sw.js'\)/g,"register('sw.js')")
+    .replace(new RegExp(`register\\('/${base}/sw.js'\\)`, 'g'), `register('${swPath}')`)
+    .replace(/register\('\/sw.js'\)/g,`register('${swPath}')`)
+    .replace(/register\('sw.js'\)/g,`register('${swPath}')`)
+    // Fix favicon path
+    .replace(/href="favicon\.svg"/g,`href="${faviconPath}"`)
     // FIX .//book -> ../book (two dots + TWO slashes -> parent dir)  
     .replace(/href="\.{2}\/\//g, 'href="../');
 }
 
-function write(path, content) {
+function write(path, content, depth = 0) {
   const full = join(DIST, path);
   const dir = join(DIST, path.split('/').slice(0,-1).join('/'));
   if (dir && !existsSync(dir)) mkdirSync(dir, { recursive: true });
-  let html = fixPaths(content);
+  let html = fixPaths(content, depth);
   // FIX: .// (dot, slash, slash) -> ../
   html = html.replace(/\.\/\//g, '../');
   writeFileSync(full, html);
@@ -704,7 +711,7 @@ function write(path, content) {
   // Initialize favorite button states on page load
   const initScript = '<script>document.addEventListener("DOMContentLoaded", updateCounts);<\/script>';
 
-  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body + initScript, null, '/', true));
+  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body + initScript, null, '/', true), 0);
 })();
 
 // Search page removed - search now in shelf tab
@@ -751,7 +758,7 @@ CATEGORIES.forEach(cat => {
     "url":`${SITE.url}/category/${cat.id}`,
     "about":{"@type":"Thing","name":cat.name}
   };
-  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, catJsonLd, `/category/${cat.id}`));
+  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, catJsonLd, `/category/${cat.id}`), 1);
 });
 
 // ===== BOOK DETAIL =====
@@ -857,7 +864,7 @@ DISPLAY_BOOKS.forEach(book => {
   })()
   <\/script>`;
 
-  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`, false, 'book'));
+  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`, false, 'book'), 1);
 
   // ===== CHAPTER READER =====
   bookChapters.forEach((ch, idx) => {
@@ -1150,7 +1157,7 @@ DISPLAY_BOOKS.forEach(book => {
     })();
     <\/script>`;
 
-    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`, false, 'article'));
+    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`, false, 'article'), 2);
   });
 });
 
@@ -1165,7 +1172,7 @@ write('legal/privacy/index.html', pageHTML('隱私權政策 - '+SITE.name, '本�
     <h2>4. 第三方廣告服務</h2><p>本網站使用 Google AdSense 等第三方廣告服務。</p>
     <h2>5. 資料安全</h2><p>我們採取合理措施保護您的個人資訊。</p>
     <h2>6. 聯絡我們</h2><p>如有疑問，請透過本網站的聯絡方式與我們取得聯繫。</p>
-  </div>${footerNav('privacy')}</main>`, null, '/legal/privacy'));
+  </div>${footerNav('privacy')}</main>`, null, '/legal/privacy'), 1);
 
 write('legal/terms/index.html', pageHTML('使用條款 - '+SITE.name, '本網站的使用條款', '#F8F9FA', `<main class="page">${backHeader('使用條款')}
   ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:'使用條款'}])}
@@ -1185,7 +1192,7 @@ write('404.html', pageHTML('404 - 頁面不存在', '找不到您要的頁面', 
   <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">404 - 頁面不存在</h1>
   <p style="color:var(--color-text-secondary);margin-bottom:24px">您尋找的頁面可能已被移除或不存在</p>
       <a href="/" class="btn-primary btn-press" style="display:inline-block;width:auto;padding:12px 32px;background:var(--color-text-primary)" aria-label="返回首頁">返回首頁</a>
-</div>${footerNav('home')}</main>`, null, '/404'));
+</div>${footerNav('home')}</main>`, null, '/404'), 0);
 
 // ===== SITEMAP =====
 (function(){
