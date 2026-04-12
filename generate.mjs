@@ -143,11 +143,11 @@ function footerNav(active) {
       <svg width="24" height="24" fill="${active==='home'?'currentColor':'none'}" stroke="${active==='home'?'none':'currentColor'}" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
       <span>拾遺</span>
     </button>
-    <a href="./shelf.html" class="footer-tab ${active==='shelf'?'active':''} ${active!=='shelf'?'inactive':''}" aria-label="書閣">
+    <a href="${SITE_ROOT}shelf.html" class="footer-tab ${active==='shelf'?'active':''} ${active!=='shelf'?'inactive':''}" aria-label="書閣">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
       <span>書閣</span>
     </a>
-    <a href="./my.html" class="footer-tab ${active==='my'?'active':''} ${active!=='my'?'inactive':''}" aria-label="我的">
+    <a href="${SITE_ROOT}my.html" class="footer-tab ${active==='my'?'active':''} ${active!=='my'?'inactive':''}" aria-label="我的">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
       <span>我的</span>
     </a>
@@ -157,7 +157,7 @@ function footerNav(active) {
 function headerHTML() {
   return `<header class="header" role="banner">
     <div class="header-inner">
-      <a href="./" class="logo" aria-label="${SITE.name} 首頁">${SVG_ICON}<span class="logo-text">${SITE.name}</span></a>
+      <a href="${SITE_ROOT}" class="logo" aria-label="${SITE.name} 首頁">${SVG_ICON}<span class="logo-text">${SITE.name}</span></a>
     </div>
   </header>`;
 }
@@ -238,7 +238,7 @@ function commonJS(booksData, chaptersData) {
         var progress = null;
         try { progress = JSON.parse(localStorage.getItem('dn_progress') || '{}')[h.id]; } catch(e) {}
         var chapterInfo = progress && progress.chapter ? ' - 讀至 ' + progress.chapter : '';
-        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="${SITE_ROOT}book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -258,7 +258,7 @@ function commonJS(booksData, chaptersData) {
       if (empty) empty.style.display = 'none';
       favs.sort(function(a,b){return b.time - a.time});
       list.innerHTML = favs.map(function(f) {
-        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="${SITE_ROOT}book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -407,7 +407,7 @@ function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, o
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc||SITE.description}">
-<base href="./">
+<base href="${SITE_ROOT}">
 <title>${title}</title>
 <link rel="icon" href="${SITE_ROOT}favicon.svg">
 <link rel="manifest" href="${SITE_ROOT}manifest.json">
@@ -435,20 +435,20 @@ function fixPaths(html, depth = 0) {
     // Fix breadcrumb home links (from "/" to "./")
     .replace(/href="\//g,'href="./')
     // Handle paths with base prefix (e.g., /deathnote/book/xxx)
-    .replace(new RegExp(`href="/${base}/book/`, 'g'), 'href="book/')
-    .replace(new RegExp(`href="/${base}/category/`, 'g'), 'href="category/')
+    .replace(new RegExp(`href="/${base}/book/`, 'g'), 'href="${SITE_ROOT}book/')
+    .replace(new RegExp(`href="/${base}/category/`, 'g'), 'href="${SITE_ROOT}category/')
     .replace(new RegExp(`href="/${base}/search"`, 'g'), 'href="search"')
-    .replace(new RegExp(`href="/${base}/legal/`, 'g'), 'href="legal/')
+    .replace(new RegExp(`href="/${base}/legal/`, 'g'), 'href="${SITE_ROOT}legal/')
     // Handle paths without base prefix
-    .replace(/href="\/book\//g,'href="book/')
-    .replace(/href="\/category\//g,'href="category/')
+    .replace(/href="\/book\//g,'href="${SITE_ROOT}book/')
+    .replace(/href="\/category\//g,'href="${SITE_ROOT}category/')
     .replace(/href="\/search"/g,'href="search"')
-    .replace(/href="\/legal\//g,'href="legal/')
+    .replace(/href="\/legal\//g,'href="${SITE_ROOT}legal/')
     .replace(/href="\/manifest.json"/g,'href="manifest.json"')
     .replace(/href="\/sw.js"/g,'href="sw.js"')
     .replace(/href="\/sitemap.xml"/g,'href="sitemap.xml"')
     .replace(/href="\/robots.txt"/g,'href="robots.txt"')
-    .replace(/href="\/"/g,'href="./"')
+    .replace(/href="\/"/g,'href="${SITE_ROOT}"')
     // Handle location.href with base
     .replace(new RegExp(`location\\.href='/${base}/search'`, 'g'), "location.href='search'")
     .replace(new RegExp(`location\\.href='/${base}/'`, 'g'), "location.href='./'")
@@ -494,12 +494,12 @@ function write(path, content, depth = 0) {
       <p style="font-size:12px;font-weight:600;letter-spacing:0.2em;color:var(--text-muted);margin-bottom:var(--spacing-2)">${new Date().toLocaleDateString('zh-HK', {month:'short',day:'numeric',weekday:'short'})}</p>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:var(--spacing-8)">
         <h1 style="font-family:var(--font-serif);font-size:36px;font-weight:700;letter-spacing:0.1em;color:var(--text-main)">拾遺</h1>
-        <a href="./my.html" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base);text-decoration:none">
+        <a href="${SITE_ROOT}my.html" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--border-medium);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg-base);text-decoration:none">
           <svg width="16" height="16" style="color:var(--accent)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
         </a>
       </div>
       
-      <a href="book/${DISPLAY_BOOKS[0].id}" class="hero-card-fusion card-active" style="display:block;text-decoration:none">
+      <a href="${SITE_ROOT}book/${DISPLAY_BOOKS[0].id}" class="hero-card-fusion card-active" style="display:block;text-decoration:none">
         <div class="card-bg"></div>
         <div class="card-content">
           <p class="card-label">主編推薦</p>
@@ -519,7 +519,7 @@ function write(path, content, depth = 0) {
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">本週細讀</h3>
       </div>
       
-      <a href="book/${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
+      <a href="${SITE_ROOT}book/${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
         ${coverMini(DISPLAY_BOOKS[1] || DISPLAY_BOOKS[0], 48, 64)}
         <div style="flex:1;min-width:0">
           <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${DISPLAY_BOOKS[1]?.title || DISPLAY_BOOKS[0].title}</h4>
@@ -528,7 +528,7 @@ function write(path, content, depth = 0) {
         <button class="item-btn item-btn-outline btn-press" style="flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();toggleFavorite('${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}', '${DISPLAY_BOOKS[1]?.title || DISPLAY_BOOKS[0].title}')" id="fav-btn-${DISPLAY_BOOKS[1]?.id || DISPLAY_BOOKS[0].id}">收藏</button>
       </a>
       
-      <a href="book/${DISPLAY_BOOKS[2]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
+      <a href="${SITE_ROOT}book/${DISPLAY_BOOKS[2]?.id || DISPLAY_BOOKS[0].id}" class="list-item-fusion card-active" style="text-decoration:none;display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--border-light)">
         ${coverMini(DISPLAY_BOOKS[2] || DISPLAY_BOOKS[0], 48, 64)}
         <div style="flex:1;min-width:0">
           <h4 style="font-family:var(--font-serif);font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px">${DISPLAY_BOOKS[2]?.title || DISPLAY_BOOKS[0].title}</h4>
@@ -542,7 +542,7 @@ function write(path, content, depth = 0) {
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">🔥 熱門精選</h3>
       </div>
       <div style="display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;touch-action:pan-x">
-        ${DISPLAY_BOOKS.slice(0,6).map(b=>`<a href="book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
+        ${DISPLAY_BOOKS.slice(0,6).map(b=>`<a href="${SITE_ROOT}book/${b.id}" class="fusion-card card-active" style="flex-shrink:0;width:120px;text-decoration:none;-webkit-user-select:none;user-select:none">
           ${coverMini(b, 120, 170)}
           <p style="font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
           <p style="font-size:11px;color:var(--text-muted)">${b.author}</p>
@@ -554,7 +554,7 @@ function write(path, content, depth = 0) {
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">🏆 排行榜</h3>
       </div>
       <div style="margin-bottom:16px">
-        ${all.slice(0,5).map((b,i)=>`<a href="book/${b.id}" class="rank-item-fusion card-active" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-light);text-decoration:none">
+        ${all.slice(0,5).map((b,i)=>`<a href="${SITE_ROOT}book/${b.id}" class="rank-item-fusion card-active" style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-light);text-decoration:none">
           <span style="font-family:var(--font-serif);font-size:20px;font-weight:700;color:${i<3?b.color:'var(--text-muted)'};width:28px;text-align:center">${i+1}</span>
           ${coverMini(b, 44, 60)}
           <div style="flex:1;min-width:0">
@@ -572,7 +572,7 @@ function write(path, content, depth = 0) {
       <div style="margin-bottom:16px">
         ${BOOKS.filter(b=>b.status==='ongoing').slice(0,4).map(b=>{
           const ch = b._chapters ? b._chapters[b._chapters.length-1] : null;
-          return `<a href="book/${b.id}/${ch?ch.id:''}" class="list-item-fusion card-active" style="text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border-light)">
+          return `<a href="${SITE_ROOT}book/${b.id}/${ch?ch.id:''}" class="list-item-fusion card-active" style="text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border-light)">
           ${coverMini(b, 48, 64)}
           <div style="flex:1;min-width:0">
             <p style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</p>
@@ -587,7 +587,7 @@ function write(path, content, depth = 0) {
         <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:700;letter-spacing:0.05em">📚 分類題材</h3>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-        ${CATEGORIES.slice(0,4).map(c=>`<a href="category/${c.id}" class="category-card card-active" style="padding:20px;background:${c.color}10;border:1px solid var(--border-light);border-radius:16px;text-decoration:none;text-align:center">
+        ${CATEGORIES.slice(0,4).map(c=>`<a href="${SITE_ROOT}category/${c.id}" class="category-card card-active" style="padding:20px;background:${c.color}10;border:1px solid var(--border-light);border-radius:16px;text-decoration:none;text-align:center">
           <p style="font-size:28px;margin-bottom:8px">${c.icon}</p>
           <p style="font-family:var(--font-serif);font-size:16px;font-weight:700;color:var(--text-main)">${c.name}</p>
         </a>`).join('')}
@@ -630,7 +630,7 @@ function write(path, content, depth = 0) {
       </section>
       <section class="home-section" aria-label="全部作品">
         <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
-          ${DISPLAY_BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
+          ${DISPLAY_BOOKS.map(b=>`<a href="${SITE_ROOT}book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
             ${coverMini(b, null, null, true)}
             <div class="book-card-info">
               <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
@@ -703,10 +703,10 @@ function write(path, content, depth = 0) {
       </section>
       <section class="home-section" aria-label="關於">
         <div class="settings-list">
-          <a href="legal/privacy" class="settings-item">
+          <a href="${SITE_ROOT}legal/privacy" class="settings-item">
             <span>📜</span><span>隱私政策</span>
           </a>
-          <a href="legal/terms" class="settings-item">
+          <a href="${SITE_ROOT}legal/terms" class="settings-item">
             <span>📋</span><span>使用條款</span>
           </a>
           <div class="settings-item">
@@ -778,7 +778,7 @@ function write(path, content, depth = 0) {
         var progress = null;
         try { progress = JSON.parse(localStorage.getItem('dn_progress') || '{}')[h.id]; } catch(e) {}
         var chapterInfo = progress && progress.chapter ? ' - 讀至 ' + progress.chapter : '';
-        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="${SITE_ROOT}book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -798,7 +798,7 @@ function write(path, content, depth = 0) {
       // Sort by time (newest first)
       favs.sort(function(a,b){return b.time - a.time});
       list.innerHTML = favs.map(function(f) {
-        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="${SITE_ROOT}book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -936,7 +936,7 @@ function write(path, content, depth = 0) {
     </section>
     <section class="home-section" aria-label="全部作品">
       <div class="book-grid" id="shelf-grid" style="padding:0 var(--spacing-4);display:flex;flex-wrap:wrap;gap:12px">
-        ${DISPLAY_BOOKS.map(b=>`<a href="book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
+        ${DISPLAY_BOOKS.map(b=>`<a href="${SITE_ROOT}book/${b.id}" class="shelf-book fusion-card card-active" data-cat="${b.category}" style="flex-shrink:0;width:calc(50% - 6px);text-decoration:none;-webkit-user-select:none;user-select:none;box-sizing:border-box;position:relative">
           ${coverMini(b, null, null, true)}
           <div class="book-card-info">
             <div class="book-card-title" style="font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
@@ -1014,10 +1014,10 @@ function write(path, content, depth = 0) {
     </section>
     <section class="home-section" aria-label="關於">
       <div class="settings-list">
-        <a href="legal/privacy" class="settings-item">
+        <a href="${SITE_ROOT}legal/privacy" class="settings-item">
           <span>📜</span><span>隱私政策</span>
         </a>
-        <a href="legal/terms" class="settings-item">
+        <a href="${SITE_ROOT}legal/terms" class="settings-item">
           <span>📋</span><span>使用條款</span>
         </a>
         <div class="settings-item">

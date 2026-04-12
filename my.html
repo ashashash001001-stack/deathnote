@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我的 - DeathNote">
 <meta name="twitter:description" content="我的設定、收藏與瀏覽記錄">
-<base href="./">
+<base href="./deathnote/">
 <title>我的 - DeathNote</title>
 <link rel="icon" href="./deathnote/favicon.svg">
 <link rel="manifest" href="./deathnote/manifest.json">
@@ -2718,10 +2718,10 @@ html {
     </section>
     <section class="home-section" aria-label="關於">
       <div class="settings-list">
-        <a href="legal/privacy" class="settings-item">
+        <a href="./deathnote/legal/privacy" class="settings-item">
           <span>📜</span><span>隱私政策</span>
         </a>
-        <a href="legal/terms" class="settings-item">
+        <a href="./deathnote/legal/terms" class="settings-item">
           <span>📋</span><span>使用條款</span>
         </a>
         <div class="settings-item">
@@ -2792,7 +2792,7 @@ html {
         var progress = null;
         try { progress = JSON.parse(localStorage.getItem('dn_progress') || '{}')[h.id]; } catch(e) {}
         var chapterInfo = progress && progress.chapter ? ' - 讀至 ' + progress.chapter : '';
-        return '<a href="book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="./deathnote/book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -2812,7 +2812,7 @@ html {
       if (empty) empty.style.display = 'none';
       favs.sort(function(a,b){return b.time - a.time});
       list.innerHTML = favs.map(function(f) {
-        return '<a href="book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="./deathnote/book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
