@@ -946,7 +946,7 @@ ${footerNav('home', 0)}
     </section>
   </div>`;
   
-  write(`shelf.html`, pageHTML(`書閣 - ${SITE.name}`, `瀏覽所有書籍`, ``, shelfBody, null, `/shelf.html`, false, 'shelf', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA), 1), 1);
+  write(`shelf.html`, pageHTML(`書閣 - ${SITE.name}`, `瀏覽所有書籍`, ``, shelfBody, null, `/shelf.html`, false, 'shelf', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA), 0), 0);
 })();
 
 // ===== MY PAGE =====
@@ -1025,7 +1025,7 @@ ${footerNav('home', 0)}
     </section>
   </div>`;
   
-  write(`my.html`, pageHTML(`我的 - ${SITE.name}`, `我的設定、收藏與瀏覽記錄`, ``, myBody, null, `/my.html`, false, 'my', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA), 1), 1);
+  write(`my.html`, pageHTML(`我的 - ${SITE.name}`, `我的設定、收藏與瀏覽記錄`, ``, myBody, null, `/my.html`, false, 'my', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA), 0), 0);
 })();
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
