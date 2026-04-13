@@ -18,10 +18,10 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="社畜求生記 - DeathNote">
 <meta name="twitter:description" content="王大發，28歲，在某科技公司擔任工程師。他的日常就是：被PM改需求、被老闆畫大餅、被同事甩鍋。但他有一個秘密武器——他能把所有職場災難寫成搞笑日記發在網上，意外成為百萬粉網紅。這是一個關於如何在職場地獄中笑著活下去的故事。">
-<base href="./deathnote/">
+<base href="../">
 <title>社畜求生記 - DeathNote</title>
-<link rel="icon" href="./deathnote/favicon.svg">
-<link rel="manifest" href="./deathnote/manifest.json">
+<link rel="icon" href="../favicon.svg">
+<link rel="manifest" href="../manifest.json">
 <style>/* ═══════════════════════════════════════════════════════════
    ZEN & ELEGANT BOOKSTORE DESIGN SYSTEM
    Japanese Wabi-Sabi / Zen Aesthetic
@@ -2688,10 +2688,10 @@ html {
     <button class="synopsis-toggle btn-press" style="color:#F59E0B" onclick="toggleSynopsis()" aria-label="展開或收合簡介">展開全部</button></section>
     
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>
-    <div class="toc-list-wrap"><div id="toc-list"><a href="./ch-1/" class="toc-item btn-press"><span>第一章：又改需求</span><span>297 字</span></a></div></div></section>
+    <div class="toc-list-wrap"><div id="toc-list"><a href="../ch-1/" class="toc-item btn-press"><span>第一章：又改需求</span><span>297 字</span></a></div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="./ch-1/" class="btn-primary btn-press" style="background:#F59E0B" aria-label="開始閱讀 社畜求生記">開始閱讀</a>
+      <a href="../ch-1/" class="btn-primary btn-press" style="background:#F59E0B" aria-label="開始閱讀 社畜求生記">開始閱讀</a>
       <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="office-survival" data-book-title="社畜求生記" aria-label="收藏">收藏</button>
     </div>
   </main></div>
@@ -2742,7 +2742,7 @@ html {
   })();
   
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：又改需求","words":297}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="./'+ch.id+'/" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：又改需求","words":297}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="../'+ch.id+'/" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='office-survival'});h.unshift({id:'office-survival',title:'社畜求生記',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
@@ -2751,6 +2751,6 @@ html {
 <script>
 
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/deathnote/sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('../sw.js'))}
 </script>
 </body></html>

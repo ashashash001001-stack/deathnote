@@ -18,10 +18,10 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="櫻花樹下的約定 - DeathNote">
 <meta name="twitter:description" content="京都的櫻花季，兩個素未謀面的年輕人在同一棵千年櫻花樹下許下了各自的願望。命運的牽引讓他們在大學相遇，卻不知彼此就是那個人。一段關於等待、錯過與重逢的溫柔故事，在櫻花年年盛開的季節裡緩緩展開。">
-<base href="./deathnote/">
+<base href="../">
 <title>櫻花樹下的約定 - DeathNote</title>
-<link rel="icon" href="./deathnote/favicon.svg">
-<link rel="manifest" href="./deathnote/manifest.json">
+<link rel="icon" href="../favicon.svg">
+<link rel="manifest" href="../manifest.json">
 <style>/* ═══════════════════════════════════════════════════════════
    ZEN & ELEGANT BOOKSTORE DESIGN SYSTEM
    Japanese Wabi-Sabi / Zen Aesthetic
@@ -2688,10 +2688,10 @@ html {
     <button class="synopsis-toggle btn-press" style="color:#E88D9E" onclick="toggleSynopsis()" aria-label="展開或收合簡介">展開全部</button></section>
     
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>
-    <div class="toc-list-wrap"><div id="toc-list"><a href="./ch-1/" class="toc-item btn-press"><span>第一章：櫻花樹下的願望</span><span>301 字</span></a></div></div></section>
+    <div class="toc-list-wrap"><div id="toc-list"><a href="../ch-1/" class="toc-item btn-press"><span>第一章：櫻花樹下的願望</span><span>301 字</span></a></div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="./ch-1/" class="btn-primary btn-press" style="background:#E88D9E" aria-label="開始閱讀 櫻花樹下的約定">開始閱讀</a>
+      <a href="../ch-1/" class="btn-primary btn-press" style="background:#E88D9E" aria-label="開始閱讀 櫻花樹下的約定">開始閱讀</a>
       <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="cherry-blossom" data-book-title="櫻花樹下的約定" aria-label="收藏">收藏</button>
     </div>
   </main></div>
@@ -2742,7 +2742,7 @@ html {
   })();
   
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：櫻花樹下的願望","words":301}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="./'+ch.id+'/" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,1);var sl=[{"id":"ch-1","title":"第一章：櫻花樹下的願望","words":301}].slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="../'+ch.id+'/" class="toc-item btn-press"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='cherry-blossom'});h.unshift({id:'cherry-blossom',title:'櫻花樹下的約定',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
@@ -2751,6 +2751,6 @@ html {
 <script>
 
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/deathnote/sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('../sw.js'))}
 </script>
 </body></html>
