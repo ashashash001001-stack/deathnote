@@ -177,10 +177,13 @@ function backHeader(title) {
 function adHTML() { return ''; }
 
 
-function commonJS(booksData, chaptersData) {
+function commonJS(booksData, chaptersData, depth = 0) {
+  // Calculate relative path prefix based on depth
+  var commonRel = depth === 0 ? './' : depth === 1 ? '../' : '../../';
   return `
   var booksData = ${JSON.stringify(booksData)};
   var chaptersData = ${JSON.stringify(chaptersData)};
+  var commonRel = "${commonRel}";
   
   function getHistory() { return JSON.parse(localStorage.getItem('browsingHistory') || '[]'); }
   function getFavorites() { return JSON.parse(localStorage.getItem('favorites') || '[]'); }
@@ -239,7 +242,7 @@ function commonJS(booksData, chaptersData) {
         var progress = null;
         try { progress = JSON.parse(localStorage.getItem('dn_progress') || '{}')[h.id]; } catch(e) {}
         var chapterInfo = progress && progress.chapter ? ' - 讀至 ' + progress.chapter : '';
-        return '<a href="${SITE_ROOT}book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="' + commonRel + 'book/' + h.id + '" class="settings-item"><span>📖</span><span>' + h.title + chapterInfo + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(h.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -259,7 +262,7 @@ function commonJS(booksData, chaptersData) {
       if (empty) empty.style.display = 'none';
       favs.sort(function(a,b){return b.time - a.time});
       list.innerHTML = favs.map(function(f) {
-        return '<a href="${SITE_ROOT}book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
+        return '<a href="' + commonRel + 'book/' + f.id + '" class="settings-item"><span>❤️</span><span>' + f.title + '</span><span style="color:var(--text-muted);font-size:12px">' + new Date(f.time).toLocaleDateString('zh-HK') + '</span></a>';
       }).join('');
     }
   }
@@ -450,7 +453,18 @@ function fixPaths(html, depth = 0) {
     .replace(/onclick="window\.location\.href='\/book\//g, `onclick="window.location.href="${rel}book/`)
     .replace(/onclick="window\.location\.href='\/category\//g, `onclick="window.location.href="${rel}category/`)
     // FIX: .//book -> ../book (double slash fix)
-    .replace(/href="\.{2}\/\//g, 'href="../');
+    .replace(/href="\.{2}\/\//g, 'href="../')
+// FIX: /deathnote/ in href -> relative path (for book pages depth 1)
+    .replace(/href="\/deathnote\/book/g, `href="${rel}book`)
+    .replace(/href="\/deathnote\/category/g, `href="${rel}category`)
+    .replace(/href="\/deathnote\/legal/g, `href="${rel}legal`)
+    .replace(/href="\/deathnote\/ch-/g, `href="${rel}ch-`)
+    // FIX: ${SITE_ROOT} in JavaScript (for inline JS)
+    .replace(/href="\$\{SITE_ROOT\}/g, `href="${rel}"`)
+    .replace(/location\.href='\$\{SITE_ROOT\}/g, `location.href="${rel}"`)
+    // FIX: /deathnote/ in JavaScript-generated href (filterTOC function)
+    .replace(/href="\/deathnote\//g, 'href="' + rel)
+    .replace(/href='\/deathnote\//g, "href='" + rel);
 }
 
 function write(path, content, depth = 0) {
