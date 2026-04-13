@@ -137,17 +137,18 @@ function tagHTML(book) {
 }
 function rankBadge(i) { return i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other'; }
 
-function footerNav(active) {
+function footerNav(active, depth = 0) {
+  const rel = depth === 0 ? './' : depth === 1 ? '../' : '../../';
   return `<nav class="footer-nav glass-warm" role="navigation" aria-label="底部導航" style="padding:12px 32px;padding-bottom:calc(12px + env(safe-area-inset-bottom))">
     <button class="footer-tab ${active==='home'?'active':''} ${active!=='home'?'inactive':''}" data-tab="home" onclick="switchTab('home')" aria-label="拾遺">
       <svg width="24" height="24" fill="${active==='home'?'currentColor':'none'}" stroke="${active==='home'?'none':'currentColor'}" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
       <span>拾遺</span>
     </button>
-    <a href="${SITE_ROOT}shelf.html" class="footer-tab ${active==='shelf'?'active':''} ${active!=='shelf'?'inactive':''}" aria-label="書閣">
+    <a href="${rel}shelf.html" class="footer-tab ${active==='shelf'?'active':''} ${active!=='shelf'?'inactive':''}" aria-label="書閣">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
       <span>書閣</span>
     </a>
-    <a href="${SITE_ROOT}my.html" class="footer-tab ${active==='my'?'active':''} ${active!=='my'?'inactive':''}" aria-label="我的">
+    <a href="${rel}my.html" class="footer-tab ${active==='my'?'active':''} ${active!=='my'?'inactive':''}" aria-label="我的">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
       <span>我的</span>
     </a>
@@ -374,7 +375,9 @@ function commonJS(booksData, chaptersData) {
   }
   `
 }
-function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, ogType = 'website', commonJSContent = '') {
+function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, ogType = 'website', commonJSContent = '', depth = 0) {
+  // Calculate relative path prefix based on folder depth
+  const rel = depth === 0 ? './' : depth === 1 ? '../' : '../../';
   const canonical = `${SITE.url}${path||'/'}`;
   const siteJsonLd = isHomepage ? {
     "@context": "https://schema.org",
@@ -407,10 +410,10 @@ function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, o
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc||SITE.description}">
-<base href="./deathnote/">
+<base href="${rel}">
 <title>${title}</title>
-<link rel="icon" href="./deathnote/favicon.svg">
-<link rel="manifest" href="./deathnote/manifest.json">
+<link rel="icon" href="${rel}favicon.svg">
+<link rel="manifest" href="${rel}manifest.json">
 <style>${css}</style>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
 ${siteJsonLd ? `<script type="application/ld+json">${JSON.stringify(siteJsonLd)}</script>` : ''}
@@ -420,7 +423,7 @@ ${body}
 <script>
 ${commonJSContent}
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('${rel}sw.js'))}
 </script>
 </body></html>`;
 }
@@ -697,7 +700,7 @@ function write(path, content, depth = 0) {
       </section>
     </div>
     
-    ${footerNav('home')}
+${footerNav('home', 0)}
   </main></div>
   <script>
   var booksData = ${JSON.stringify(DISPLAY_BOOKS.map(b => ({ id: b.id, title: b.title, author: b.author, color: b.color, chapters: b._chapters || [] })))};
@@ -897,7 +900,7 @@ function write(path, content, depth = 0) {
   // Initialize favorite button states on page load
   const initScript = '<script>document.addEventListener("DOMContentLoaded", updateCounts);<\/script>';
 
-  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body + initScript, null, '/', true), 0);
+  write('index.html', pageHTML(`${SITE.name} - ${SITE.tagline}`, SITE.description, '#F8F9FA', body + initScript, null, '/', true, '', 0), 0);
 })();
 
 // Search page removed - search now in shelf tab
@@ -929,7 +932,7 @@ function write(path, content, depth = 0) {
     </section>
   </div>`;
   
-  write(`shelf.html`, pageHTML(`書閣 - ${SITE.name}`, `瀏覽所有書籍`, ``, shelfBody, null, `/shelf.html`, false, 'shelf', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA)), 1);
+  write(`shelf.html`, pageHTML(`書閣 - ${SITE.name}`, `瀏覽所有書籍`, ``, shelfBody, null, `/shelf.html`, false, 'shelf', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA), 1), 1);
 })();
 
 // ===== MY PAGE =====
@@ -1008,7 +1011,7 @@ function write(path, content, depth = 0) {
     </section>
   </div>`;
   
-  write(`my.html`, pageHTML(`我的 - ${SITE.name}`, `我的設定、收藏與瀏覽記錄`, ``, myBody, null, `/my.html`, false, 'my', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA)), 1);
+  write(`my.html`, pageHTML(`我的 - ${SITE.name}`, `我的設定、收藏與瀏覽記錄`, ``, myBody, null, `/my.html`, false, 'my', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA), 1), 1);
 })();
 // ===== CATEGORIES =====
 CATEGORIES.forEach(cat => {
@@ -1052,7 +1055,7 @@ CATEGORIES.forEach(cat => {
     "url":`${SITE.url}/category/${cat.id}`,
     "about":{"@type":"Thing","name":cat.name}
   };
-  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, catJsonLd, `/category/${cat.id}`), 1);
+  write(`category/${cat.id}/index.html`, pageHTML(`${cat.name}小說 - ${SITE.name}`, `瀏覽${cat.name}題材的小說`, cat.color, body, catJsonLd, `/category/${cat.id}`, false, 'category', '', 1), 1);
 });
 
 // ===== BOOK DETAIL =====
@@ -1158,7 +1161,7 @@ DISPLAY_BOOKS.forEach(book => {
   })()
   <\/script>`;
 
-  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`, false, 'book'), 1);
+  write(`book/${book.id}/index.html`, pageHTML(`${book.title} - ${SITE.name}`, book.synopsis, book.color, body, jsonLd, `/book/${book.id}`, false, 'book', '', 1), 1);
 
   // ===== CHAPTER READER =====
   bookChapters.forEach((ch, idx) => {
@@ -1451,7 +1454,7 @@ DISPLAY_BOOKS.forEach(book => {
     })();
     <\/script>`;
 
-    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`, false, 'article', false, 'article', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA)), 2);
+    write(`book/${book.id}/${ch.id}/index.html`, pageHTML(`${ch.title} - ${book.title} - ${SITE.name}`, ch.content.slice(0,100), book.color, body, chapterJsonLd, `/book/${book.id}/${ch.id}`, false, 'article', commonJS(COMMON_BOOKS_DATA, COMMON_CHAPTERS_DATA), 2), 2);
   });
 });
 
@@ -1466,7 +1469,7 @@ write('legal/privacy/index.html', pageHTML('隱私權政策 - '+SITE.name, '本�
     <h2>4. 第三方廣告服務</h2><p>本網站使用 Google AdSense 等第三方廣告服務。</p>
     <h2>5. 資料安全</h2><p>我們採取合理措施保護您的個人資訊。</p>
     <h2>6. 聯絡我們</h2><p>如有疑問，請透過本網站的聯絡方式與我們取得聯繫。</p>
-  </div>${footerNav('privacy')}</main>`, null, '/legal/privacy'), 1);
+  </div>${footerNav('privacy')}</main>`, null, '/legal/privacy', false, 'website', '', 1), 1);
 
 write('legal/terms/index.html', pageHTML('使用條款 - '+SITE.name, '本網站的使用條款', '#F8F9FA', `<main class="page">${backHeader('使用條款')}
   ${breadcrumbHTML([{label:SITE.name,url:`${SITE.base}/`},{label:'使用條款'}])}
@@ -1478,7 +1481,7 @@ write('legal/terms/index.html', pageHTML('使用條款 - '+SITE.name, '本網站
     <h2>4. 使用者行為規範</h2><p>您同意不會利用本網站從事違法行為或干擾網站運作。</p>
     <h2>5. 免責聲明</h2><p>本網站以「現況」提供服務，不保證服務不中斷或無錯誤。</p>
     <h2>6. 條款修改</h2><p>本網站保留隨時修改本條款的權利。</p>
-  </div>${footerNav('terms')}</main>`, null, '/legal/terms'));
+  </div>${footerNav('terms')}</main>`, null, '/legal/terms', false, 'website', '', 1), 1);
 
 // ===== 404 =====
 write('404.html', pageHTML('404 - 頁面不存在', '找不到您要的頁面', '#F8F9FA', `<main class="page"><div style="text-align:center;padding:80px 16px">
@@ -1486,7 +1489,7 @@ write('404.html', pageHTML('404 - 頁面不存在', '找不到您要的頁面', 
   <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">404 - 頁面不存在</h1>
   <p style="color:var(--color-text-secondary);margin-bottom:24px">您尋找的頁面可能已被移除或不存在</p>
       <a href="/" class="btn-primary btn-press" style="display:inline-block;width:auto;padding:12px 32px;background:var(--color-text-primary)" aria-label="返回首頁">返回首頁</a>
-</div>${footerNav('home')}</main>`, null, '/404'), 0);
+</div>${footerNav('home')}</main>`, null, '/404', false, 'website', '', 0), 0);
 
 // ===== SITEMAP =====
 (function(){
