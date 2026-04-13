@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Evolution - Absolute Zen Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #fdfbf7;
+            padding: 0;
+            margin: 0;
+            font-family: var(--font-sans);
+            color: #3b3a37;
+            overflow-x: hidden;
+        }
+
+        /* ------------------------------------------------------------------
+           ABSOLUTE ZEN STYLE: The Void & The Essence (极致之禅)
+           Design Philosophy: Remove the container, embrace the space.
+           ------------------------------------------------------------------ */
+        .zen-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 40px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Paper Texture - Subtle and integrated */
+        .zen-wrapper::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: -1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* 1. The Hero: Asymmetric Composition (非對稱構圖) */
+        .zen-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 160px;
+            position: relative;
+        }
+
+        .zen-hero-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .zen-hero-text h1 {
+            font-family: var(--font-serif);
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 32px;
+            color: #2a2825;
+            letter-spacing: -1px;
+        }
+
+        .zen-hero-text .sub-text {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 2;
+            max-width: 300px;
+            margin-bottom: 40px;
+            border-left: 1px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .zen-hero-action {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            color: var(--accent);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+        .zen-hero-action:hover {
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+        .zen-hero-action::after {
+            content: "→";
+            transition: transform 0.3s;
+        }
+        .zen-hero-action:hover::after {
+            transform: translateX(8px);
+        }
+
+        .zen-hero-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The 'Void' Element - A simple, elegant abstract shape */
+        .zen-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fcfaf5 0%, #f2ebd9 100%);
+            box-shadow: 0 20px 50px rgba(163, 145, 113, 0.1);
+            position: relative;
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .zen-circle::after {
+            content: "";
+            position: absolute;
+            inset: 20px;
+            border: 1px solid rgba(163, 145, 113, 0.2);
+            border-radius: 50%;
+        }
+        .zen-hero:hover .zen-circle {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        /* 2. The List: Minimalist Rhythms (極簡律動) */
+        .zen-section-title {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .zen-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .zen-item {
+            display: grid;
+            grid-template-columns: 120px 1fr 100px;
+            align-items: center;
+            padding: 32px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .zen-item:hover {
+            border-bottom-color: var(--accent);
+            padding-left: 20px;
+        }
+
+        .zen-item .num {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 18px;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .zen-item .title {
+            font-family: var(--font-serif);
+            font-size: 22px;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+        .zen-item:hover .title {
+            color: var(--accent);
+        }
+
+        .zen-item .meta {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: right;
+            font-weight: 300;
+        }
+
+        /* Decorative Vertical Line */
+        .zen-vertical-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.05), transparent);
+            z-index: -1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="zen-wrapper">
+        <div class="zen-vertical-line"></div>
+        
+        <!-- Hero Section: Asymmetric and Airy -->
+        <section class="zen-hero">
+            <div class="zen-hero-text">
+                <h1>在文字的<br>留白處呼吸</h1>
+                <div class="sub-text">
+                    摒棄一切冗餘的容器<br>
+                    只留下阅读本身。
+                </div>
+                <a href="#" class="zen-hero-action">进入沉浸空间</a>
+            </div>
+            <div class="zen-hero-visual">
+                <div class="zen-circle"></div>
+            </div>
+        </section>
+
+        <!-- Book List: Pure Rhythm -->
+        <div class="zen-section-title">精選書單</div>
+        <div class="zen-list">
+            <div class="zen-item">
+                <div class="num">01</div>
+                <div class="title">象牙塔的日落</div>
+                <div class="meta">2026 · 哲学</div>
+            </div>
+            <div class="zen-item">
+                <div class="num">02</div>
+                <div class="title">鼠尾草之梦</div>
+                <div class="meta">2026 · 自然</div>
+            </div>
+            <div class="zen-item">
+                <div class="num">03</div>
+                <div class="title">雨后苔藓笔记</div>
+                <div class="meta">2025 · 观察</div>
+            </div>
+            <div class="zen-item">
+                <div class="num">04</div>
+                <div class="title">古木的低语</div>
+                <div class="meta">2024 · 文学</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

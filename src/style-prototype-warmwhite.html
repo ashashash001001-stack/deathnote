@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Evolution - Warm White Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #d8d4cd;
+            padding: 40px 20px;
+            font-family: var(--font-sans);
+            color: #3b3a37;
+        }
+        .proto-container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 40px;
+            border-radius: 32px;
+            background-color: #fdfbf7; /* High-end warm white / ivory */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        /* ------------------------------------------------------------------
+           FUSION STYLE: Warm Ivory Poetics (暖白诗篇)
+           Combining: Paper Texture + Organic Irregularity + Luxury Warm White Palette
+           ------------------------------------------------------------------ */
+        .fusion-space {
+            --warm-bg: #fdfbf7;
+            --warm-surface: #ffffff;
+            --warm-accent: #a39171; /* Earth Gold */
+            --warm-accent-light: #dcd3c1;
+            --warm-text: #3b3a37;
+            --warm-muted: #858178;
+            --warm-border: rgba(163, 145, 113, 0.1);
+            
+            position: relative;
+            background-color: var(--warm-bg);
+            color: var(--warm-text);
+        }
+
+        /* Premium Paper Grain Texture overlay */
+        .fusion-space::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .proto-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .fusion-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .fusion-header h1 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            color: var(--warm-accent);
+            margin-bottom: 8px;
+        }
+        .fusion-header p {
+            font-size: 14px;
+            color: var(--warm-muted);
+        }
+
+        /* The Fusion Card: Organic tilt + Warm Surface + Soft Layered Shadows */
+        .fusion-card {
+            background: var(--warm-surface);
+            border: 1px solid var(--warm-border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 
+                0 4px 12px rgba(0,0,0,0.02),
+                -6px 12px 24px rgba(163, 145, 113, 0.1);
+            transform: rotate(-0.5deg);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+        .fusion-card:hover {
+            transform: rotate(0deg) translateY(-4px);
+            box-shadow: 
+                0 8px 20px rgba(0,0,0,0.04),
+                -10px 20px 40px rgba(163, 145, 113, 0.15);
+        }
+
+        .fusion-card .title {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--warm-text);
+            margin-bottom: 12px;
+        }
+        .fusion-card .desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--warm-text);
+            opacity: 0.8;
+            margin-bottom: 24px;
+        }
+        .fusion-card .btn {
+            display: inline-block;
+            background: var(--warm-accent);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(163, 145, 113, 0.3);
+        }
+        .fusion-card .btn:hover {
+            background: #8b7a5d;
+            transform: scale(1.05);
+        }
+
+        /* The Fusion List Item: Soft Tones + Organic Feel */
+        .fusion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .fusion-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 16px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+        .fusion-item:hover {
+            background: white;
+            border-color: var(--warm-accent-light);
+            transform: translateX(4px);
+        }
+        .fusion-item .cover {
+            width: 48px;
+            height: 72px;
+            background: var(--warm-accent);
+            border-radius: 6px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            transform: rotate(2deg);
+            transition: transform 0.3s;
+        }
+        .fusion-item:hover .cover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        .fusion-item .info {
+            flex: 1;
+        }
+        .fusion-item .info .name {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--warm-text);
+        }
+        .fusion-item .info .meta {
+            font-size: 12px;
+            color: var(--warm-muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: center; margin-bottom: 50px;">
+        <h1 style="font-family: var(--font-serif); font-size: 32px;">Fusion Style: Warm Ivory Poetics</h1>
+        <p style="color: var(--text-muted);">融合方向：暖白诗篇 (触感 $\times$ 极简暖色)</p>
+    </div>
+
+    <div class="proto-container fusion-space">
+        <div class="proto-content">
+            
+            <div class="fusion-header">
+                <h1>暖白诗篇</h1>
+                <p>Warm light on ivory paper</p>
+            </div>
+
+            <!-- Hero Card -->
+            <div class="fusion-card">
+                <div class="title">午后之书</div>
+                <div class="desc">在最温柔的日光下，翻开一段被时间洗涤的文字。这里没有喧嚣，只有纸页翻动时的细微声响。</div>
+                <a href="#" class="btn">静心阅读</a>
+            </div>
+
+            <!-- Book List -->
+            <div class="fusion-list">
+                <div class="fusion-item">
+                    <div class="cover"></div>
+                    <div class="info">
+                        <div class="name">象牙之塔</div>
+                        <div class="meta">哲学随笔 · 2026</div>
+                    </div>
+                </div>
+                <div class="fusion-item">
+                    <div class="cover" style="background: var(--warm-accent-light);"></div>
+                    <div class="info">
+                        <div class="name">暖阳下的信笺</div>
+                        <div class="meta">私人回忆 · 2025</div>
+                    </div>
+                </div>
+                <div class="fusion-item">
+                    <div class="cover" style="background: #c4b8a4;"></div>
+                    <div class="info">
+                        <div class="name">纯白记忆录</div>
+                        <div class="meta">文学随笔 · 2024</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 60px; font-size: 16px; color: var(--text-muted);">
+        <p>请在浏览器中访问 <code>/src/style-prototype-warmwhite.html</code> 查看效果</p>
+    </div>
+
+</body>
+</html>

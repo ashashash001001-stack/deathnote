@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Evolution - Fusion Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #d8d4cd;
+            padding: 40px 20px;
+            font-family: var(--font-sans);
+            color: #3b3a37;
+        }
+        .proto-container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 40px;
+            border-radius: 32px;
+            background-color: #e2e6e0; /* Base forest-tinted paper */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        /* ------------------------------------------------------------------
+           FUSION STYLE: Forest Poetics (静谧诗篇)
+           Combining: Paper Texture + Organic Irregularity + Naturalist Palette
+           ------------------------------------------------------------------ */
+        .fusion-space {
+            --fusion-bg: #e2e6e0;
+            --fusion-surface: #f5f7f3;
+            --fusion-accent: #5a6b5d;
+            --fusion-accent-light: #a8b5a7;
+            --fusion-text: #3a423c;
+            --fusion-muted: #7a857b;
+            --fusion-border: rgba(90, 107, 93, 0.15);
+            
+            position: relative;
+            background-color: var(--fusion-bg);
+            color: var(--fusion-text);
+        }
+
+        /* Paper Grain Texture overlay */
+        .fusion-space::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .proto-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .fusion-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .fusion-header h1 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            color: var(--fusion-accent);
+            margin-bottom: 8px;
+        }
+        .fusion-header p {
+            font-size: 14px;
+            color: var(--fusion-muted);
+        }
+
+        /* The Fusion Card: Soft Rounding + Organic Offset + Paper Surface */
+        .fusion-card {
+            background: var(--fusion-surface);
+            border: 1px solid var(--fusion-border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 
+                0 4px 12px rgba(0,0,0,0.03),
+                -6px 12px 24px rgba(90, 107, 93, 0.08);
+            transform: rotate(-0.5deg); /* Slight organic tilt */
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+        .fusion-card:hover {
+            transform: rotate(0deg) translateY(-4px);
+            box-shadow: 
+                0 8px 20px rgba(0,0,0,0.05),
+                -10px 20px 40px rgba(90, 107, 93, 0.12);
+        }
+
+        .fusion-card .title {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--fusion-accent);
+            margin-bottom: 12px;
+        }
+        .fusion-card .desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--fusion-text);
+            opacity: 0.8;
+            margin-bottom: 24px;
+        }
+        .fusion-card .btn {
+            display: inline-block;
+            background: var(--fusion-accent);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(90, 107, 93, 0.3);
+        }
+        .fusion-card .btn:hover {
+            background: #4a5d4e;
+            transform: scale(1.05);
+        }
+
+        /* The Fusion List Item: Minimalist but Textured */
+        .fusion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .fusion-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 16px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+        .fusion-item:hover {
+            background: white;
+            border-color: var(--fusion-accent-light);
+            transform: translateX(4px);
+        }
+        .fusion-item .cover {
+            width: 48px;
+            height: 72px;
+            background: var(--fusion-accent);
+            border-radius: 6px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            transform: rotate(2deg);
+            transition: transform 0.3s;
+        }
+        .fusion-item:hover .cover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        .fusion-item .info {
+            flex: 1;
+        }
+        .fusion-item .info .name {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--fusion-text);
+        }
+        .fusion-item .info .meta {
+            font-size: 12px;
+            color: var(--fusion-muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: center; margin-bottom: 50px;">
+        <h1 style="font-family: var(--font-serif); font-size: 32px;">Fusion Style: Forest Poetics</h1>
+        <p style="color: var(--text-muted);">融合方向：静谧之森 (色彩) $\times$ 纸质诗篇 (触感)</p>
+    </div>
+
+    <div class="proto-container fusion-space">
+        <div class="proto-content">
+            
+            <div class="fusion-header">
+                <h1>静谧诗篇</h1>
+                <p>Nature's whisper on aged paper</p>
+            </div>
+
+            <!-- Hero Card -->
+            <div class="fusion-card">
+                <div class="title">林间书笺</div>
+                <div class="desc">将自然地貌的静谧转化为文字的呼吸。在这个空间里，阅读不再是获取信息，而是一次慢节奏的心灵漫游。</div>
+                <a href="#" class="btn">开启旅程</a>
+            </div>
+
+            <!-- Book List -->
+            <div class="fusion-list">
+                <div class="fusion-item">
+                    <div class="cover"></div>
+                    <div class="info">
+                        <div class="name">鼠尾草之梦</div>
+                        <div class="meta">自然主义 · 2026</div>
+                    </div>
+                </div>
+                <div class="fusion-item">
+                    <div class="cover" style="background: var(--fusion-accent-light);"></div>
+                    <div class="info">
+                        <div class="name">雨后苔藓笔记</div>
+                        <div class="meta">静谧观察 · 2025</div>
+                    </div>
+                </div>
+                <div class="fusion-item">
+                    <div class="cover" style="background: #8a9a8a;"></div>
+                    <div class="info">
+                        <div class="name">古木的低语</div>
+                        <div class="meta">文学随笔 · 2024</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 60px; font-size: 16px; color: var(--text-muted);">
+        <p>请在浏览器中访问 <code>/src/style-prototype-fusion.html</code> 查看融合效果</p>
+    </div>
+
+</body>
+</html>

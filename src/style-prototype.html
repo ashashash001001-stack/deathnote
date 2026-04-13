@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Aesthetic - Style Prototype Sandbox</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #d8d4cd;
+            padding: 40px 20px;
+            font-family: var(--font-sans);
+            color: #3b3a37;
+        }
+        .sandbox-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .style-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 30px;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .style-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .style-header h2 {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .style-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* ------------------------------------------------------------------
+           方向一：静谧之森 (Quiet Forest)
+           ------------------------------------------------------------------ */
+        .style-forest {
+            --forest-bg: #e8ede7;
+            --forest-surface: #f1f4f0;
+            --forest-accent: #4a5d4e;
+            --forest-text: #2d3630;
+            --forest-muted: #7a8a7e;
+            background-color: var(--forest-bg);
+            color: var(--forest-text);
+        }
+        .style-forest .proto-card {
+            background: var(--forest-surface);
+            border: 1px solid rgba(74, 93, 78, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(74, 93, 78, 0.05);
+        }
+        .style-forest .proto-title {
+            font-family: var(--font-serif);
+            color: var(--forest-accent);
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .style-forest .proto-btn {
+            background: var(--forest-accent);
+            color: white;
+            border-radius: 12px;
+            padding: 8px 20px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .style-forest .proto-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .style-forest .proto-list-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+        .style-forest .proto-list-item:hover {
+            border-color: var(--forest-accent);
+            background: white;
+        }
+        .style-forest .proto-cover {
+            width: 40px;
+            height: 60px;
+            background: var(--forest-accent);
+            border-radius: 4px;
+            opacity: 0.7;
+        }
+
+        /* ------------------------------------------------------------------
+           方向二：水墨留白 (Ink & Void)
+           ------------------------------------------------------------------ */
+        .style-void {
+            --void-bg: #ffffff;
+            --void-accent: #bc4a3c;
+            --void-text: #1a1a1a;
+            --void-muted: #888;
+            background-color: var(--void-bg);
+            color: var(--void-text);
+            border: 1px solid #eee;
+        }
+        .style-void .proto-card {
+            background: transparent;
+            border-left: 3px solid var(--void-text);
+            padding: 20px 0;
+            box-shadow: none;
+        }
+        .style-void .proto-title {
+            font-family: var(--font-serif);
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+        .style-void .proto-btn {
+            background: transparent;
+            color: var(--void-text);
+            border: 1px solid var(--void-text);
+            border-radius: 0;
+            padding: 6px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .style-void .proto-btn:hover {
+            background: var(--void-text);
+            color: white;
+        }
+        .style-void .proto-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s;
+        }
+        .style-void .proto-list-item:hover {
+            padding-left: 8px;
+            color: var(--void-accent);
+        }
+        .style-void .proto-cover {
+            display: none; /* Void style avoids covers in list, focuses on text */
+        }
+
+        /* ------------------------------------------------------------------
+           方向三：纸质诗篇 (Paper Poetics)
+           ------------------------------------------------------------------ */
+        .style-poetics {
+            --poetics-bg: #f2e8d5;
+            --poetics-surface: #faf7f0;
+            --poetics-accent: #a0522d;
+            --poetics-text: #4a3c31;
+            --poetics-muted: #8c7b6d;
+            background-color: var(--poetics-bg);
+            color: var(--poetics-text);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Simulated Paper Grain */
+        .style-poetics::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.4;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .style-poetics .proto-card {
+            background: var(--poetics-surface);
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 3px 3px 0px var(--poetics-accent);
+            border: 1px solid rgba(160, 82, 45, 0.2);
+            transform: rotate(-1deg);
+        }
+        .style-poetics .proto-title {
+            font-family: var(--font-serif);
+            color: var(--poetics-accent);
+            font-size: 22px;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        .style-poetics .proto-btn {
+            background: var(--poetics-accent);
+            color: white;
+            border-radius: 2px;
+            padding: 8px 20px;
+            font-size: 14px;
+            border: none;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        .style-poetics .proto-list-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px;
+            background: transparent;
+            border-bottom: 1px dashed var(--poetics-muted);
+            margin-bottom: 8px;
+        }
+        .style-poetics .proto-cover {
+            width: 40px;
+            height: 60px;
+            background: var(--poetics-accent);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 2px;
+            transform: rotate(2deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: center; margin-bottom: 50px;">
+        <h1 style="font-family: var(--font-serif); font-size: 32px;">Zen Aesthetic Evolution</h1>
+        <p style="color: var(--text-muted);">请对比以下三种视觉演进方向，选择您最倾向的一种</p>
+    </div>
+
+    <div class="sandbox-container">
+        
+        <!-- Direction 1: Quiet Forest -->
+        <div class="style-column style-forest">
+            <div class="style-header">
+                <h2>静谧之森</h2>
+                <p>现代自然主义 / 鼠尾草绿 / 低饱和度</p>
+            </div>
+            
+            <div class="proto-card">
+                <div class="proto-title">冬日的森林碎片</div>
+                <div style="font-size: 14px; margin-bottom: 16px; opacity: 0.8;">探索自然与心灵的宁静边界</div>
+                <button class="proto-btn">开始阅读</button>
+            </div>
+
+            <div class="proto-list">
+                <div class="proto-list-item">
+                    <div class="proto-cover"></div>
+                    <div style="flex:1">
+                        <div style="font-weight:600; font-size:14px;">森林之书</div>
+                        <div style="font-size:12px; opacity:0.7;">自然笔记 · 2026</div>
+                    </div>
+                </div>
+                <div class="proto-list-item">
+                    <div class="proto-cover"></div>
+                    <div style="flex:1">
+                        <div style="font-weight:600; font-size:14px;">苔藓的低语</div>
+                        <div style="font-size:12px; opacity:0.7;">静谧观察 · 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 2: Ink & Void -->
+        <div class="style-column style-void">
+            <div class="style-header">
+                <h2>水墨留白</h2>
+                <p>极致禅意 / 高对比 / 仪式感</p>
+            </div>
+            
+            <div class="proto-card">
+                <div class="proto-title">虚空之境</div>
+                <div style="font-size: 14px; margin-bottom: 16px; color: var(--void-muted);">在绝对的静默中寻找真理</div>
+                <button class="proto-btn">READ</button>
+            </div>
+
+            <div class="proto-list">
+                <div class="proto-list-item">
+                    <div style="font-weight:700; font-size:15px;">第一章：无</div>
+                    <div style="font-size: 12px; color: var(--void-muted);">01</div>
+                </div>
+                <div class="proto-list-item">
+                    <div style="font-weight:700; font-size:15px;">第二章：空</div>
+                    <div style="font-size: 12px; color: var(--void-muted);">02</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 3: Paper Poetics -->
+        <div class="style-column style-poetics">
+            <div class="style-header">
+                <h2>纸质诗篇</h2>
+                <p>极致触感 / 羊皮纸 / 有机不规则</p>
+            </div>
+            
+            <div class="proto-card">
+                <div class="proto-title">旧日的书信</div>
+                <div style="font-size: 14px; margin-bottom: 16px; opacity: 0.8;">一段被时间遗忘的温暖记忆</div>
+                <button class="proto-btn">翻开扉页</button>
+            </div>
+
+            <div class="proto-list">
+                <div class="proto-list-item">
+                    <div class="proto-cover"></div>
+                    <div style="flex:1">
+                        <div style="font-weight:600; font-size:14px; font-family: var(--font-serif);">岁月之诗</div>
+                        <div style="font-size:12px; opacity:0.7;">手写体 · 1920</div>
+                    </div>
+                </div>
+                <div class="proto-list-item">
+                    <div class="proto-cover"></div>
+                    <div style="flex:1">
+                        <div style="font-weight:600; font-size:14px; font-family: var(--font-serif);">时光刻痕</div>
+                        <div style="font-size:12px; opacity:0.7;">旧纸张 · 1945</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 60px; font-size: 16px; color: var(--text-muted);">
+        <p>请在浏览器中访问 <code>/src/style-prototype.html</code> 查看效果</p>
+    </div>
+
+</body>
+</html>
