@@ -8,9 +8,8 @@
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* Background Colors - High Contrast Warm White */
-  --bg-outer: #f0eee9;
-  --bg-base: #fcfcfc;
+  --bg-outer: #f8f6f1;
+  --bg-base: #ffffff;
   --bg-card: #ffffff;
   --bg-reading: #fdfbf7;
   
@@ -67,11 +66,11 @@
      2. SHADOW SYSTEM - Soft, Asymmetric (Wabi-Sabi)
      ═══════════════════════════════════════════════════════════ */
   
-  --shadow-xs: 0 2px 4px rgba(0,0,0,0.06);
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.1);
-  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
-  --shadow-xl: 0 16px 48px rgba(0,0,0,0.14);
+  --shadow-xs: 0 2px 8px rgba(0,0,0,0.03);
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-md: 0 12px 32px rgba(0,0,0,0.1);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 48px rgba(0,0,0,0.14);
   --shadow-glow: none;
   
   --shadow-card: var(--shadow-sm);
@@ -250,16 +249,14 @@
 .list-item-fusion {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   min-height: 44px;
   background: var(--bg-card);
-  border: 1px solid var(--color-border-light);
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 .list-item-fusion:hover {
-  background: var(--bg-base);
-  border-color: var(--accent);
+  background: #fdfdfd;
 }
 .list-item-fusion:active {
   transform: scale(0.98);
@@ -273,20 +270,18 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   min-height: 44px;
   background: var(--bg-card);
-  border: 1px solid var(--color-border-light);
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 .rank-item-fusion:hover {
-  background: var(--bg-base);
-  border-color: var(--accent);
+  background: #fdfdfd;
 }
 .rank-item-fusion:active {
   transform: scale(0.98);
-  background: var(--bg-base);
+  background: #fdfdfd;
 }
 
 /* ===== FUSION STYLE - Category Card ===== */
@@ -294,12 +289,13 @@
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   border-radius: var(--radius-lg);
-  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   min-height: 44px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
 }
 .category-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
 }
 .category-card:active {
   transform: scale(0.98);
@@ -400,20 +396,18 @@
 }
 .hero-card-fusion .card-action {
   font-weight: 700;
-  font-size: 13px;
-  padding: var(--spacing-3) var(--spacing-6);
-  border-radius: 999px;
-  background: var(--accent);
+  font-size: 14px;
+  padding: 12px 22px;
+  border-radius: 100px;
+  background: var(--text-dark);
   color: white;
   border: none;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(163, 145, 113, 0.4);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .hero-card-fusion .card-action:hover {
-  background: var(--accent-hover);
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(163, 145, 113, 0.5);
+  transform: translateY(-2px);
+  box-shadow: var(--m-shadow-hover);
 }
 .hero-card-fusion .card-action:active {
   transform: scale(0.98);
@@ -468,12 +462,21 @@
   color: var(--text-muted);
 }
 .list-item-fusion .item-btn {
-  font-weight: 700;
-  font-size: 13px;
-  padding: 6px 16px;
-  border-radius: 999px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+}
+.list-item-fusion .item-btn-outline {
+  background: var(--bg-outer);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-dark);
+}
+.list-item-fusion .item-btn-outline:hover {
+  background: var(--bg-card);
+  border-color: var(--accent);
 }
 .list-item-fusion .item-btn-outline {
   background: transparent;
