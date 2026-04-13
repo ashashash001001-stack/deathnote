@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 const DIST = '.';
 const CONTENT = 'content';
-const KEEP = new Set(['.git','.gitignore','.gitattributes','.opencode','.sisyphus','opencode.jsonc','node_modules','src','generate.mjs','migrate-content.mjs','manifest.json','sw.js','robots.txt','README.md','package.json','bun.lock','package-lock.json','CNAME','content','docs','favicon.svg']);
+const KEEP = new Set(['.git','.gitignore','.gitattributes','.opencode','.sisyphus','opencode.jsonc','node_modules','src','generate.mjs','migrate-content.mjs','manifest.json','sw.js','robots.txt','README.md','package.json','bun.lock','package-lock.json','CNAME','content','docs','favicon.svg','test']);
 
 if (existsSync(DIST)) {
   readdirSync(DIST).forEach(e => {
@@ -407,10 +407,10 @@ function pageHTML(title, desc, accent, body, jsonLd, path, isHomepage = false, o
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc||SITE.description}">
-<base href="${SITE_ROOT}">
+<base href="./deathnote/">
 <title>${title}</title>
-<link rel="icon" href="${SITE_ROOT}favicon.svg">
-<link rel="manifest" href="${SITE_ROOT}manifest.json">
+<link rel="icon" href="./deathnote/favicon.svg">
+<link rel="manifest" href="./deathnote/manifest.json">
 <style>${css}</style>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
 ${siteJsonLd ? `<script type="application/ld+json">${JSON.stringify(siteJsonLd)}</script>` : ''}
@@ -420,52 +420,33 @@ ${body}
 <script>
 ${commonJSContent}
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('${SITE_ROOT}sw.js'))}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))}
 </script>
 </body></html>`;
 }
 
 function fixPaths(html, depth = 0) {
-  // depth = 0 for root pages, 1 for category/book pages, 2 for chapter pages
+  // Convert navigation links to relative paths based on depth
+  // depth = 0 (root): ./book/
+  // depth = 1 (book/category): ../book/
+  // depth = 2 (chapter): ../../book/
   
+  const rel = depth === 0 ? './' : depth === 1 ? '../' : '../../';
+  const base = SITE.base.replace(/^\//, ''); 
   
-  // Handle paths with base prefix (e.g., /deathnote/book/xxx)
-  const base = SITE.base.replace(/^\//, ''); // remove leading slash
   return html
-    // Fix breadcrumb home links (from "/" to "./")
-    .replace(/href="\//g,'href="./')
-    // Handle paths with base prefix (e.g., /deathnote/book/xxx)
-    .replace(new RegExp(`href="/${base}/book/`, 'g'), 'href="${SITE_ROOT}book/')
-    .replace(new RegExp(`href="/${base}/category/`, 'g'), 'href="${SITE_ROOT}category/')
-    .replace(new RegExp(`href="/${base}/search"`, 'g'), 'href="search"')
-    .replace(new RegExp(`href="/${base}/legal/`, 'g'), 'href="${SITE_ROOT}legal/')
-    // Handle paths without base prefix
-    .replace(/href="\/book\//g,'href="${SITE_ROOT}book/')
-    .replace(/href="\/category\//g,'href="${SITE_ROOT}category/')
-    .replace(/href="\/search"/g,'href="search"')
-    .replace(/href="\/legal\//g,'href="${SITE_ROOT}legal/')
-    .replace(/href="\/manifest.json"/g,'href="manifest.json"')
-    .replace(/href="\/sw.js"/g,'href="sw.js"')
-    .replace(/href="\/sitemap.xml"/g,'href="sitemap.xml"')
-    .replace(/href="\/robots.txt"/g,'href="robots.txt"')
-    .replace(/href="\/"/g,'href="${SITE_ROOT}"')
-    // Handle location.href with base
-    .replace(new RegExp(`location\\.href='/${base}/search'`, 'g'), "location.href='search'")
-    .replace(new RegExp(`location\\.href='/${base}/'`, 'g'), "location.href='./'")
-    .replace(/location\.href='\/search'/g,"location.href='search'")
-    .replace(/location\.href='\/'/g,"location.href='./'")
-    // Handle onclick with base
-    .replace(new RegExp(`onclick="window\\.location\\.href='/${base}/search'"`, 'g'), "onclick=\"window.location.href='search'\"")
-    .replace(new RegExp(`onclick="window\\.location\\.href='/${base}/'"`, 'g'), "onclick=\"window.location.href='./'\"")
-    .replace(/onclick="window\.location\.href='\/search'"/g,"onclick=\"window.location.href='search'\"")
-    .replace(/onclick="window\.location\.href='\/'"/g,"onclick=\"window.location.href='./'\"")
-// Fix service worker registration
-    .replace(new RegExp(`register\\('/${base}/sw.js'\\)`, 'g'), `register('${SITE_ROOT}sw.js')`)
-    
-    
-    // Fix favicon path
-    
-    // FIX .//book -> ../book (two dots + TWO slashes -> parent dir)  
+    // Fix navigation links: convert /book/ to relative paths
+    .replace(/href="\/book\//g, `href="${rel}book/`)
+    .replace(/href="\/category\//g, `href="${rel}category/`)
+    .replace(/href="\/search"/g, `href="${rel}search"`)
+    .replace(/href="\/legal\//g, `href="${rel}legal/`)
+    .replace(/href="\/"/g, `href="${rel}"`)
+    // Fix location.href and onclick for navigation
+    .replace(/location\.href='\/book\//g, `location.href="${rel}book/`)
+    .replace(/location\.href='\/category\//g, `location.href="${rel}category/`)
+    .replace(/onclick="window\.location\.href='\/book\//g, `onclick="window.location.href="${rel}book/`)
+    .replace(/onclick="window\.location\.href='\/category\//g, `onclick="window.location.href="${rel}category/`)
+    // FIX: .//book -> ../book (double slash fix)
     .replace(/href="\.{2}\/\//g, 'href="../');
 }
 
@@ -1115,11 +1096,11 @@ DISPLAY_BOOKS.forEach(book => {
     ${adHTML()}
     <section class="toc" aria-label="章節目錄"><div class="toc-title">章節目錄</div>${tocHTML}
     <div class="toc-list-wrap"><div id="toc-list">${bookChapters.map(ch =>
-      `<a href="./${ch.id}/" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
+      `<a href="${SITE_ROOT}${ch.id}/" class="toc-item btn-press"><span>${ch.title}</span><span>${ch.words.toLocaleString()} 字</span></a>`
     ).join('')}</div></div></section>
     <div style="height:80px" aria-hidden="true"></div>
     <div class="sticky-cta">
-      <a href="./${bookChapters.length ? bookChapters[0].id + '/' : ''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
+      <a href="${SITE_ROOT}${bookChapters.length ? bookChapters[0].id + '/' : ''}" class="btn-primary btn-press" style="background:${book.color}" aria-label="開始閱讀 ${book.title}">開始閱讀</a>
       <button class="btn-secondary btn-press fav-toggle-btn" data-book-id="${book.id}" data-book-title="${book.title}" aria-label="收藏">收藏</button>
     </div>
   </main></div>
@@ -1170,7 +1151,7 @@ DISPLAY_BOOKS.forEach(book => {
   })();
   
   function toggleSynopsis(){var t=document.getElementById('synopsis-text');var b=t?t.nextElementSibling:null;if(t&&t.classList.contains('expanded')){t.classList.remove('expanded');if(b)b.textContent='展開全部'}else if(t){t.classList.add('expanded');if(b)b.textContent='收合'}}
-  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="./'+ch.id+'/\" class=\"toc-item btn-press\"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
+  function filterTOC(g){var s=parseInt(g)*50;var e=Math.min(s+50,${bookChapters.length});var sl=${JSON.stringify(bookChapters.map(c=>({id:c.id,title:c.title,words:c.words})))}.slice(s,e);document.getElementById('toc-list').innerHTML=sl.map(function(ch){return '<a href="${SITE_ROOT}'+ch.id+'/\" class=\"toc-item btn-press\"><span>'+ch.title+'</span><span>'+ch.words.toLocaleString()+' 字</span></a>'}).join('')}
   (function(){
     // Add to browsing history
     var h=JSON.parse(localStorage.getItem('browsingHistory')||'[]');h=h.filter(function(x){return x.id!=='${book.id}'});h.unshift({id:'${book.id}',title:'${book.title}',time:Date.now()});localStorage.setItem('browsingHistory',JSON.stringify(h.slice(0,50)));
